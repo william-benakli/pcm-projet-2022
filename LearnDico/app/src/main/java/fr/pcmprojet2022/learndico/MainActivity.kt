@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                     tab.setIcon(R.drawable.ic_round_search_24)
                 }
                 2 -> {
-                    tab.setIcon(R.drawable.ic_round_draw_24)
+                    tab.setIcon(R.drawable.ic_round_format_list_bulleted_24)
                 }
                 3 -> {
                     tab.setIcon(R.drawable.ic_round_data_thresholding_24)

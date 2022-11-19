@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import fr.pcmprojet2022.learndico.fragment.StatsFragment
+import fr.pcmprojet2022.learndico.fragment.ListFragment
 import fr.pcmprojet2022.learndico.fragment.SearchFragment
-import fr.pcmprojet2022.learndico.fragment.PracticeFragment
 import fr.pcmprojet2022.learndico.fragment.SettingsFragment
 
 class FragmentAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
@@ -25,7 +25,7 @@ class FragmentAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
                 SearchFragment()
             }
             2 -> {
-                PracticeFragment()
+                ListFragment()
             }
             else -> {
                 StatsFragment()
