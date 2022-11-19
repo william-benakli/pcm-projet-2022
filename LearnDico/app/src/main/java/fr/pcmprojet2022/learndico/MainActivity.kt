@@ -3,6 +3,7 @@ package fr.pcmprojet2022.learndico
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import fr.pcmprojet2022.learndico.adapter.FragmentAdapter
 import fr.pcmprojet2022.learndico.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

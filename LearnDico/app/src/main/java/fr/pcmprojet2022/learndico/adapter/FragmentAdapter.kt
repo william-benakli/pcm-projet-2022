@@ -1,4 +1,4 @@
-package fr.pcmprojet2022.learndico
+package fr.pcmprojet2022.learndico.adapter
 
 import androidx.lifecycle.Lifecycle
 import androidx.fragment.app.Fragment
