@@ -3,7 +3,7 @@ package fr.pcmprojet2022.learndico.adapter
 import android.util.Log
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import fr.pcmprojet2022.learndico.data.Mot
+import fr.pcmprojet2022.learndico.data.entites.Mot
 import androidx.recyclerview.widget.RecyclerView
 import fr.pcmprojet2022.learndico.databinding.ItemWordBinding
 

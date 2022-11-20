@@ -6,9 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.pcmprojet2022.learndico.adapter.SearchRecycleAdapter
-import fr.pcmprojet2022.learndico.data.Mot
+import fr.pcmprojet2022.learndico.data.entites.Mot
 import fr.pcmprojet2022.learndico.databinding.FragmentListBinding
-import fr.pcmprojet2022.learndico.databinding.FragmentSearchBinding
 
 
 class ListFragment : Fragment() {

@@ -4,9 +4,14 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import fr.pcmprojet2022.learndico.adapter.FragmentAdapter
+import fr.pcmprojet2022.learndico.data.LearnDicoBD
 import fr.pcmprojet2022.learndico.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    val database by lazy{
+        LearnDicoBD.getInstanceBD(this);
+    }
 
     lateinit var binding: ActivityMainBinding
 

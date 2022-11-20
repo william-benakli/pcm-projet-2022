@@ -3,7 +3,7 @@ package fr.pcmprojet2022.learndico.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import fr.pcmprojet2022.learndico.data.Mot
+import fr.pcmprojet2022.learndico.data.entites.Mot
 
 @Dao
 interface RequestDao {
