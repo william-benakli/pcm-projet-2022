@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.pcmprojet2022.learndico.adapter.SearchRecycleAdapter
-import fr.pcmprojet2022.learndico.data.entites.Mot
+import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.FragmentListBinding
 
 
@@ -22,49 +22,12 @@ class ListFragment : Fragment() {
         val binding = FragmentListBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        //TODO: remove
-        val lst: MutableList<Mot> = listOf(
-            Mot(
-                "Avion",
-                "English",
-                "Airplane",
-                "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
-                "A vehicle designed for air travel that has wings and one or more engines."
-            ),
-            Mot(
-                "Avion",
-                "English",
-                "Airplane",
-                "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
-                "A vehicle designed for air travel that has wings and one or more engines."
-            ),
-            Mot(
-                "Avion",
-                "English",
-                "Airplane",
-                "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
-                "A vehicle designed for air travel that has wings and one or more engines."
-            ),
-            Mot(
-                "Avion",
-                "English",
-                "Airplane",
-                "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
-                "A vehicle designed for air travel that has wings and one or more engines."
-            ),
-            Mot(
-                "Avion",
-                "English",
-                "Airplane",
-                "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
-                "A vehicle designed for air travel that has wings and one or more engines."
-            )
-        ) as MutableList<Mot>
+        //val lst: M    utableList<Words> = listOf() as MutableList<Words>
 
         recyclerView = binding.recycler
         recyclerView.setHasFixedSize(true);
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerView.adapter = SearchRecycleAdapter(lst)
+      //  recyclerView.adapter = SearchRecycleAdapter(lst)
 
         return view
     }

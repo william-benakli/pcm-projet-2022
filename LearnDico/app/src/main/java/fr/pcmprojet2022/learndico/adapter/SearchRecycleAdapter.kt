@@ -3,16 +3,16 @@ package fr.pcmprojet2022.learndico.adapter
 import android.util.Log
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import fr.pcmprojet2022.learndico.data.entites.Mot
 import androidx.recyclerview.widget.RecyclerView
+import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ItemWordBinding
 
 
-class SearchRecycleAdapter(private val words: MutableList<Mot>) :
+class SearchRecycleAdapter(private val words: MutableList<Words>) :
     RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
     class VH(val binding: ItemWordBinding) : RecyclerView.ViewHolder(binding.root) {
-        lateinit var wordObj: Mot
+        lateinit var wordObj: Words
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
