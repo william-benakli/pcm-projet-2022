@@ -6,21 +6,49 @@
     android:layout_height="match_parent"
     tools:context=".fragment.ListFragment">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textField"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        app:startIconDrawable="@drawable/ic_round_search_24"
-        app:boxStrokeColor="?attr/colorPrimary"
-        app:boxStrokeWidth="1dp">
+        android:orientation="horizontal"
+        android:layoutDirection="rtl"
+        android:layout_marginEnd="8dp">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <Button
+            style="?attr/materialIconButtonOutlinedStyle"
+            android:id="@+id/buttonMoreVert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_round_more_vert_24"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            app:iconGravity="textStart"
+            app:iconTint="?attr/colorOnSecondaryContainer"
+            />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:layoutDirection="ltr">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                app:startIconDrawable="@drawable/ic_round_search_24"
+                app:boxStrokeColor="?attr/colorPrimary"
+                app:boxStrokeWidth="1dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"

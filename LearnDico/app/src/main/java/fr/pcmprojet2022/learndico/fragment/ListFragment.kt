@@ -1,14 +1,16 @@
 package fr.pcmprojet2022.learndico.fragment
 
+import android.R
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import fr.pcmprojet2022.learndico.SelectLangDialogFragment
 import fr.pcmprojet2022.learndico.adapter.SearchRecycleAdapter
 import fr.pcmprojet2022.learndico.data.Mot
 import fr.pcmprojet2022.learndico.databinding.FragmentListBinding
-import fr.pcmprojet2022.learndico.databinding.FragmentSearchBinding
 
 
 class ListFragment : Fragment() {
@@ -67,7 +69,20 @@ class ListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = SearchRecycleAdapter(lst)
 
+        binding.buttonMoreVert.setOnClickListener {
+            showDialogFragment(binding)
+        }
+
         return view
+    }
+
+    private fun showDialogFragment(binding: FragmentListBinding) {
+
+        val chip = Chip(context)
+        chip.text = "ABC"
+        chip.isCloseIconVisible = true
+
+        SelectLangDialogFragment().show(childFragmentManager, SelectLangDialogFragment.TAG)
     }
 
 }
