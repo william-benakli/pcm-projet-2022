@@ -1,9 +1,9 @@
 package fr.pcmprojet2022.learndico.fragment
 
-import android.R
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -70,18 +70,30 @@ class ListFragment : Fragment() {
         recyclerView.adapter = SearchRecycleAdapter(lst)
 
         binding.buttonMoreVert.setOnClickListener {
-            showDialogFragment(binding)
+            showDialogFragment()
         }
 
         return view
     }
 
-    private fun showDialogFragment(binding: FragmentListBinding) {
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ListFragmentDirections.actionListFragmentToEditWordFragment()
+    }*/
+
+    private fun showDialogFragment() {
 
         val chip = Chip(context)
         chip.text = "ABC"
         chip.isCloseIconVisible = true
 
+
+        printDialogOrToast()
+
+    }
+
+    private fun printDialogOrToast(){
+        //TODO: print toast if src or dest empty
         SelectLangDialogFragment().show(childFragmentManager, SelectLangDialogFragment.TAG)
     }
 

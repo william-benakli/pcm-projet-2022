@@ -1,42 +1,53 @@
 package fr.pcmprojet2022.learndico
 
-import android.R
-import android.app.AlertDialog
-import android.app.Dialog
 import android.os.Bundle
+import android.app.Dialog
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import fr.pcmprojet2022.learndico.databinding.FragmentDialogBinding
 
 
 class SelectLangDialogFragment: DialogFragment() {
 
-    //lateinit var binding:
+    private lateinit var binding: FragmentDialogBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val binding = FragmentDialogBinding.inflate(LayoutInflater.from(context))
-        val view = binding.root
+        binding = FragmentDialogBinding.inflate(LayoutInflater.from(context))
 
-        val chip = Chip(context)
-        chip.text = "ABC"
-        chip.isCloseIconVisible = true
-
-        //TODO: check moyen de comunication
-
-        binding.chipGroupSource.addView(chip)
+        //TODO: remove
+        createChip("str", binding.chipGroupSource)
+        createChip("str", binding.chipGroupDestination)
 
         return AlertDialog.Builder(requireContext())
             .setMessage("Veuillez sélectionner les langues")
-            .setView(view)
+            .setView(binding.root)
             .setPositiveButton("Ok") { _,_ ->
 
             }
             .create()
+
     }
 
+    //TODO: create chip in listFragment
+    private fun createChip(name: String, group: ChipGroup) {
+        val chip = Chip(context)
+        chip.text = name
+        chip.isCheckable = true
+        chip.isCloseIconVisible = false
+        chip.isChecked = true
 
+        chip.setOnCheckedChangeListener { _, isChecked ->
+            chip.isCloseIconVisible = !isChecked
+        }
+
+        //TODO: check moyen de comunication
+
+        group.addView(chip)
+    }
 
     companion object {
         const val TAG = "SelectLanguageDialog"
