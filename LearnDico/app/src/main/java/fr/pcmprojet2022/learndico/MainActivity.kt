@@ -1,16 +1,16 @@
 package fr.pcmprojet2022.learndico
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.navigation.ui.NavigationUI
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.fragment.findNavController
 import fr.pcmprojet2022.learndico.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,9 +18,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment: Fragment? = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        //NavigationUI: automatisation de la gestion des multi backstacks
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
         val navController = (navHostFragment as NavHostFragment).findNavController()
-        binding.menuNavigation.setupWithNavController(navController);
+        binding.menuNavigation.setupWithNavController(navController)
+
+        //permets de conserver plusieurs piles tout en navigant vers le bon fragment
+        binding.menuNavigation.setOnItemSelectedListener { item ->
+            NavigationUI.onNavDestinationSelected(item, navController)
+            return@setOnItemSelectedListener true
+        }
 
     }
 

@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.chip.Chip
-import fr.pcmprojet2022.learndico.SelectLangDialogFragment
 import fr.pcmprojet2022.learndico.adapter.SearchRecycleAdapter
 import fr.pcmprojet2022.learndico.data.Mot
 import fr.pcmprojet2022.learndico.databinding.FragmentListBinding
@@ -67,34 +65,14 @@ class ListFragment : Fragment() {
         recyclerView = binding.recycler
         recyclerView.setHasFixedSize(true);
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerView.adapter = SearchRecycleAdapter(lst)
+        recyclerView.adapter = SearchRecycleAdapter(lst, requireContext())
 
         binding.buttonMoreVert.setOnClickListener {
-            showDialogFragment()
+            val direction = ListFragmentDirections.actionListFragmentToSelectLangFragment()
+            findNavController().navigate(direction)
         }
 
         return view
-    }
-
-    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        ListFragmentDirections.actionListFragmentToEditWordFragment()
-    }*/
-
-    private fun showDialogFragment() {
-
-        val chip = Chip(context)
-        chip.text = "ABC"
-        chip.isCloseIconVisible = true
-
-
-        printDialogOrToast()
-
-    }
-
-    private fun printDialogOrToast(){
-        //TODO: print toast if src or dest empty
-        SelectLangDialogFragment().show(childFragmentManager, SelectLangDialogFragment.TAG)
     }
 
 }

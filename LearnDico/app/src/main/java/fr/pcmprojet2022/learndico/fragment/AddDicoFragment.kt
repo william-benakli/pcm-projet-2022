@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.View
 import fr.pcmprojet2022.learndico.R
 import androidx.fragment.app.Fragment
-import fr.pcmprojet2022.learndico.databinding.FragmentStatsBinding
+import fr.pcmprojet2022.learndico.databinding.FragmentAddDicoBinding
 
-class StatsFragment : Fragment(R.layout.fragment_stats) {
+class AddDicoFragment: Fragment(R.layout.fragment_add_dico) {
 
-    lateinit var binding: FragmentStatsBinding
+    lateinit var binding: FragmentAddDicoBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding= FragmentStatsBinding.bind(view)
+        binding= FragmentAddDicoBinding.bind(view)
 
     }
 
