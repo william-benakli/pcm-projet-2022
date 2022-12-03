@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.view.ViewGroup
 import android.view.LayoutInflater
-import fr.pcmprojet2022.learndico.data.Mot
+import fr.pcmprojet2022.learndico.data.entites.Words
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -13,11 +13,12 @@ import fr.pcmprojet2022.learndico.fragment.ListFragmentDirections
 import fr.pcmprojet2022.learndico.fragment.SearchFragmentDirections
 
 
-class SearchRecycleAdapter(private val words: MutableList<Mot>, private val context: Context) :
+class SearchRecycleAdapter(private val words: MutableList<Words>, private val context: Context) :
+
     RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
     class VH(val binding: ItemWordBinding) : RecyclerView.ViewHolder(binding.root) {
-        lateinit var wordObj: Mot
+        lateinit var wordObj: Words
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {

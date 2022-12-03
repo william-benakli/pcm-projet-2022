@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.pcmprojet2022.learndico.adapter.SearchRecycleAdapter
-import fr.pcmprojet2022.learndico.data.Mot
+import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.FragmentListBinding
 
 
@@ -23,50 +23,46 @@ class ListFragment : Fragment() {
         val binding = FragmentListBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        //TODO: remove
-        val lst: MutableList<Mot> = listOf(
-            Mot(
+        val lst: MutableList<Words> = listOf(
+            Words(
+                0,
                 "Avion",
                 "English",
                 "Airplane",
                 "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
                 "A vehicle designed for air travel that has wings and one or more engines."
             ),
-            Mot(
+            Words(
+                1,
                 "Avion",
                 "English",
                 "Airplane",
                 "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
                 "A vehicle designed for air travel that has wings and one or more engines."
             ),
-            Mot(
+            Words(
+                2,
                 "Avion",
                 "English",
                 "Airplane",
                 "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
                 "A vehicle designed for air travel that has wings and one or more engines."
             ),
-            Mot(
-                "Avion",
-                "English",
-                "Airplane",
-                "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
-                "A vehicle designed for air travel that has wings and one or more engines."
-            ),
-            Mot(
+            Words(
+                3,
                 "Avion",
                 "English",
                 "Airplane",
                 "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
                 "A vehicle designed for air travel that has wings and one or more engines."
             )
-        ) as MutableList<Mot>
+        ) as MutableList<Words>
 
         recyclerView = binding.recycler
         recyclerView.setHasFixedSize(true);
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.adapter = SearchRecycleAdapter(lst, requireContext())
-
+        
         binding.buttonMoreVert.setOnClickListener {
             val direction = ListFragmentDirections.actionListFragmentToSelectLangFragment()
             findNavController().navigate(direction)

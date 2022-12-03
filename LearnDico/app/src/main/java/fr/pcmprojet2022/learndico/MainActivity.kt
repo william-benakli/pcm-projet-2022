@@ -3,6 +3,7 @@ package fr.pcmprojet2022.learndico
 import android.os.Bundle
 import androidx.navigation.ui.NavigationUI
 import androidx.appcompat.app.AppCompatActivity
+import fr.pcmprojet2022.learndico.data.LearnDicoBD
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.navigation.fragment.findNavController
@@ -10,6 +11,7 @@ import fr.pcmprojet2022.learndico.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    val database by lazy{LearnDicoBD.getInstanceBD(this);}
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,5 +32,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+  
 
 }
