@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchFragment">
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_addDicoFragment"
+            app:destination="@id/addDicoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editWordFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.EditWordFragment"
+        android:label="fragment_edit_word"
+        tools:layout="@layout/fragment_edit_word" />
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.StatsFragment"
+        android:label="fragment_stats"
+        tools:layout="@layout/fragment_stats" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_listFragment_to_editWordFragment"
+            app:destination="@id/editWordFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_listFragment_to_selectLangFragment"
+            app:destination="@id/selectLangFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addDicoFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.AddDicoFragment"
+        android:label="AddDicoFragment" />
+    <fragment
+        android:id="@+id/addWordFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.AddWordFragment"
+        android:label="fragment_add_word"
+        tools:layout="@layout/fragment_add_word" />
+    <fragment
+        android:id="@+id/selectLangFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.SelectLangFragment"
+        android:label="SelectLangFragment" />
+</navigation>

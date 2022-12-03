@@ -3,12 +3,12 @@ package fr.pcmprojet2022.learndico.fragment
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.pcmprojet2022.learndico.adapter.SearchRecycleAdapter
 import fr.pcmprojet2022.learndico.data.Mot
 import fr.pcmprojet2022.learndico.databinding.FragmentListBinding
-import fr.pcmprojet2022.learndico.databinding.FragmentSearchBinding
 
 
 class ListFragment : Fragment() {
@@ -65,7 +65,12 @@ class ListFragment : Fragment() {
         recyclerView = binding.recycler
         recyclerView.setHasFixedSize(true);
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerView.adapter = SearchRecycleAdapter(lst)
+        recyclerView.adapter = SearchRecycleAdapter(lst, requireContext())
+
+        binding.buttonMoreVert.setOnClickListener {
+            val direction = ListFragmentDirections.actionListFragmentToSelectLangFragment()
+            findNavController().navigate(direction)
+        }
 
         return view
     }
