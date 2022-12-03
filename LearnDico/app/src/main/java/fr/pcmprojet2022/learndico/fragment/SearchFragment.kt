@@ -2,19 +2,26 @@ package fr.pcmprojet2022.learndico.fragment
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.view.LayoutInflater
+import fr.pcmprojet2022.learndico.R
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import fr.pcmprojet2022.learndico.databinding.FragmentSearchBinding
 
-class SearchFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return FragmentSearchBinding.inflate(inflater, container, false).root
+class SearchFragment : Fragment(R.layout.fragment_search) {
+
+    lateinit var binding: FragmentSearchBinding
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding= FragmentSearchBinding.bind(view)
+
+        binding.button.setOnClickListener {
+            val direction = SearchFragmentDirections.actionSearchFragmentToAddDicoFragment()
+            findNavController().navigate(direction)
+        }
+
     }
 
 }

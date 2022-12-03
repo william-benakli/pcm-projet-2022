@@ -1,19 +1,18 @@
 package fr.pcmprojet2022.learndico
 
 import android.os.Bundle
+import androidx.navigation.ui.NavigationUI
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.tabs.TabLayoutMediator
-import fr.pcmprojet2022.learndico.adapter.FragmentAdapter
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.fragment.findNavController
 import fr.pcmprojet2022.learndico.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    val database by lazy{
-        LearnDicoBD.getInstanceBD(this);
-    }
-
-    lateinit var binding: ActivityMainBinding
+    val database by lazy{LearnDicoBD.getInstanceBD(this);}
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,24 +20,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val viewPager = binding.viewPager
-        viewPager.adapter = FragmentAdapter(supportFragmentManager, lifecycle)
+        //NavigationUI: automatisation de la gestion des multi backstacks
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        val navController = (navHostFragment as NavHostFragment).findNavController()
+        binding.menuNavigation.setupWithNavController(navController)
 
-        TabLayoutMediator(binding.tabLayout, viewPager) { tab, position ->
-            when (position) {
-                0 -> {
-                    tab.setIcon(R.drawable.ic_round_settings_24)
-                }
-                1 -> {
-                    tab.setIcon(R.drawable.ic_round_search_24)
-                }
-                2 -> {
-                    tab.setIcon(R.drawable.ic_round_format_list_bulleted_24)
-                }
-                3 -> {
-                    tab.setIcon(R.drawable.ic_round_data_thresholding_24)
-                }
-            }
-        }.attach()
+        //permets de conserver plusieurs piles tout en navigant vers le bon fragment
+        binding.menuNavigation.setOnItemSelectedListener { item ->
+            NavigationUI.onNavDestinationSelected(item, navController)
+            return@setOnItemSelectedListener true
+        }
+
     }
+  
+
 }
