@@ -23,7 +23,40 @@ class ListFragment : Fragment() {
         val binding = FragmentListBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        //val lst: M    utableList<Words> = listOf() as MutableList<Words>
+        val lst: MutableList<Words> = listOf(
+            Words(
+                0,
+                "Avion",
+                "English",
+                "Airplane",
+                "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
+                "A vehicle designed for air travel that has wings and one or more engines."
+            ),
+            Words(
+                1,
+                "Avion",
+                "English",
+                "Airplane",
+                "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
+                "A vehicle designed for air travel that has wings and one or more engines."
+            ),
+            Words(
+                2,
+                "Avion",
+                "English",
+                "Airplane",
+                "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
+                "A vehicle designed for air travel that has wings and one or more engines."
+            ),
+            Words(
+                3,
+                "Avion",
+                "English",
+                "Airplane",
+                "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
+                "A vehicle designed for air travel that has wings and one or more engines."
+            )
+        ) as MutableList<Words>
 
         recyclerView = binding.recycler
         recyclerView.setHasFixedSize(true);

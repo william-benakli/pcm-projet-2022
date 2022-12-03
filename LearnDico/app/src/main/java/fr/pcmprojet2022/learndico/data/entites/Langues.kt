@@ -4,4 +4,4 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Langues(@PrimaryKey(autoGenerate = true) var id: Long, vararg languages: String){}
+class Langues(@PrimaryKey(autoGenerate = true) var id: Long, var languages: String)
