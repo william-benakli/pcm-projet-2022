@@ -10,8 +10,8 @@
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
-            android:id="@+id/action_searchFragment_to_addDicoFragment"
-            app:destination="@id/addDicoFragment" />
+            android:id="@+id/action_searchFragment_to_dicoSelectionFragment"
+            app:destination="@id/dicoSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/editWordFragment"
@@ -42,16 +42,19 @@
             app:destination="@id/selectLangFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addDicoFragment"
-        android:name="fr.pcmprojet2022.learndico.fragment.AddDicoFragment"
-        android:label="AddDicoFragment" />
-    <fragment
-        android:id="@+id/addWordFragment"
-        android:name="fr.pcmprojet2022.learndico.fragment.AddWordFragment"
-        android:label="fragment_add_word"
-        tools:layout="@layout/fragment_add_word" />
-    <fragment
         android:id="@+id/selectLangFragment"
         android:name="fr.pcmprojet2022.learndico.fragment.SelectLangFragment"
         android:label="SelectLangFragment" />
+    <fragment
+        android:id="@+id/dicoSelectionFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.searchonlineword.DicoSelectionFragment"
+        android:label="DicoSelectionFragment" >
+        <action
+            android:id="@+id/action_dicoSelectionFragment_to_wordSelectionFragment"
+            app:destination="@id/wordSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wordSelectionFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.searchonlineword.WordSelectionFragment"
+        android:label="WordSelectionFragment" />
 </navigation>
