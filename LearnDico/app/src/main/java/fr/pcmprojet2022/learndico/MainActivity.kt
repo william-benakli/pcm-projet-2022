@@ -1,6 +1,7 @@
 package fr.pcmprojet2022.learndico
 
 import android.Manifest.permission.POST_NOTIFICATIONS
+import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -11,6 +12,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +26,7 @@ import androidx.navigation.ui.setupWithNavController
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
 import fr.pcmprojet2022.learndico.databinding.ActivityMainBinding
 import fr.pcmprojet2022.learndico.notification.NotificationBroadcastReceiver
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -88,28 +91,35 @@ class MainActivity : AppCompatActivity() {
             .addAction(
                 0,
                 "Ouvrir",
-                /*PendingIntent.getActivity(
-                    this,
-                    10,
-                    *//*Intent(this, NotificationBroadcastReceiver::class.java).apply {
-                        this.action = "remove"
-                        this.data = Uri.parse("https://www.google.com")
-                        notificationManager.cancel("fromNotification",10)
-                    }*//*
-                    Intent(Intent.ACTION_VIEW,  Uri.parse("https://www.google.com")).apply {
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    },
-                    PendingIntent.FLAG_MUTABLE
-                )*/
                 getDismissIntent(10, this)
             )
             .build()
 
         notificationManager.notify(10, notification)
-        //notificationManager.cancel(10)
+
+        /* AlarmManager */
 
 
-        //mNotificationManager.notify(NOTIFICATION_ID)
+        val shared = getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
+
+        val calendar: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, shared.getInt("timeHour", 12))
+            set(Calendar.MINUTE, shared.getInt("timeMin", 10))
+        }
+        Log.wtf(calendar.timeInMillis.toString(), SystemClock.elapsedRealtime().toString())
+
+        val intent = Intent(this, NotificationBroadcastReceiver::class.java)
+        intent.action = "recc_time"
+
+        (getSystemService(Context.ALARM_SERVICE) as AlarmManager).setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE)
+        )
+
+        Log.wtf(System.currentTimeMillis().toString()+"--", (calendar.timeInMillis-System.currentTimeMillis()).toString()+"--")
 
     }
 
