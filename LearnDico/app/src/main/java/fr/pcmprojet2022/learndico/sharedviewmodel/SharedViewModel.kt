@@ -34,12 +34,17 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
 
     fun insertDico(){
         thread {
-            for (i in 16..36) {
-                dao.insertDictionnaire(Dico(
-                i, "google$i", "google", 0, 0));
+                dao.insertDictionnaire(Dico(2, "MarocTv", "www.google.fr", 0, 0));
+                dao.insertDictionnaire(Dico(3, "FrancTv", "www.LaRousse.fr", 0, 0));
         }
+    }
 
+    fun selectDicoById(id: Int): Dico?{
+        var dico : Dico? = null;
+        thread {
+             dico = dao.selectDicoFromId(id);
         }
+        return dico;
     }
 
     fun saveDicoSelection() {
@@ -54,13 +59,13 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
         return 0;
     }
 
-    var dicoSelect : LiveData<Dico>
+    //var dicoSelect : LiveData<Dico>
 
     fun getDico(dicoStats: Int): Dico? {
         thread {
-            dicoSelect.value.(dao.selectDicoFromId(dicoStats));
+        //    dicoSelect.value.(dao.selectDicoFromId(dicoStats));
         }
-        return dicoSelect.value;
+        return null// dicoSelect.value;
     }
 
 }

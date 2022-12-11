@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.pcmprojet2022.learndico.R
 import fr.pcmprojet2022.learndico.adapter.DicoRecyclerAdapter
+import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.databinding.FragmentDicoSelectionBinding
 import fr.pcmprojet2022.learndico.databinding.FragmentSearchBinding
 import fr.pcmprojet2022.learndico.fragment.ListFragmentDirections
@@ -34,7 +35,7 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
 
         sharedViewModel.allDicoBD.observe(viewLifecycleOwner) {
           //  if(it.toMutableList().isNotEmpty()) {
-                dicoAdapter = DicoRecyclerAdapter(it.toMutableList())
+                dicoAdapter = DicoRecyclerAdapter(it.toMutableList(), sharedViewModel.selectDicoById(0))
                 binding.recyclerView.adapter = dicoAdapter
                 Log.d(null, "Chargement des dictionnaires")
             //}
