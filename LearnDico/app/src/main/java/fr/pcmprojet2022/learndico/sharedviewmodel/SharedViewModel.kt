@@ -34,18 +34,12 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
 
     fun insertDico(){
         thread {
-                dao.insertDictionnaire(Dico(2, "MarocTv", "www.google.fr", 0, 0));
-                dao.insertDictionnaire(Dico(3, "FrancTv", "www.LaRousse.fr", 0, 0));
+                dao.insertDictionnaire(Dico( "Google", "www.google.fr", 0, 0));
+                dao.insertDictionnaire(Dico( "LaRousse", "www.LaRousse.fr", 0, 0));
+                dao.insertDictionnaire(Dico( "FrancTv", "www.LaRousse.fr", 0, 0));
         }
     }
 
-    fun selectDicoById(id: Int): Dico?{
-        var dico : Dico? = null;
-        thread {
-             dico = dao.selectDicoFromId(id);
-        }
-        return dico;
-    }
 
     fun saveDicoSelection() {
         TODO("Not yet implemented")

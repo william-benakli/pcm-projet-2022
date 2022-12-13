@@ -17,13 +17,14 @@ import fr.pcmprojet2022.learndico.databinding.ItemWordBinding
 import fr.pcmprojet2022.learndico.fragment.ListFragmentDirections
 import fr.pcmprojet2022.learndico.sharedviewmodel.SharedViewModel
 
-class DicoRecyclerAdapter (private val list_dico: MutableList<Dico>, first_dico: Dico?) : RecyclerView.Adapter<DicoRecyclerAdapter.VH>() {
+class DicoRecyclerAdapter (private val list_dico: MutableList<Dico>) : RecyclerView.Adapter<DicoRecyclerAdapter.VH>() {
 
     class VH(val binding: ItemDicoBinding) : RecyclerView.ViewHolder(binding.root) {
         lateinit var dictionnaire: Dico
     }
 
-    private var checked_dico : Dico? = first_dico;
+    private var checkedDico : Dico? = null;
+    private var isSelectedDico:Boolean = false;
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val binding = ItemDicoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -31,8 +32,9 @@ class DicoRecyclerAdapter (private val list_dico: MutableList<Dico>, first_dico:
         val card : CardView = binding.cardView
         card.setOnClickListener {
             card.setBackgroundColor(Color.WHITE);
-            checked_dico = list_dico[holder.absoluteAdapterPosition];
-            if(list_dico[holder.absoluteAdapterPosition] == checked_dico)card.setBackgroundColor(Color.GRAY)
+            checkedDico = list_dico[holder.absoluteAdapterPosition];
+            if(list_dico[holder.absoluteAdapterPosition] == checkedDico)card.setBackgroundColor(Color.GRAY)
+            isSelectedDico = true;
             updateReclycler();
         }
         return holder
@@ -52,15 +54,22 @@ class DicoRecyclerAdapter (private val list_dico: MutableList<Dico>, first_dico:
             dico.text = holder.dictionnaire.nom
             srcTr.text = holder.dictionnaire.nom
             destTr.text = holder.dictionnaire.nom
-            idDico.text = holder.dictionnaire.key.toString()
-            Log.e("tag", holder.dictionnaire.key.toString())
         }
-        if(list_dico[holder.absoluteAdapterPosition] == checked_dico) card.setBackgroundColor(Color.GRAY);
+        if(list_dico[holder.absoluteAdapterPosition] == checkedDico) card.setBackgroundColor(Color.GRAY);
         else card.setBackgroundColor(Color.WHITE);
 
     }
 
-
     override fun getItemCount(): Int = list_dico.size
 
+    fun getSelectedDico(): Dico? { return checkedDico }
+
+    /*Cette fonction permet de s'assurer que l'utilisateur a bien selectionné un dictionnaire avant de continuer */
+    fun isSelected(): Boolean{
+        return isSelectedDico;
+    }
+
+    fun setSelected(bool: Boolean){
+        isSelectedDico = bool;
+    }
 }

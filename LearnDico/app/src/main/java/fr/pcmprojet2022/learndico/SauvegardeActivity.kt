@@ -1,16 +1,19 @@
-package fr.pcmprojet2022.learndico.activity
+package fr.pcmprojet2022.learndico
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
-import fr.pcmprojet2022.learndico.R
+import fr.pcmprojet2022.learndico.data.LearnDicoBD
+import fr.pcmprojet2022.learndico.databinding.ActivitySaveBinding
 
 class SauvegardeActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
-        setContentView(R.layout.activity_save)
+    val database by lazy{ LearnDicoBD.getInstanceBD(this);}
+    private lateinit var binding: ActivitySaveBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySaveBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         if( intent.action.equals( "android.intent.action.SEND" ) ){
             val txt = intent.extras?.getString( "android.intent.extra.TEXT" )
          /*       ...

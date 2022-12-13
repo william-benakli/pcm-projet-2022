@@ -11,25 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Recheche avancé de votre mot"
+        android:text="Recheche avancé de votre mot sur :"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textSize="24sp"
         android:typeface="normal" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <TextView
+        android:id="@+id/dictionnaire"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="101dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="dest" />
-
-    </com.google.android.material.textfield.TextInputLayout>
+        android:text="%dictionnaire%"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -41,19 +36,8 @@
             android:id="@+id/mot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="mot" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/Site"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Google" />
+            android:hint="mot"
+            android:textColorHint="#546E7A" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,19 +47,36 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/src"
+            android:id="@+id/langue_src"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="source" />
+            android:hint="Langue source"
+            android:textColorHint="#546E7A" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="101dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/langue_dest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Langues de destionation"
+            android:textColorHint="#546E7A" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/recherche"
         android:layout_width="237dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="168dp"
-        android:text="Button" />
+        android:text="rechercher"
+        android:textAlignment="center" />
 
 
 </LinearLayout>

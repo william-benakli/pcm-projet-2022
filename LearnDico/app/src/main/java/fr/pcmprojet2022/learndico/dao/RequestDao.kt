@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import fr.pcmprojet2022.learndico.data.entites.Dico
+import fr.pcmprojet2022.learndico.data.entites.Langues
 import fr.pcmprojet2022.learndico.data.entites.Words
 
 @Dao
@@ -22,6 +23,9 @@ interface RequestDao {
     @Query("SELECT * FROM dico")
     fun loadAllDico() : List<Dico>
 
-    @Query("SELECT * FROM dico WHERE 'key' IN (:id)")
-    fun selectDicoFromId(id : Int) : Dico
+    @Query("SELECT * FROM langues")
+    fun loadAllLanguages(): List<Langues>?
+
+    @Insert(onConflict = OnConflictStrategy.ABORT)
+    fun insertLangues(vararg langues: Langues) : List<Long>
 }

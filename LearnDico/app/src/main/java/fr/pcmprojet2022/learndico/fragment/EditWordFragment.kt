@@ -23,10 +23,10 @@ class EditWordFragment : Fragment(R.layout.fragment_edit_word) {
 
        // sharedViewModel = ViewModelProvider(this)[SharedViewModel::class.java];
 
-        sharedViewModel.motLiveData.observe(viewLifecycleOwner) { mot ->
+       /* sharedViewModel.motLiveData.observe(viewLifecycleOwner) { mot ->
             println("$mot EEEE5E");
             binding.textView.text = mot.toString();
-        };
+        };*/
 
     }
 

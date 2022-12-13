@@ -2,25 +2,29 @@ package fr.pcmprojet2022.learndico.sharedviewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import fr.pcmprojet2022.learndico.data.entites.Dico
 
-class SearchOnlineViewModel (application: Application): AndroidViewModel(application) {
+class SearchOnlineViewModel : ViewModel() {//(application: Application): AndroidViewModel(application) {
 
-    /*
-        Cette classe permet de transferer le dictiionnaire du fragmenent
-        de séléction des dictionnaires à celui de la recherche de mots en ligne
 
+    /**
+     * Cette classe de type ViewModel permet de stocker pour transferer le dictionnaire du fragmenent
+     *  de séléction à celui de la recherche de mots en ligne
+     *
+     * Documentation sur les ViewModel
+     * https://developer.android.com/codelabs/basic-android-kotlin-training-shared-viewmodel#2
      */
 
-    /* Le dictionnaire est null les verifications impliqueront une recherche à null ou 0 sinon*/
-    private var selected_dico : Dico? = null
+    /* Gestion getteur et setteur du dictionnaire */
+    private var selectedDico : Dico? = null
 
-    fun setSelectedDico(selected: Dico){
-        selected_dico = selected;
+    fun setSelectedDico(selected: Dico?){
+        selectedDico = selected;
     }
 
     fun getSelectedDico(): Dico? {
-        return selected_dico;
+        return selectedDico;
     }
 
 }

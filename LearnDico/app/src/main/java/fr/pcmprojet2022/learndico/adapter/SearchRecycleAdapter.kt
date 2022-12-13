@@ -51,7 +51,7 @@ class SearchRecycleAdapter(private val sharedViewModel: SharedViewModel, private
         holder.binding.edit.setOnClickListener {
             Log.wtf("click","TODO: edit")
             println(binding.word.text.toString() + " AAAAA");
-            sharedViewModel.saveMot(binding.word.text.toString() + " AAAAA");
+            //sharedViewModel.saveMot(binding.word.text.toString() + " AAAAA");
 
             val direction = ListFragmentDirections.actionListFragmentToEditWordFragment()
             parent.findNavController().navigate(direction)

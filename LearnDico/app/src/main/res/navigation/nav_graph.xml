@@ -52,9 +52,28 @@
         <action
             android:id="@+id/action_dicoSelectionFragment_to_wordSelectionFragment"
             app:destination="@id/wordSelectionFragment" />
+        <action
+            android:id="@+id/action_dicoSelectionFragment_to_languagesSelectionFragment"
+            app:destination="@id/languagesSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/wordSelectionFragment"
         android:name="fr.pcmprojet2022.learndico.fragment.searchonlineword.WordSelectionFragment"
         android:label="WordSelectionFragment" />
+    <fragment
+        android:id="@+id/languagesSelectionFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.searchonlineword.LanguagesSourceSelectionFragment"
+        android:label="LanguagesSelectionFragment" >
+        <action
+            android:id="@+id/action_languagesSelectionFragment_to_languagesDestinationSelectionFragment"
+            app:destination="@id/languagesDestinationSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/languagesDestinationSelectionFragment"
+        android:name="fr.pcmprojet2022.learndico.fragment.searchonlineword.LanguagesDestinationSelectionFragment"
+        android:label="LanguagesDestinationSelectionFragment" >
+        <action
+            android:id="@+id/action_languagesDestinationSelectionFragment_to_wordSelectionFragment"
+            app:destination="@id/wordSelectionFragment" />
+    </fragment>
 </navigation>
