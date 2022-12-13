@@ -10,9 +10,8 @@ import fr.pcmprojet2022.learndico.data.entites.Words
 import androidx.room.*
 import android.content.Context
 
-@Database(entities = [Words::class, Dico::class, Langues::class], version = 1)
-
-public abstract class LearnDicoBD : RoomDatabase() {
+@Database(entities = [Words::class, Dico::class, Langues::class], version =10)
+abstract class LearnDicoBD : RoomDatabase() {
 
     abstract fun getRequestDao(): RequestDao
 
