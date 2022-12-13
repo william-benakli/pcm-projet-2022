@@ -11,6 +11,10 @@ import fr.pcmprojet2022.learndico.databinding.ActivitySaveBinding
 
 class SauvegardeActivity : AppCompatActivity() {
 
+    /**
+     * Class Sauvegardeactivity est l'activité ou l'utilisateur peut ajouter un mot
+     * Elle n'est accessible qu'en partageant un lien
+     */
     private val database by lazy{ LearnDicoBD.getInstanceBD(this);}
     private lateinit var binding: ActivitySaveBinding
     private var url: String? = "";

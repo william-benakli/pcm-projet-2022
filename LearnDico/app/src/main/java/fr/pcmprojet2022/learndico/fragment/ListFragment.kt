@@ -32,36 +32,40 @@ class ListFragment : Fragment() {
 
         val lst: MutableList<Words> = listOf(
             Words(
-                0,
+                "Avion A",
                 "Avion A",
                 "English",
                 "Airplane",
                 "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
                 "A vehicle designed for air travel that has wings and one or more engines."
+            ,"url"
             ),
             Words(
-                1,
-                "Avion B",
+                "Avion A",
+                "Avion A",
                 "English",
                 "Airplane",
                 "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
                 "A vehicle designed for air travel that has wings and one or more engines."
+                ,"url"
             ),
             Words(
-                2,
-                "Avion C",
+                "Avion A",
+                "Avion A",
                 "English",
                 "Airplane",
                 "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
                 "A vehicle designed for air travel that has wings and one or more engines."
+                ,"url"
             ),
             Words(
-                3,
-                "Avion D",
+                "Avion A",
+                "Avion A",
                 "English",
                 "Airplane",
                 "Un véhicule conçu pour le transport aérien qui a des ailes et un ou plusieurs moteurs.",
                 "A vehicle designed for air travel that has wings and one or more engines."
+                ,"url"
             )
         ) as MutableList<Words>
 

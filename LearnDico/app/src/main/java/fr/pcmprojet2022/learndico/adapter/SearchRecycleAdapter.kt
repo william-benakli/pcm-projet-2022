@@ -18,10 +18,6 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.SharedViewModel
 
 class SearchRecycleAdapter(private val sharedViewModel: SharedViewModel, private val words: MutableList<Words>, private val context: Context) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
-  //  private val sharedViewModel: SharedViewModel by activityViewModels();
-
- //   private lateinit var sharedViewModel: SharedViewModel;
-
 
     class VH(val binding: ItemWordBinding) : RecyclerView.ViewHolder(binding.root) {
         lateinit var wordObj: Words
@@ -64,8 +60,8 @@ class SearchRecycleAdapter(private val sharedViewModel: SharedViewModel, private
         holder.wordObj = words[position]
 
         with(holder.binding){
-            word.text = holder.wordObj.word
-            translation.text = holder.wordObj.translation
+            word.text = holder.wordObj.wordOrigin
+            translation.text = holder.wordObj.wordTranslate
             translationSignification.text = holder.wordObj.translationSignification
             wordSignification.text = holder.wordObj.wordSignification
         }

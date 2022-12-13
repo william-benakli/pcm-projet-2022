@@ -14,10 +14,9 @@ import kotlin.concurrent.thread
 
 class SharedViewModel(application: Application): AndroidViewModel(application) {
 
-    val dao = (application as LearnDicoApplication).getDataBase.getRequestDao()
-
+    private val dao = (application as LearnDicoApplication).getDataBase.getRequestDao()
     private var mot = MutableLiveData("");
-    var motLiveData : LiveData<String> = mot;
+    private var motLiveData : LiveData<String> = mot;
 
 
     fun saveMot(msg: String){
