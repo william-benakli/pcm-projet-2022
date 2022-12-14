@@ -25,16 +25,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-/*
-    buildscript {
-        repositories {
-            google()
-        }
-        dependencies {
-            classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.5.3")
-        }
-    }
-*/
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

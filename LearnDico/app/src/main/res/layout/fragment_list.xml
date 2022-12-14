@@ -41,6 +41,7 @@
                 app:boxStrokeWidth="1dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textFieldText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

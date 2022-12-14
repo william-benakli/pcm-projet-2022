@@ -2,4 +2,12 @@
     <string name="app_name">LearnDico</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dico_list_selection">Séléctionnez votre dictionnaire dans la liste suivant :</string>
+    <string name="dico_google">Google</string>
+    <string name="save_word">"Sauvegardez vos mots "</string>
+    <string name="save_valider">Ajouter dans ma liste</string>
+    <string name="addTextView">Ajouter votre langue (français,anglais…)</string>
+    <string name="addWordText"> Ajouter votre mot d\'origine et traduit </string>
+    <string name="saveWordTraduit">Mot traduit</string>
+    <string name="saveWordOrigine">Mot d\'origine</string>
 </resources>
