@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import fr.pcmprojet2022.learndico.data.entites.Words
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import fr.pcmprojet2022.learndico.data.entites.Words

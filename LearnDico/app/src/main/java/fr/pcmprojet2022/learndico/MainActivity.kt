@@ -26,6 +26,7 @@ import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.databinding.ActivityMainBinding
 import fr.pcmprojet2022.learndico.notification.ServiceNotification
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import fr.pcmprojet2022.learndico.data.LearnDicoBD
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     //TODO : Clean navgraph
 
-    val database by lazy{LearnDicoBD.getInstanceBD(this);}
+    val database by lazy{ LearnDicoBD.getInstanceBD(this);}
     
     private lateinit var binding: ActivityMainBinding
 
