@@ -3,6 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="fr.pcmprojet2022.learndico">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!--TODO: rq to user-->
+    <!--<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.HIDE_OVERLAY_WINDOWS"/>
+
+    <!--alarme-->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -26,7 +37,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
+        <service android:name=".notification.ServiceNotification" android:enabled="true" android:exported="false"/>
         <activity
                 android:name=".SauvegardeActivity"
                 android:label="LearnDico App"
@@ -37,7 +48,6 @@
                 <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

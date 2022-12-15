@@ -1,20 +1,19 @@
 package fr.pcmprojet2022.learndico.adapter
 
-import android.content.Context
 import android.util.Log
 import android.view.ViewGroup
+import android.content.Context
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import fr.pcmprojet2022.learndico.data.entites.Words
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ItemWordBinding
 import fr.pcmprojet2022.learndico.fragment.ListFragmentDirections
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import fr.pcmprojet2022.learndico.sharedviewmodel.SharedViewModel
-
 
 class SearchRecycleAdapter(private val sharedViewModel: SharedViewModel, private val words: MutableList<Words>, private val context: Context) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
