@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.text.toLowerCase
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
+import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ActivitySaveBinding
 
@@ -26,25 +28,50 @@ class SauvegardeActivity : AppCompatActivity() {
         if(intent.action.equals( "android.intent.action.SEND" ) ){
             url = intent.extras?.getString( "android.intent.extra.TEXT" )
         }else{
-            Toast.makeText(this, "Une erreur est survenue, ressayez", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.erreur_survenue, Toast.LENGTH_LONG).show();
             finish()
         }
         buttonEventClick()
     }
 
-    private fun buttonEventClick() {
+    private fun buttonEventClick(){
         binding.validerId.setOnClickListener {
+            ajouterMot()
+        }
+    }
+    private fun ajouterMot() {
           if(argsIsOk()){
-              Toast.makeText(this, "Votre mot est ajouté à votre liste ", Toast.LENGTH_LONG).show();
-            //TODO: requete qui verifie si le mot existe pas déjà
+              Toast.makeText(this, R.string.nouveauMotToList, Toast.LENGTH_LONG).show();
               with(binding){
-                  database.getRequestDao().insertMot(Words(saveWordOrigineId.text.toString(), wordTradId.text.toString(), saveLangueSrcId.text.toString(), saveLangueDstId.text.toString(), "", "", url.toString()))
+                  database.getRequestDao().insertMot(Words(saveWordOrigineId.text.toString(),
+                      wordTradId.text.toString(),
+                      saveLangueSrcId.text.toString(),
+                      saveLangueDstId.text.toString(),
+                      descriptionOrgineId.text.toString(),
+                      descriptionTradId.text.toString(),
+                      url.toString()))
+              }
+              /* Traitement de l'url des dicos et du nom du dictionnaire */
+              var nomDico = url.toString().replace("https://", "").split(".")[0].toLowerCase();
+
+                  var urlDico = url.toString().toLowerCase().replace(binding.wordTradId.text.toString(), "%mot_trad%")
+                      .replace(binding.saveWordOrigineId.text.toString(), "%mot_origine%")
+                      .replace(binding.saveLangueSrcId.text.toString().toLowerCase(), "%langue_origine%")
+                      .replace(binding.saveLangueDstId.text.toString().toLowerCase(), "%langue_trad%")
+
+              var listeDico = database.getRequestDao().loadDico(urlDico, nomDico) // si le dico n'existe pas on l'ajoute
+
+              if(listeDico.isEmpty()){
+                  database.getRequestDao().insertDictionnaire(
+                      Dico(nomDico,
+                          urlDico,
+                          binding.saveLangueSrcId.text.toString().toLowerCase(),
+                          binding.saveLangueDstId.text.toString().toLowerCase()))
               }
               startActivity(Intent(this, MainActivity::class.java));
           }else{
-              Toast.makeText(this, "Les champs saisies sont invalides.", Toast.LENGTH_SHORT).show();
+              Toast.makeText(this, R.string.invalideChamps, Toast.LENGTH_SHORT).show();
           }
-        };
     }
 
     private fun argsIsOk(): Boolean {

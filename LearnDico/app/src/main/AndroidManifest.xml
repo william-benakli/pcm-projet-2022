@@ -11,8 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.LearnDico"
-        android:name=".LearnDicoApplication"
-        tools:targetApi="31" >
+        android:name=".LearnDicoApplication">
         <activity
             android:name=".MainActivity"
             android:exported="true" >

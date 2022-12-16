@@ -31,9 +31,8 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDicoSelectionBinding.bind(view)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-       // daoViewModel.insertDico()
         daoViewModel.loadAllDico()
-       // daoViewModel.insertLangues()
+
         daoViewModel.getAllDicoBD().observe(viewLifecycleOwner) {
             dicoAdapter = DicoRecyclerAdapter(it.toMutableList())
             binding.recyclerView.adapter = dicoAdapter

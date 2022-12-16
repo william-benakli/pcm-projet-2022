@@ -1,11 +1,9 @@
 package fr.pcmprojet2022.learndico.sharedviewmodel
 
 import android.app.Application
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import fr.pcmprojet2022.learndico.LearnDicoApplication
 import fr.pcmprojet2022.learndico.MainActivity
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
@@ -27,15 +25,13 @@ class SharedViewModel(application: Application): AndroidViewModel(application) {
     val allDicoBD = MutableLiveData<List<Dico>>(emptyList())
     fun loadAllDico() {
         thread {
-            allDicoBD.postValue(dao.loadAllDico())
+         //  allDicoBD.postValue(dao.loadAllDico())
         }
     }
 
     fun insertDico(){
         thread {
-                dao.insertDictionnaire(Dico( "Google", "www.google.fr", 0, 0));
-                dao.insertDictionnaire(Dico( "LaRousse", "www.LaRousse.fr", 0, 0));
-                dao.insertDictionnaire(Dico( "FrancTv", "www.LaRousse.fr", 0, 0));
+                dao.insertDictionnaire(Dico("Google", "https://www.google.com/search?q=", "",""));
         }
     }
 

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 @Entity
-class Dico(@PrimaryKey var nom: String, val url: String, val src_id: Int, val dst_id: Int)
+class Dico(@PrimaryKey var nom: String, val url: String, val src: String, val dst: String)
 
 
 /*

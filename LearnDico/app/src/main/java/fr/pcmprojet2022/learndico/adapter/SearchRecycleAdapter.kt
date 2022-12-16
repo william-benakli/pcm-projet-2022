@@ -16,7 +16,7 @@ import fr.pcmprojet2022.learndico.fragment.ListFragmentDirections
 import fr.pcmprojet2022.learndico.sharedviewmodel.SharedViewModel
 
 
-class SearchRecycleAdapter(private val sharedViewModel: SharedViewModel, private val words: MutableList<Words>, private val context: Context) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
+class SearchRecycleAdapter(private val words: MutableList<Words>, private val context: Context) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
 
     class VH(val binding: ItemWordBinding) : RecyclerView.ViewHolder(binding.root) {

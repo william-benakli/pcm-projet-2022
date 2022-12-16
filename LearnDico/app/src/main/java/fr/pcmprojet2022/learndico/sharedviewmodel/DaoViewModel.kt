@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import fr.pcmprojet2022.learndico.LearnDicoApplication
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.data.entites.Langues
+import fr.pcmprojet2022.learndico.data.entites.Words
 import kotlin.concurrent.thread
 
 class DaoViewModel (application: Application): AndroidViewModel(application) {
@@ -22,6 +23,8 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     private val dao = (application as LearnDicoApplication).getDataBase.getRequestDao()
     private val allDicoBD = MutableLiveData<List<Dico>>(emptyList())
     private val allLanguagesBd = MutableLiveData<List<Langues>>(emptyList())
+    private val allWordsBd = MutableLiveData<List<Words>>(emptyList())
+    private val languesSelected: MutableList<Langues> = mutableListOf<Langues>()
 
     fun loadAllDico() {
         thread {
@@ -37,20 +40,19 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
 
     fun insertDico(){
         thread {
-            dao.insertDictionnaire(Dico("Google", "https://www.google.fr", 0, 0));
-            dao.insertDictionnaire(Dico( "Larousse", "https://www.Larousse.fr", 0, 0));
-            dao.insertDictionnaire(Dico( "Reverso", "https://www.Reverso.fr", 0, 0));
-            dao.insertDictionnaire(Dico( "UnivParis", "https://www.UnivParis.fr", 0, 0));
+            dao.insertDictionnaire(Dico("Google", "https://www.google.fr", "", ""));
         }
     }
 
-    fun insertLangues(){
+    fun insertLangues(langues: Langues) {
         thread {
-            dao.insertLangues(Langues( "Français"))
-            dao.insertLangues(Langues( "Anglais"))
-            dao.insertLangues(Langues( "Espagnol"))
-            dao.insertLangues(Langues("Allemand"))
-            dao.insertLangues(Langues("Chinois"))
+            dao.insertLangues(langues)
+        }
+    }
+
+    fun loadLanguages(languages: String){
+        thread {
+            languesSelected.addAll(dao.loadLanguages(languages))
         }
     }
 
@@ -62,4 +64,23 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
         return allLanguagesBd;
     }
 
+    fun getLanguesSelected():MutableList<Langues>{
+        return languesSelected;
+    }
+
+    fun getAllWordBD() : MutableLiveData<List<Words>>{
+        return allWordsBd;
+    }
+
+    fun loadAllWord() {
+        thread {
+            allWordsBd.postValue(dao.loadAllWords())
+        }
+    }
+
+    fun insertWord() {
+        thread {
+            //val wordOrigin: String, val wordTranslate: String, val languageOrigin: String, val languageTranslation: String, val wordSignification: String, val translationSignification: String, val url: String
+            dao.insertMot(Words("William", "uwu", "français", "anglais", "definition", "definition en anglais", "www.william.fr" ));
+        }    }
 }

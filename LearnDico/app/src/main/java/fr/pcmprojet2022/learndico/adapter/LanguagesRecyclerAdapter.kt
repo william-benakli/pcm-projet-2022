@@ -22,6 +22,11 @@ class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) 
 
     private var checkedLanguages : Langues? = null;
     private var isSelectedLanguages: Boolean = false;
+    private var edt_list_langues = (mutableListOf<Langues>())
+
+    init {
+        edt_list_langues.addAll(list_langues)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val binding = ItemLanguagesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,8 +34,8 @@ class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) 
         val card : CardView = binding.cardViewLanguage
         card.setOnClickListener {
             card.setBackgroundColor(Color.WHITE);
-            checkedLanguages = list_langues[holder.absoluteAdapterPosition];
-            if(list_langues[holder.absoluteAdapterPosition] == checkedLanguages)card.setBackgroundColor(
+            checkedLanguages = edt_list_langues[holder.absoluteAdapterPosition];
+            if(edt_list_langues[holder.absoluteAdapterPosition] == checkedLanguages)card.setBackgroundColor(
                 Color.GRAY)
             isSelectedLanguages = true;
             updateReclycler();
@@ -39,18 +44,20 @@ class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) 
     }
 
     override fun onBindViewHolder(holder: LanguagesRecyclerAdapter.VH, position: Int) {
-        holder.language = list_langues[position]
+        holder.language = edt_list_langues[position]
         val card : CardView = holder.binding.cardViewLanguage
         holder.binding.languagesId.text = holder.language.languages
-        if(list_langues[holder.absoluteAdapterPosition] == checkedLanguages) card.setBackgroundColor(Color.GRAY);
+        if(edt_list_langues[holder.absoluteAdapterPosition] == checkedLanguages) card.setBackgroundColor(Color.GRAY);
         else card.setBackgroundColor(Color.WHITE);
     }
 
     override fun getItemCount(): Int { return list_langues.size }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun updateReclycler() {
-        notifyDataSetChanged();
+    fun updateReclycler() {
+        this.notifyDataSetChanged();
+        edt_list_langues.clear();
+        edt_list_langues.addAll(list_langues);
     }
 
     /*Cette fonction permet de s'assurer que l'utilisateur a bien selectionné un dictionnaire avant de continuer */
