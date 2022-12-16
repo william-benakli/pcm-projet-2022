@@ -28,7 +28,7 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentWordSelectionBinding.bind(view)
-        val dicoUse = searchSharedViewModel.getSelectedDico();
+        val dicoUse = searchSharedViewModel.getSelectedDico()
         loadDictionnaireToTextInput(dicoUse)
         buttonEventClick(dicoUse)
     }
@@ -42,8 +42,8 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
         if(dicoUse != null) {
             if (dicoUse.nom == "Google") {
                 with(binding) {
-                    val srclangue = languagesSharedViewModel.getSelectedLangueSrc();
-                    val dstlangue = languagesSharedViewModel.getSelectedLangueDest();
+                    val srclangue = languagesSharedViewModel.getSelectedLangueSrc()
+                    val dstlangue = languagesSharedViewModel.getSelectedLangueDest()
                     dictionnaire.text = dicoUse.nom
                     if (srclangue != null) {
                         langueSrc.setText(srclangue.languages)
@@ -55,8 +55,8 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
             }else{
                 with(binding){
                     dictionnaire.text = dicoUse.nom
-                    langueSrc.setText("requete dao à faire")
-                    langueDest.setText("requete dao à faire")
+                    langueSrc.setText(dicoUse.src)
+                    langueDest.setText(dicoUse.dst)
                 }
             }
         }else{
@@ -69,12 +69,17 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
        Cette fonction gere les événements liés au clique du boutton de recherche.
      */
 
+
     private fun buttonEventClick(dicoUse: Dico?) {
         binding.recherche.setOnClickListener {
             if(!(binding.mot.text?.isEmpty())!!){
                 activity?.let{
                     val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse((dicoUse?.url + "/search?q=" + binding.mot.text+" ${binding.langueSrc.text}+ en +${binding.langueDest.text}") ?: "https://www.google.fr")
+                    intent.data = Uri.parse(
+                        (dicoUse?.url.toString().replace("%mot_origine%", binding.mot.text.toString())
+                            .replace("%langue_origine", binding.langueSrc.text.toString())
+                            .replace("%langue_trad%", binding.langueDest.text.toString()))
+                    )
                     it.startActivity(intent)
                 }
             }else{

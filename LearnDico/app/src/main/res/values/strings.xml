@@ -10,4 +10,18 @@
     <string name="addWordText"> Ajouter votre mot d\'origine et traduit </string>
     <string name="saveWordTraduit">Mot traduit</string>
     <string name="saveWordOrigine">Mot d\'origine</string>
+    <string name="addLanguage">Ajouter une langue</string>
+    <string name="language_dialog">Ajouter une nouvelle langue</string>
+    <string name="NouvelleLangue">Nouvelle langue</string>
+    <string name="incorrectChamps">Les champs sont incorrects</string>
+    <string name="nouvelleLangeuAjoute">\"Super, nouvelle langue ajoutée</string>
+    <string name="langueExisteDeja">La langue ajoutée existe déjà</string>
+    <string name="ajouter">Ajouter</string>
+    <string name="annuler">Annuler</string>
+    <string name="decription_origine">Description mot origine</string>
+    <string name="description_trad">Description mot traduit</string>
+    <string name="descr_facultatif">Description facultratif du mot</string>
+    <string name="invalideChamps">Les champs saisies sont invalides."</string>
+    <string name="nouveauMotToList">Votre mot est ajouté à votre liste.</string>
+    <string name="erreur_survenue">Une erreur est survenue, ressayez</string>
 </resources>

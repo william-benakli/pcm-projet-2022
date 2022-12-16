@@ -20,7 +20,8 @@
         android:layout_width="409dp"
         android:layout_height="374dp"
         tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="116dp" />
+        tools:layout_editor_absoluteY="116dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/languages_id"
@@ -28,5 +29,18 @@
         android:layout_height="53dp"
         android:text="%Langues%"
         tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="63dp" />
+        tools:layout_editor_absoluteY="63dp"
+        tools:ignore="MissingConstraints" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:contentDescription="@string/addLanguage"
+        android:src="@drawable/sort"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="330dp"
+        tools:layout_editor_absoluteY="628dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

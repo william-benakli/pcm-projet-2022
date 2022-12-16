@@ -15,7 +15,8 @@ import fr.pcmprojet2022.learndico.fragment.ListFragmentDirections
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import fr.pcmprojet2022.learndico.sharedviewmodel.SharedViewModel
 
-class SearchRecycleAdapter(private val sharedViewModel: SharedViewModel, private val words: MutableList<Words>, private val context: Context) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
+
+class SearchRecycleAdapter(private val words: MutableList<Words>, private val context: Context) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
 
     class VH(val binding: ItemWordBinding) : RecyclerView.ViewHolder(binding.root) {

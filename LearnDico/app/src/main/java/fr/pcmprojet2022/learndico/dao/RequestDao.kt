@@ -15,17 +15,24 @@ interface RequestDao {
     fun insertMot(vararg words: Words) : List<Long>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insertDictionnaire(vararg dictionnaire: Dico) : List<Long>
+    fun insertDictionnaire(vararg dictionnaire: Dico) :  List<Long>
 
     @Query("SELECT * FROM words")
-    fun loadAllWords() : List<Words>
+    fun loadAllWords() :  List<Words>
 
     @Query("SELECT * FROM dico")
-    fun loadAllDico() : List<Dico>
+    fun loadAllDico() :  List<Dico>
 
     @Query("SELECT * FROM langues")
-    fun loadAllLanguages(): List<Langues>?
+    fun loadAllLanguages():  List<Langues>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insertLangues(vararg langues: Langues) : List<Long>
+    fun insertLangues(vararg langues: Langues) :  List<Long>
+
+    @Query("SELECT * FROM langues WHERE languages=:languages_name")
+    fun loadLanguages(languages_name: String): List<Langues>
+
+    @Query("SELECT * FROM dico WHERE nom=:nomDico AND url=:urlDico")
+    fun loadDico(urlDico: String, nomDico: String): List<Dico>
+
 }
