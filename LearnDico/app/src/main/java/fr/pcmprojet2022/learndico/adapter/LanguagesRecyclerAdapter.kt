@@ -1,7 +1,9 @@
 package fr.pcmprojet2022.learndico.adapter
 
+import android.R
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
@@ -33,10 +35,14 @@ class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) 
         val holder = VH(binding)
         val card : CardView = binding.cardViewLanguage
         card.setOnClickListener {
-            card.setBackgroundColor(Color.WHITE);
+            val typedValue = TypedValue()
+            parent.context.theme.resolveAttribute(R.attr.colorBackground, typedValue, true)
+            card.setCardBackgroundColor(typedValue.data)
             checkedLanguages = edt_list_langues[holder.absoluteAdapterPosition];
-            if(edt_list_langues[holder.absoluteAdapterPosition] == checkedLanguages)card.setBackgroundColor(
-                Color.GRAY)
+            if(edt_list_langues[holder.absoluteAdapterPosition] == checkedLanguages){
+                parent.context.theme.resolveAttribute(R.attr.colorButtonNormal, typedValue, true)
+                card.setCardBackgroundColor(typedValue.data)
+            }
             isSelectedLanguages = true;
             updateReclycler();
         }
@@ -45,10 +51,10 @@ class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) 
 
     override fun onBindViewHolder(holder: LanguagesRecyclerAdapter.VH, position: Int) {
         holder.language = edt_list_langues[position]
-        val card : CardView = holder.binding.cardViewLanguage
+        //val card : CardView = holder.binding.cardViewLanguage
         holder.binding.languagesId.text = holder.language.languages
-        if(edt_list_langues[holder.absoluteAdapterPosition] == checkedLanguages) card.setBackgroundColor(Color.GRAY);
-        else card.setBackgroundColor(Color.WHITE);
+        //if(edt_list_langues[holder.absoluteAdapterPosition] == checkedLanguages) card.setBackgroundColor(Color.GRAY);
+        //else card.setBackgroundColor(Color.WHITE);
     }
 
     override fun getItemCount(): Int { return list_langues.size }

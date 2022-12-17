@@ -24,6 +24,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         binding.filledTextFieldNbrWordMax.editText?.setText(shared.getInt("numNotification", 1).toString())
 
+        binding.filledTextFavoritBrowser.editText?.setText(shared.getString("urlBrowser", "https://www.google.com"))
+
         val picker =
             MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -45,6 +47,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 "numNotification",
                 value
             )
+
+            val urlBrowser = try{
+                binding.filledTextFavoritBrowser.editText?.text.toString()
+            }catch (e:Exception){"https://google.com"}
+            edit.putString(
+                "urlBrowser",
+                urlBrowser
+            )//TODO: gérer le favoris dans le searchonlineword
 
             try {
                 edit.putInt("timeMin", picker.minute)

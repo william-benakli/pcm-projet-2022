@@ -3,6 +3,7 @@ package fr.pcmprojet2022.learndico.fragment.searchonlineword
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -44,7 +45,7 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
                 with(binding) {
                     val srclangue = languagesSharedViewModel.getSelectedLangueSrc()
                     val dstlangue = languagesSharedViewModel.getSelectedLangueDest()
-                    dictionnaire.text = dicoUse.nom
+                    dictionnaire.editText!!.setText(dicoUse.nom)
                     if (srclangue != null) {
                         langueSrc.setText(srclangue.languages)
                     }
@@ -54,7 +55,7 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
                 }
             }else{
                 with(binding){
-                    dictionnaire.text = dicoUse.nom
+                    dictionnaire.editText!!.setText(dicoUse.nom)
                     langueSrc.setText(dicoUse.src)
                     langueDest.setText(dicoUse.dst)
                 }
@@ -76,10 +77,12 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
                 activity?.let{
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(
+                        //TODO: ca sert a rien de faire du parsing
                         (dicoUse?.url.toString().replace("%mot_origine%", binding.mot.text.toString())
                             .replace("%langue_origine", binding.langueSrc.text.toString())
                             .replace("%langue_trad%", binding.langueDest.text.toString()))
                     )
+                    Log.wtf("Select frag", intent.data.toString())
                     it.startActivity(intent)
                 }
             }else{

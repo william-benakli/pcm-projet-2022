@@ -16,7 +16,6 @@
             android:layout_marginTop="112dp"
             android:layout_marginBottom="110dp"
             android:fontFamily="sans-serif-condensed-light"
-            android:text="welcome_text"
             android:textAlignment="center"
             android:textSize="26sp"
             android:textStyle="bold"
@@ -25,7 +24,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Bienvenue sur LearnDico, une application qui vous aidera à apprendre une langue " />
+            android:text="Bienvenue sur LearnDico, une application qui vous aidera à apprendre une langue " />
 
         <TextView
             android:id="@+id/textView5"
@@ -33,7 +32,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="256dp"
             android:fontFamily="sans-serif-condensed-light"
-            android:text="welcome_text"
             android:textAlignment="center"
             android:textSize="26sp"
             android:textStyle="bold"
@@ -42,7 +40,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Rechercher un mot dans la lague que vous voulez !" />
+            android:text="Rechercher un mot dans la lague que vous voulez !" />
 
         <Button
             android:id="@+id/rechercher"

@@ -45,7 +45,7 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
         binding.valide.setOnClickListener {
             if(dicoAdapter.isSelected()){
                 /*Dans l'evenement recuperation du dictionnaire selectionné dans le fragment de recherche */
-                dicoAdapter.setSelected(false);
+                dicoAdapter.setSelected(false)
                 searchSharedViewModel.setSelectedDico(dicoAdapter.getSelectedDico())
                 if((dicoAdapter.getSelectedDico()?.nom ?: "Google") == "Google"){
                     val direction = DicoSelectionFragmentDirections.actionDicoSelectionFragmentToLanguagesSelectionFragment()

@@ -38,7 +38,7 @@ class LanguagesDestinationSelectionFragment : Fragment(R.layout.fragment_languag
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLanguagesBinding.bind(view)
-        binding.languagesId.text = "Languages Sources"
+        binding.languagesId.text = "Languages destination"
         binding.recyclerLanguages.layoutManager = LinearLayoutManager(context)
         daoViewModel.loadAllLangues()
         daoViewModel.getAllLanguagesBD().observe(viewLifecycleOwner) {
