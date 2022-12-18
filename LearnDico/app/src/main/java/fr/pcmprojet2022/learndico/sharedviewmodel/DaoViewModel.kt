@@ -89,7 +89,7 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
             //dao.insertMot(Words("Mot", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "www.william.fr" ));
             //dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "www.william.fr" ));
             //dao.insertDictionnaire(Dico("Google", "https://google.com","anglais","francais"))
-            //dao.insertLangues(Langues("Francais"))
+            //dao.insertLangues(Langues("Chinois"))
         }
     }
 
