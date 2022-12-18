@@ -9,15 +9,46 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SortedList
 import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ItemWordBinding
 import fr.pcmprojet2022.learndico.fragment.ListFragmentDirections
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import fr.pcmprojet2022.learndico.sharedviewmodel.SharedViewModel
+import androidx.recyclerview.widget.SortedList.Callback
 
 
 class SearchRecycleAdapter(private val words: MutableList<Words>, private val context: Context) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
+    val callback = object : Callback<Words>() {
+        override fun compare(o1: Words?, o2: Words?): Int =
+            o1!!.wordTranslate.compareTo(o2!!.wordTranslate)
+
+        override fun onInserted(position: Int, count: Int) =
+            notifyItemRangeInserted(position, count)
+
+        override fun onRemoved(position: Int, count: Int) =
+            notifyItemRangeInserted(position, itemCount)
+
+        override fun onMoved(fromPosition: Int, toPosition: Int) =
+            notifyItemMoved(fromPosition, toPosition)
+
+        override fun onChanged(position: Int, count: Int) =
+            notifyItemRangeInserted(position, count)
+
+        override fun areContentsTheSame(oldItem: Words?, newItem: Words?): Boolean =
+            (oldItem == null || newItem == null) || newItem == oldItem
+
+        override fun areItemsTheSame(item1: Words?, item2: Words?): Boolean =
+            item1 === item2
+
+    }
+
+    private val sortedList = SortedList(Words::class.java, callback)
+
+    init {
+        sortedList.addAll(words)
+    }
 
     class VH(val binding: ItemWordBinding) : RecyclerView.ViewHolder(binding.root) {
         lateinit var wordObj: Words
@@ -57,7 +88,7 @@ class SearchRecycleAdapter(private val words: MutableList<Words>, private val co
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.wordObj = words[position]
+        holder.wordObj = sortedList[position]
 
         with(holder.binding){
             word.text = holder.wordObj.wordOrigin
@@ -68,6 +99,6 @@ class SearchRecycleAdapter(private val words: MutableList<Words>, private val co
 
     }
 
-    override fun getItemCount(): Int = words.size
+    override fun getItemCount(): Int = sortedList.size()
 
 }

@@ -1,5 +1,6 @@
 package fr.pcmprojet2022.learndico.dao
 
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -34,5 +35,8 @@ interface RequestDao {
 
     @Query("SELECT * FROM dico WHERE nom=:nomDico AND url=:urlDico")
     fun loadDico(urlDico: String, nomDico: String): List<Dico>
+
+    @Query("SELECT * FROM words WHERE wordOrigin like :s || '%' ")
+    fun loadPartialWords(s: String): List<Words>
 
 }

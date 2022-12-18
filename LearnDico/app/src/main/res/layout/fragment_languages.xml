@@ -1,46 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/suivant_langue_id"
-        android:layout_width="165dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="20dp"
-        android:text="Suivant"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerLanguages" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/languages_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="%Langues%"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColorHint="#272727"
+            android:textSize="24sp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.454"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerLanguages"
-        android:layout_width="409dp"
-        android:layout_height="374dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="116dp"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/languages_id"
-        android:layout_width="80dp"
-        android:layout_height="53dp"
-        android:text="%Langues%"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="63dp"
-        tools:ignore="MissingConstraints" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:contentDescription="@string/addLanguage"
-        android:src="@drawable/sort"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="330dp"
-        tools:layout_editor_absoluteY="628dp" />
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_languages"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:paddingBottom="96dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/suivant_langue_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="Suivant"
+        android:layout_marginBottom="96dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Main content -->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="160dp"
+            android:contentDescription="@string/addLanguage"
+            android:src="@drawable/ic_round_sort_by_alpha_24"
+            app:srcCompat="@drawable/ic_round_sort_by_alpha_24"
+            tools:ignore="MissingConstraints"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</RelativeLayout>

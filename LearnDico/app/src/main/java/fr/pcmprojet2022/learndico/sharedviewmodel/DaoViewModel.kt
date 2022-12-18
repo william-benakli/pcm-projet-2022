@@ -25,6 +25,7 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     private val allLanguagesBd = MutableLiveData<List<Langues>>(emptyList())
     private val allWordsBd = MutableLiveData<List<Words>>(emptyList())
     private val languesSelected: MutableList<Langues> = mutableListOf<Langues>()
+    private val resultPartialWord = MutableLiveData<List<Words>>(emptyList())
 
     fun loadAllDico() {
         thread {
@@ -72,6 +73,10 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
         return allWordsBd;
     }
 
+    fun getResultPartialWord() : MutableLiveData<List<Words>> {
+        return resultPartialWord
+    }
+
     fun loadAllWord() {
         thread {
             allWordsBd.postValue(dao.loadAllWords())
@@ -81,6 +86,16 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     fun insertWord() {
         thread {
             //val wordOrigin: String, val wordTranslate: String, val languageOrigin: String, val languageTranslation: String, val wordSignification: String, val translationSignification: String, val url: String
-            dao.insertMot(Words("William", "uwu", "français", "anglais", "definition", "definition en anglais", "www.william.fr" ));
-        }    }
+            //dao.insertMot(Words("Mot", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "www.william.fr" ));
+            //dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "www.william.fr" ));
+            //dao.insertDictionnaire(Dico("Google", "https://google.com","anglais","francais"))
+            //dao.insertLangues(Langues("Chinois"))
+        }
+    }
+
+    fun loadPartialWords(s: String) {
+        thread {
+            resultPartialWord.postValue(dao.loadPartialWords(s))
+        }
+    }
 }
