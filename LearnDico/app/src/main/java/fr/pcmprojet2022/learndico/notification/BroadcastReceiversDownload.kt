@@ -21,8 +21,10 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
 
     companion object{
         private var cpt = 0
-        private val mapIdToUrl: MutableMap<Long, String> = mutableMapOf()
+        private val mapIdToUrl: MutableMap<Long, WordToUpdate> = mutableMapOf()
     }
+
+    class WordToUpdate(val word : Words, val daoViewModel: DaoViewModel)
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
@@ -39,6 +41,9 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
         if (downloadID in mapIdToUrl.keys){
 
             Toast.makeText(context, "Téléchargement terminé", Toast.LENGTH_LONG).show()
+
+            val wordToUpdate = mapIdToUrl[downloadID]
+            wordToUpdate!!.daoViewModel.addFileName(wordToUpdate.word)
 
         }else Log.wtf("Receiver", "L'application n'est pas concernée par ce téléchargment")
 
@@ -72,12 +77,9 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
 
         val idDownload : Long = downloadManager.enqueue(request)
 
-        mapIdToUrl[idDownload] = fileName
-
         holder.wordObj.fileName = fileName
-        daoViewModel.addFileName(holder.wordObj)
 
-        //TODO: vérifier que le téléchargement à bien terminé avant d'update la bdd
+        mapIdToUrl[idDownload] = WordToUpdate(holder.wordObj, daoViewModel)
 
     }
 
