@@ -32,7 +32,7 @@ class ListFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
-        daoViewModel.insertWord();
+        //daoViewModel.insertWord();
         daoViewModel.loadAllWord()
         daoViewModel.getAllWordBD().observe(viewLifecycleOwner) {
             recyclerView.adapter = SearchRecycleAdapter(it.toMutableList(), requireContext())

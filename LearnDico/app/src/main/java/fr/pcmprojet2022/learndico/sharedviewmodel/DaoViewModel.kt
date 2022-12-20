@@ -86,10 +86,11 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     fun insertWord() {
         thread {
             //val wordOrigin: String, val wordTranslate: String, val languageOrigin: String, val languageTranslation: String, val wordSignification: String, val translationSignification: String, val url: String
-            //dao.insertMot(Words("Mot", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "www.william.fr" ));
-            //dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "www.william.fr" ));
-            //dao.insertDictionnaire(Dico("Google", "https://google.com","anglais","francais"))
-            //dao.insertLangues(Langues("Chinois"))
+            dao.insertMot(Words("Mot", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "https://www.william.fr" ));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr" ));
+            dao.insertDictionnaire(Dico("Google", "https://google.com","anglais","francais"))
+            dao.insertLangues(Langues("Français"))
+            dao.insertLangues(Langues("Chinois"))
         }
     }
 
