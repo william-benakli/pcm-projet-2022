@@ -26,6 +26,7 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     private val allWordsBd = MutableLiveData<List<Words>>(emptyList())
     private val languesSelected: MutableList<Langues> = mutableListOf<Langues>()
     private val resultPartialWord = MutableLiveData<List<Words>>(emptyList())
+    private val updateFileName = MutableLiveData(0)
 
     fun loadAllDico() {
         thread {
@@ -57,12 +58,23 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun addFileName(word : Words){
+        thread {
+            val i = dao.addFileName(word)
+            updateFileName.postValue(i)
+        }
+    }
+
     fun getAllDicoBD() : MutableLiveData<List<Dico>>{
         return allDicoBD;
     }
 
     fun getAllLanguagesBD() : MutableLiveData<List<Langues>>{
         return allLanguagesBd;
+    }
+
+    fun getUpdateFileName() : MutableLiveData<Int>{
+        return updateFileName
     }
 
     fun getLanguesSelected():MutableList<Langues>{
@@ -86,11 +98,12 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     fun insertWord() {
         thread {
             //val wordOrigin: String, val wordTranslate: String, val languageOrigin: String, val languageTranslation: String, val wordSignification: String, val translationSignification: String, val url: String
-            dao.insertMot(Words("Mot", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "https://www.william.fr" ));
-            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr" ));
+            dao.insertMot(Words("Mot", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "https://www.william.fr", null));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr", null ));
             dao.insertDictionnaire(Dico("Google", "https://google.com","anglais","francais"))
             dao.insertLangues(Langues("Français"))
             dao.insertLangues(Langues("Chinois"))
+            dao.insertMot(Words("DAMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.david-andrawos.fr", null ));
         }
     }
 

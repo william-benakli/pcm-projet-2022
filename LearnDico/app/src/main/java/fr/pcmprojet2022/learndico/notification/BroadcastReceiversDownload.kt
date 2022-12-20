@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.SortedList
 import fr.pcmprojet2022.learndico.adapter.SearchRecycleAdapter
 import fr.pcmprojet2022.learndico.data.entites.Words
+import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 
 
 class BroadcastReceiversDownload : BroadcastReceiver() {
@@ -24,26 +25,6 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        /*val bundle = intent!!.extras
-        if (bundle != null) {
-            for (key in bundle.keySet()) {
-                Log.e(TAG, key + " : " + if (bundle[key] != null) bundle[key] else "NULL")
-            }
-        }*/
-        /*if (intent!=null){
-            Log.wtf("Receiver", intent!!.getLongExtra("extra_download_id", -100L).toString())*//*!!.getIntExtra("id_download", 0).toString()*//*
-            val broadcastDownloadID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-            Log.wtf("BRN", broadcastDownloadID.toString())
-            if (broadcastDownloadID == 0L){
-                Log.wtf("Hi", "ok")
-                val rep = if (getStatusDownload(context!!) == DownloadManager.STATUS_SUCCESSFUL){
-                    "Téléchargement terminé"
-                }else{
-                    "Téléchargement en cours"
-                }
-                Toast.makeText(context, rep, Toast.LENGTH_LONG).show()
-            }
-        }*/
 
         val downloadID = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)?:-1
 
@@ -64,26 +45,12 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
 
     }
 
-    /*private fun getStatusDownload(context: Context) : Int {
-        val query = DownloadManager.Query()
-        query.setFilterById(0L)
-        val dlManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val cursor = dlManager.query(query)
-
-        if (cursor.moveToFirst()){
-            val colIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
-            return cursor.getInt(colIndex)
-        }
-
-        return DownloadManager.ERROR_UNKNOWN
-
-    }*/
-
     fun download(
         sortedList: SortedList<Words>,
         context: Context,
         holder: SearchRecycleAdapter.VH,
-        position: Int
+        position: Int,
+        daoViewModel: DaoViewModel
     ) {
 
         val downloadManager =
@@ -91,11 +58,10 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
 
         val uri = Uri.parse(sortedList[position].url)
 
-        //TODO: add extension ?
-        val fileName = "LearnDico.html" //"+(cpt++)+"
+        val fileName = "LearnDico"+(cpt++)+".html"
 
         val request = DownloadManager.Request(uri)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE/*_NOTIFY_COMPLETED*/)
             .setDestinationInExternalFilesDir(
                 context,
                 Environment.DIRECTORY_DOWNLOADS.toString(),
@@ -108,10 +74,10 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
 
         mapIdToUrl[idDownload] = fileName
 
-        holder.wordObj.wordOrigin
-        holder.wordObj.url
+        holder.wordObj.fileName = fileName
+        daoViewModel.addFileName(holder.wordObj)
 
-        //TODO: save in bdd idDownload
+        //TODO: vérifier que le téléchargement à bien terminé avant d'update la bdd
 
     }
 
