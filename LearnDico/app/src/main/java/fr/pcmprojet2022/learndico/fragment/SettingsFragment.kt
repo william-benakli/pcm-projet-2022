@@ -22,9 +22,9 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val shared = this.requireActivity().getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
         val edit = shared.edit()
 
-        binding.filledTextFieldNbrWordMax.editText?.setText(shared.getInt("numNotification", 1).toString())
+        binding.filledTextFieldNbrWordMax.editText?.setText(shared.getInt("numNotification", 0).toString())
 
-        binding.filledTextFavoritBrowser.editText?.setText(shared.getString("urlBrowser", "https://www.google.com"))
+        binding.filledTextFavoritBrowser.editText?.setText(shared.getString("urlBrowser", "https://www.google.com"))//TODO: change ici par google avec les paramètres parsés
 
         val picker =
             MaterialTimePicker.Builder()

@@ -86,37 +86,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /*private val receiver = object : BroadcastReceiver() {
-
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val broadcastDownloadID = intent!!.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
-            if (broadcastDownloadID == id){
-                val rep = if (getStatusDownload() == DownloadManager.STATUS_SUCCESSFUL){
-                    "Téléchargement terminé"
-                }else{
-                    "Téléchargement en cours"
-                }
-                Toast.makeText(context, rep, Toast.LENGTH_LONG).show()
-            }
-        }
-
-        private fun getStatusDownload() : Int {
-            val query = DownloadManager.Query()
-            query.setFilterById(id)
-            val dlManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            val cursor = dlManager.query(query)
-
-            if (cursor.moveToFirst()){
-                val colIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
-                return cursor.getInt(colIndex)
-            }
-
-            return DownloadManager.ERROR_UNKNOWN
-
-        }
-
-    }*/
-
     private fun createJob() {
         val aIntent = Intent(this, ServiceNotification::class.java)
         aIntent.action = "run_notif"

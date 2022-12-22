@@ -50,7 +50,8 @@ class SauvegardeActivity : AppCompatActivity() {
                       descriptionOrgineId.text.toString(),
                       descriptionTradId.text.toString(),
                       url.toString(),
-                    null))
+                    null,
+                      10))
               }
               /* Traitement de l'url des dicos et du nom du dictionnaire */
               var nomDico = url.toString().replace("https://", "").split(".")[0].toLowerCase();

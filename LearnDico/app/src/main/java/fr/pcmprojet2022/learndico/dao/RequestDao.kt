@@ -1,5 +1,6 @@
 package fr.pcmprojet2022.learndico.dao
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
@@ -41,6 +42,12 @@ interface RequestDao {
     fun loadPartialWords(s: String): List<Words>
 
     @Update
-    fun addFileName(word: Words) : Int
+    fun updateWord(word: Words) : Int
+
+    @Query("SELECT * FROM words WHERE remainingUses > 0")
+    fun loadAllWordsAvailableNotif() : LiveData<List<Words>>
+
+    @Query("SELECT * FROM words WHERE url=:key")
+    fun getWordByKey(key: String) : Words?
 
 }
