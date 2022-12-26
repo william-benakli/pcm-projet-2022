@@ -2,7 +2,6 @@ package fr.pcmprojet2022.learndico.fragment.searchonlineword
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -38,8 +37,8 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
 
         daoViewModel.getAllDicoBD().observe(viewLifecycleOwner) {
             val shared = activity?.getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
-            val list = it.toMutableList();
-            var urlBrowser = shared?.getString("urlBrowser", "https://www.google.com/search?q=%mot_origine%").toString();
+            val list = it.toMutableList()
+            var urlBrowser = shared?.getString("urlBrowser", "https://www.google.com/search?q=%mot_origine%").toString()
             urlBrowser += "+%langue_origine%+en+%langue_trad%+dictionnaire"
             urlBrowser.replace("exemple", "%mot_origine%")
             list.add(0, Dico("Moteur de recherche favoris", urlBrowser, "", ""))

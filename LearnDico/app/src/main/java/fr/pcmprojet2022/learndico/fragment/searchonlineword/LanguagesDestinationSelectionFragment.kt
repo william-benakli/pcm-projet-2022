@@ -56,7 +56,7 @@ class LanguagesDestinationSelectionFragment : Fragment(R.layout.fragment_languag
     private fun fabEventClick(view: View) {
         var dialog = AddLanguageAlertDialog(this)
         binding.fab.setOnClickListener{
-            dialog.show(childFragmentManager, "AddLanguageAlertDialog")
+            dialog.show(childFragmentManager, "AddLanguageAlertDialogDest")
         }
     }
 
@@ -67,7 +67,6 @@ class LanguagesDestinationSelectionFragment : Fragment(R.layout.fragment_languag
             binding.recyclerLanguages.adapter = langueAdapter
         }
     }
-
     override fun onPositiveButtonClicked() {
         updateRecycler()
     }

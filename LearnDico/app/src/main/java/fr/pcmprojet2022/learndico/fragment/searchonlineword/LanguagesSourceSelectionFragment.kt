@@ -2,7 +2,6 @@ package fr.pcmprojet2022.learndico.fragment.searchonlineword
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -45,11 +44,11 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) ,
             binding.recyclerLanguages.adapter = langueAdapter
         }
         buttonEventClick()
-        fabEventClick(view)
+        fabEventClick()
     }
 
 
-    private fun fabEventClick(view: View) {
+    private fun fabEventClick() {
         var dialog = AddLanguageAlertDialog(this)
         binding.fab.setOnClickListener{
             dialog.show(childFragmentManager, "AddLanguageAlertDialog")
@@ -66,6 +65,7 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) ,
     override fun onPositiveButtonClicked() {
         updateRecycler()
     }
+
     private fun buttonEventClick() {
         binding.suivantLangueId.setOnClickListener {
             if(langueAdapter.isSelected()){

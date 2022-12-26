@@ -12,10 +12,10 @@ import fr.pcmprojet2022.learndico.data.entites.Words
 @Dao
 interface RequestDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMot(vararg words: Words) : List<Long>
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDictionnaire(vararg dictionnaire: Dico) :  List<Long>
 
     @Query("SELECT * FROM words")
@@ -27,7 +27,7 @@ interface RequestDao {
     @Query("SELECT * FROM langues")
     fun loadAllLanguages():  List<Langues>
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertLangues(vararg langues: Langues) :  List<Long>
 
     @Query("SELECT * FROM langues WHERE languages=:languages_name")
