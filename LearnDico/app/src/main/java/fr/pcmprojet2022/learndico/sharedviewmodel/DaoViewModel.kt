@@ -115,4 +115,13 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
             resultPartialWord.postValue(dao.loadPartialWords(s))
         }
     }
+
+    fun deleteWord(url: String) {
+        thread {
+            var word = dao.getWordByKey(url)
+            if (word != null) {
+                dao.deleteWord(word)
+            }
+        }
+    }
 }

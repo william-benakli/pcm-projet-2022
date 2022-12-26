@@ -1,9 +1,9 @@
 package fr.pcmprojet2022.learndico.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -17,13 +17,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import fr.pcmprojet2022.learndico.BuildConfig
 import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ItemWordBinding
+import fr.pcmprojet2022.learndico.dialog.DialogCallback
 import fr.pcmprojet2022.learndico.fragment.ListFragmentDirections
 import fr.pcmprojet2022.learndico.notification.BroadcastReceiversDownload
 import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 import java.io.File
 
 
-class SearchRecycleAdapter(private val words: MutableList<Words>, private val context: Context, private val daoViewModel : DaoViewModel) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
+class SearchRecycleAdapter(words: MutableList<Words>, private val context: Context, private val daoViewModel : DaoViewModel, dialogCallback: DialogCallback) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
     val callback = object : Callback<Words>() {
         override fun compare(o1: Words?, o2: Words?): Int =
@@ -50,9 +51,8 @@ class SearchRecycleAdapter(private val words: MutableList<Words>, private val co
     }
 
     private val broadcastReceiversDownload = BroadcastReceiversDownload()
-
     private val sortedList = SortedList(Words::class.java, callback)
-
+    private val  dialogCallback: DialogCallback = dialogCallback
     init {
         sortedList.addAll(words)
     }
@@ -61,6 +61,7 @@ class SearchRecycleAdapter(private val words: MutableList<Words>, private val co
         lateinit var wordObj: Words
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val binding = ItemWordBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
@@ -71,26 +72,21 @@ class SearchRecycleAdapter(private val words: MutableList<Words>, private val co
             MaterialAlertDialogBuilder(context)
                 .setTitle("Supprimer le mot")
                 .setMessage("Êtes vous sûr de bien vouloir supprimer ce mot?")
-                .setNegativeButton("Non") { dialog, which ->
-                    //TODO: Respond to negative button press
+                .setNegativeButton("Non") { dialog, _ ->
+                    dialog.cancel()
                 }
-                .setPositiveButton("Oui") { dialog, which ->
-                    //TODO: Respond to positive button press
+                .setPositiveButton("Oui") { dialog, _ ->
+                    daoViewModel.deleteWord(binding.url.text.toString())
+                    dialogCallback.onPositiveButtonClicked()
+                    dialog.cancel()
                 }
                 .show()
         }
 
-        //sharedViewModel = ViewModelProvider(fragment).get(SharedViewModel::class.java);
-
         holder.binding.edit.setOnClickListener {
-            Log.wtf("click","TODO: edit")
-            println(binding.word.text.toString() + " AAAAA");
-            //sharedViewModel.saveMot(binding.word.text.toString() + " AAAAA");
-
             val direction = ListFragmentDirections.actionListFragmentToEditWordFragment()
             parent.findNavController().navigate(direction)
         }
-
         return holder
     }
 
@@ -106,10 +102,12 @@ class SearchRecycleAdapter(private val words: MutableList<Words>, private val co
         }
 
         with(holder.binding){
+            url.text = holder.wordObj.url
             word.text = holder.wordObj.wordOrigin
             translation.text = holder.wordObj.wordTranslate
             translationSignification.text = holder.wordObj.translationSignification
             wordSignification.text = holder.wordObj.wordSignification
+            ballaye.text = ballaye.text.toString().replace("%value%", holder.wordObj.remainingUses.toString())
         }
 
         holder.binding.download.setOnClickListener {
@@ -122,7 +120,6 @@ class SearchRecycleAdapter(private val words: MutableList<Words>, private val co
 
         holder.binding.openDownload.setOnClickListener {
             if (holder.wordObj.fileName!=null){
-                Log.wtf("WORD", holder.wordObj.fileName)
                 val intentI = Intent(Intent.ACTION_VIEW)
                 val file = File(
                     context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),

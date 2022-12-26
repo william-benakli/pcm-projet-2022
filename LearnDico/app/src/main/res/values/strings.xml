@@ -28,4 +28,5 @@
     <string name="bienvenue_msg">Bienvenue sur LearnDico ! Cette application est conçue pour l\'apprentissage de mot dans plusieurs langues. Testez, à vous de jouer !</string>
     <string name="moteurDeRecherche">Moteur de recherche favoris</string>
     <string name="motExistDeja">Ce mot existe deja dans votre dictionnaire actuel !</string>
+    <string name="ballayer">Ce mot a été ballayé %value%/10</string>
 </resources>

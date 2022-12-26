@@ -37,14 +37,7 @@
             android:id="@+id/action_listFragment_to_editWordFragment"
             app:destination="@id/editWordFragment"
             app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_listFragment_to_selectLangFragment"
-            app:destination="@id/selectLangFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/selectLangFragment"
-        android:name="fr.pcmprojet2022.learndico.fragment.SelectLangFragment"
-        android:label="SelectLangFragment" />
     <fragment
         android:id="@+id/dicoSelectionFragment"
         android:name="fr.pcmprojet2022.learndico.fragment.searchonlineword.DicoSelectionFragment"

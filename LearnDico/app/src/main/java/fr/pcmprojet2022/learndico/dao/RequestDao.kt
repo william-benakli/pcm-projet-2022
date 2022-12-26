@@ -2,11 +2,7 @@ package fr.pcmprojet2022.learndico.dao
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.data.entites.Langues
 import fr.pcmprojet2022.learndico.data.entites.Words
@@ -52,5 +48,8 @@ interface RequestDao {
 
     @Query("SELECT * FROM words WHERE url=:key")
     fun getWordByKey(key: String) : Words?
+
+    @Delete
+    fun deleteWord(word: Words)
 
 }
