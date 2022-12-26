@@ -11,25 +11,33 @@ import android.app.PendingIntent
 import fr.pcmprojet2022.learndico.R
 import android.app.NotificationManager
 import androidx.core.app.NotificationCompat
+import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import fr.pcmprojet2022.learndico.MainActivity
+import fr.pcmprojet2022.learndico.data.LearnDicoBD
+import fr.pcmprojet2022.learndico.data.entites.Words
+import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
+import kotlin.concurrent.thread
 
-class ServiceNotification: Service() {
+class ServiceNotification: LifecycleService() {
 
     private val NOTIFICATION_CHANNEL_ID = "10001"
     private val CHANNEL_ID = "channel"
 
     private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE) as NotificationManager }
 
+    private val database by lazy{ LearnDicoBD.getInstanceBD(this);}
+
+    //private val dao = (application as MainActivity).database.getRequestDao()
+
     companion object {
         private var cpt=0
         private var swd=0
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        TODO("Not yet implemented")
-    }
-
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
 
         if (intent!=null){
 
@@ -39,36 +47,57 @@ class ServiceNotification: Service() {
                 "open_notif" -> {
                     val iIntent = Intent(Intent.ACTION_VIEW, intent.data!!)
                     iIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.getIntExtra("idWord", 0)//TODO: rq bdd save swipe
-                    startActivity(iIntent)
+                    startActivity(iIntent)//RÉCUPÉRER URL DE LA PAGE
                     swd--
                     notificationManager.cancel(intent.getIntExtra("notification_id", 0))
                 }
                 "swipe_notif" -> {
-                    intent.getIntExtra("idWord", 0)//TODO: rq bdd save swipe
+
+                    //TODO: RÉCUPÉRER ID
+                    thread {
+                        val wordRq = database.getRequestDao().getWordByKey(intent.getStringExtra("idWord").toString())
+                        if (wordRq!=null){
+                            wordRq.remainingUses-=1
+                            //Log.wtf("UTILISATIONS", wordRq.remainingUses.toString())
+                            database.getRequestDao().updateWord(wordRq)
+                        }
+                    }
                     swd--
                     Toast.makeText(this, "swipe_notif", Toast.LENGTH_LONG).show()
                 }
                 "run_notif" -> {
                     val shared = getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
-                    for (i in 0..shared.getInt("numNotification", 0)-swd){
-                        val intentRq = Intent(this, ServiceNotification::class.java)
-                        intentRq.action="open_notif"
-                        intentRq.data= Uri.parse("https://google.com")//TODO: faire les rq a la bdd
-                        intentRq.flags= Intent.FLAG_ACTIVITY_NEW_TASK
-                        intentRq.putExtra("idWord", 0)
+                    database.getRequestDao().loadAllWordsAvailableNotif().observe(this){
+                        val list = it.toMutableList()
+                        val nbrElement = shared.getInt("numNotification", 0)-swd
+                        val randomElements = list.asSequence().shuffled().take(nbrElement).toList()//list de mots qu'on va envoyer à l'utilisateur
 
-                        val dIntent = Intent(this, ServiceNotification::class.java)
-                        dIntent.action = "swipe_notif"
-                        dIntent.putExtra("idWord", 0)//TODO: get - rq - bdd
+                        /*Log.wtf("Random El", randomElements.toString())
+                        Log.wtf("SIZE", list.toString())
 
-                        createNotification(intentRq, dIntent, "Title")//TODO: get info bdd
+                        Log.wtf("SIZE", randomElements.toString())*/
+
+
+                        for (i in randomElements.indices){
+                            val intentRq = Intent(this, ServiceNotification::class.java)
+                            intentRq.action="open_notif"
+                            intentRq.data= Uri.parse(randomElements[i].url)//RÉCUPÉRER LIEN
+                            intentRq.flags= Intent.FLAG_ACTIVITY_NEW_TASK
+                            intentRq.putExtra("idWord", randomElements[i].url)//récupérer identifiant unique du mot
+                            intentRq.putExtra("notification_id", cpt)
+
+                            val dIntent = Intent(this, ServiceNotification::class.java)
+                            dIntent.action = "swipe_notif"
+                            dIntent.putExtra("idWord", randomElements[i].url)//RÉCUPÉRER identifiant unique du mot
+
+                            createNotification(intentRq, dIntent, randomElements[i].wordOrigin)//RÉCUPÉRER MOT
+                        }
+                        swd=shared.getInt("numNotification", 0)
                     }
-                    swd=shared.getInt("numNotification", 0)
                 }
             }
 
-            Log.wtf("ServiceNotification", intent.action.toString())
+            /*Log.wtf("ServiceNotification", intent.action.toString())*/
 
         }
 

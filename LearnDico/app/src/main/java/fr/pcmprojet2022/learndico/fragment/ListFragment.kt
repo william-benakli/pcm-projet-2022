@@ -17,7 +17,7 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 class ListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
+    private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
     private lateinit var adapter : SearchRecycleAdapter
 
     override fun onCreateView(
@@ -32,10 +32,15 @@ class ListFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
 
-        daoViewModel.insertWord();
+        //daoViewModel.insertWord();
         daoViewModel.loadAllWord()
         daoViewModel.getAllWordBD().observe(viewLifecycleOwner) {
-            recyclerView.adapter = SearchRecycleAdapter(it.toMutableList(), requireContext())
+            recyclerView.adapter = SearchRecycleAdapter(it.toMutableList(), requireContext(), daoViewModel)
+        }
+
+        //update Télécharger - Ouvrir
+        daoViewModel.getUpdateFileName().observe(viewLifecycleOwner) {
+            recyclerView.adapter!!.notifyDataSetChanged()
         }
 
         binding.textField.editText!!.doOnTextChanged { text, start, before, count ->
@@ -55,7 +60,7 @@ class ListFragment : Fragment() {
         daoViewModel.getResultPartialWord().removeObservers(this@ListFragment)
         daoViewModel.loadPartialWords(s)
         daoViewModel.getResultPartialWord().observe(viewLifecycleOwner) {
-            adapter = SearchRecycleAdapter(it.toMutableList(), requireContext())
+            adapter = SearchRecycleAdapter(it.toMutableList(), requireContext(), daoViewModel)
             recyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
         }
