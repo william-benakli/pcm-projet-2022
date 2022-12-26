@@ -1,6 +1,8 @@
 package fr.pcmprojet2022.learndico.fragment.searchonlineword
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -10,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.pcmprojet2022.learndico.R
 import fr.pcmprojet2022.learndico.adapter.DicoRecyclerAdapter
+import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.databinding.FragmentDicoSelectionBinding
 import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 import fr.pcmprojet2022.learndico.sharedviewmodel.SearchOnlineViewModel
@@ -34,7 +37,13 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
         daoViewModel.loadAllDico()
 
         daoViewModel.getAllDicoBD().observe(viewLifecycleOwner) {
-            dicoAdapter = DicoRecyclerAdapter(it.toMutableList())
+            val shared = activity?.getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
+            val list = it.toMutableList();
+            var urlBrowser = shared?.getString("urlBrowser", "https://www.google.com/search?q=%mot_origine%").toString();
+            urlBrowser += "+%langue_origine%+en+%langue_trad%+dictionnaire"
+            urlBrowser.replace("exemple", "%mot_origine%")
+            list.add(0, Dico("Moteur de recherche favoris", urlBrowser, "", ""))
+            dicoAdapter = DicoRecyclerAdapter(list)
             binding.recyclerView.adapter = dicoAdapter
         }
 
@@ -47,7 +56,7 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
                 /*Dans l'evenement recuperation du dictionnaire selectionné dans le fragment de recherche */
                 dicoAdapter.setSelected(false)
                 searchSharedViewModel.setSelectedDico(dicoAdapter.getSelectedDico())
-                if((dicoAdapter.getSelectedDico()?.nom ?: "Google") == "Google"){
+                if((dicoAdapter.getSelectedDico()?.nom ?: "Moteur de recherche favoris") == "Moteur de recherche favoris"){
                     val direction = DicoSelectionFragmentDirections.actionDicoSelectionFragmentToLanguagesSelectionFragment()
                     findNavController().navigate(direction)
                 }else{

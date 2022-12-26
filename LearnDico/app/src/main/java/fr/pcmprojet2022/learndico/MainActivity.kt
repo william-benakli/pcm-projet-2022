@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity() {
         requestPermission()
         createChannel()
         createJob()
-
     }
 
     private fun createJob() {

@@ -24,7 +24,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         binding.filledTextFieldNbrWordMax.editText?.setText(shared.getInt("numNotification", 1).toString())
 
-        binding.filledTextFavoritBrowser.editText?.setText(shared.getString("urlBrowser", "https://www.google.com"))
+        binding.filledTextFavoritBrowser.editText?.setText(shared.getString("urlBrowser", "https://www.google.com/search?q=exemple"))
 
         val picker =
             MaterialTimePicker.Builder()

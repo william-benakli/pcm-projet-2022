@@ -2,7 +2,8 @@ package fr.pcmprojet2022.learndico.adapter
 
 import android.R
 import android.annotation.SuppressLint
-import android.graphics.Color
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,7 +11,6 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import fr.pcmprojet2022.learndico.data.entites.Dico
-import fr.pcmprojet2022.learndico.data.entites.Langues
 import fr.pcmprojet2022.learndico.databinding.ItemDicoBinding
 
 
@@ -85,8 +85,8 @@ class DicoRecyclerAdapter (private val list_dico: MutableList<Dico>) : RecyclerV
 
         with(holder.binding){
             dico.text = holder.dictionnaire.nom
-            srcTr.text = holder.dictionnaire.nom
-            destTr.text = holder.dictionnaire.nom
+            srcTr.text = holder.dictionnaire.src
+            destTr.text = holder.dictionnaire.dst
         }
 
         val typedValue = TypedValue()

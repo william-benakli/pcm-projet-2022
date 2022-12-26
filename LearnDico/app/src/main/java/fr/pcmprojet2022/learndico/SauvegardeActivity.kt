@@ -2,13 +2,16 @@ package fr.pcmprojet2022.learndico
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.text.toLowerCase
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
 import fr.pcmprojet2022.learndico.data.entites.Dico
+import fr.pcmprojet2022.learndico.data.entites.Langues
 import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ActivitySaveBinding
+import kotlin.concurrent.thread
 
 
 class SauvegardeActivity : AppCompatActivity() {
@@ -18,6 +21,9 @@ class SauvegardeActivity : AppCompatActivity() {
      * Elle n'est accessible qu'en partageant un lien
      */
     private val database by lazy{ LearnDicoBD.getInstanceBD(this);}
+    private val dicoExist: MutableList<Dico> = mutableListOf<Dico>()
+    private val wordsExist: MutableList<Words> = mutableListOf<Words>()
+
     private lateinit var binding: ActivitySaveBinding
     private var url: String? = "";
 
@@ -41,38 +47,48 @@ class SauvegardeActivity : AppCompatActivity() {
     }
     private fun ajouterMot() {
           if(argsIsOk()){
-              Toast.makeText(this, R.string.nouveauMotToList, Toast.LENGTH_LONG).show();
-              with(binding){
-                  database.getRequestDao().insertMot(Words(saveWordOrigineId.text.toString(),
-                      wordTradId.text.toString(),
-                      saveLangueSrcId.text.toString(),
-                      saveLangueDstId.text.toString(),
-                      descriptionOrgineId.text.toString(),
-                      descriptionTradId.text.toString(),
-                      url.toString()))
-              }
-              /* Traitement de l'url des dicos et du nom du dictionnaire */
-              var nomDico = url.toString().replace("https://", "").split(".")[0].toLowerCase();
+              if(wordNotExist(url.toString().replace(" ", ""))) {
 
-                  var urlDico = url.toString().toLowerCase().replace(binding.wordTradId.text.toString(), "%mot_trad%")
+                  with(binding) {
+                      var descriptionOrigine = descriptionTradId.text.toString().replace(" ", "");
+                      var descriptionTrad = descriptionOrgineId.text.toString().replace(" ", "");
+
+                      if (descriptionOrigine.isBlank()) descriptionOrigine = "Aucune description"
+                      if (descriptionTrad.isBlank()) descriptionTrad = "Aucune description"
+
+                      var mot = Words(
+                          saveWordOrigineId.text.toString(),
+                          wordTradId.text.toString().replace(" ", ""),
+                          saveLangueSrcId.text.toString().replace(" ", ""),
+                          saveLangueDstId.text.toString().replace(" ", ""),
+                          descriptionOrigine,
+                          descriptionTrad,
+                          url.toString().replace(" ", "")
+                      )
+                      addWord(mot)
+                  }
+                  
+                  /* Traitement de l'url des dicos et du nom du dictionnaire */
+                  val nomDico =
+                      url.toString().replace("https://www.", "").split(".")[0].toLowerCase()
+                          .replaceFirstChar { c -> c.toUpperCase() }
+                  val urlDico = url.toString().toLowerCase()
                       .replace(binding.saveWordOrigineId.text.toString(), "%mot_origine%")
-                      .replace(binding.saveLangueSrcId.text.toString().toLowerCase(), "%langue_origine%")
-                      .replace(binding.saveLangueDstId.text.toString().toLowerCase(), "%langue_trad%")
+                      .replace(binding.wordTradId.text.toString(), "%mot_trad%")
 
-              var listeDico = database.getRequestDao().loadDico(urlDico, nomDico) // si le dico n'existe pas on l'ajoute
-
-              if(listeDico.isEmpty()){
-                  database.getRequestDao().insertDictionnaire(
-                      Dico(nomDico,
-                          urlDico,
-                          binding.saveLangueSrcId.text.toString().toLowerCase(),
-                          binding.saveLangueDstId.text.toString().toLowerCase()))
+                  if (dicoNotExist(urlDico, nomDico)) addDictionnaire(urlDico, nomDico);
+                  
+                  Toast.makeText(this, R.string.nouveauMotToList, Toast.LENGTH_LONG).show();
+                  startActivity(Intent(this, MainActivity::class.java));
+              }else{
+                  Toast.makeText(this, R.string.motExistDeja, Toast.LENGTH_SHORT).show();
               }
-              startActivity(Intent(this, MainActivity::class.java));
           }else{
               Toast.makeText(this, R.string.invalideChamps, Toast.LENGTH_SHORT).show();
           }
     }
+
+
 
     private fun argsIsOk(): Boolean {
         return (binding.saveLangueSrcId.text.toString().isNotEmpty()&&
@@ -81,5 +97,52 @@ class SauvegardeActivity : AppCompatActivity() {
                 binding.saveWordOrigineId.text.toString().isNotEmpty())
     }
 
+    private fun dicoNotExist(urlDico: String, nomDico: String): Boolean{
+        thread{
+            dicoExist.clear()
+            dicoExist.addAll(database.getRequestDao().loadDico(urlDico, nomDico))
+            var el = database.getRequestDao().loadAllDico()
+            for(item in el){
+                Log.wtf("--------------", item.url + " " + item.nom)
+            }
+            Log.wtf("sizethread", dicoExist.size.toString())
+        }
+        Log.wtf("size dicoExist", dicoExist.size.toString())
+        Log.wtf("nomDico", nomDico)
+        Log.wtf("urlDico", urlDico)
 
+        return dicoExist.isEmpty()
+    }
+
+    private fun wordNotExist(url: String): Boolean{
+        thread{
+            wordsExist.clear()
+            wordsExist.addAll(database.getRequestDao().loadWords(url))
+        }
+        Log.wtf("size wordsExist", wordsExist.size.toString())
+        Log.wtf("url", url)
+
+        return wordsExist.isEmpty()
+    }
+
+    private fun addDictionnaire(urlDico: String, nomDico: String){
+        thread {
+            (database.getRequestDao().insertDictionnaire(
+                Dico(
+                    nomDico,
+                    urlDico,
+                    binding.saveLangueSrcId.text.toString().toLowerCase()
+                        .replace(" ", ""),
+                    binding.saveLangueDstId.text.toString().toLowerCase()
+                        .replace(" ", "")
+                )
+            ))
+        }
+    }
+
+    private fun addWord(words: Words) {
+        thread {
+            thread { database.getRequestDao().insertMot(words)}
+        }
+    }
 }

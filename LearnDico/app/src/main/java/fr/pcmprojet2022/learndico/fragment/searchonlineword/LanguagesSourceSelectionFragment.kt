@@ -1,7 +1,6 @@
 package fr.pcmprojet2022.learndico.fragment.searchonlineword
 
 import android.annotation.SuppressLint
-import android.app.SharedElementCallback
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,10 +14,11 @@ import fr.pcmprojet2022.learndico.R
 import fr.pcmprojet2022.learndico.adapter.LanguagesRecyclerAdapter
 import fr.pcmprojet2022.learndico.databinding.FragmentLanguagesBinding
 import fr.pcmprojet2022.learndico.dialog.AddLanguageAlertDialog
+import fr.pcmprojet2022.learndico.dialog.DialogCallback
 import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 import fr.pcmprojet2022.learndico.sharedviewmodel.LanguageViewModel
 
-class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) {
+class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) , DialogCallback {
 
 
     /**
@@ -48,22 +48,23 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) {
         fabEventClick(view)
     }
 
+
     private fun fabEventClick(view: View) {
-        var dialog = AddLanguageAlertDialog()
+        var dialog = AddLanguageAlertDialog(this)
         binding.fab.setOnClickListener{
             dialog.show(childFragmentManager, "AddLanguageAlertDialog")
         }
-        dialog.onDestroy().apply {
-            daoViewModel.loadAllLangues()
-            daoViewModel.getAllLanguagesBD().observe(viewLifecycleOwner) {
-                langueAdapter = LanguagesRecyclerAdapter(it.toMutableList())
-                binding.recyclerLanguages.adapter = langueAdapter
-            }
-        }
-        dialog.onDetach().apply {
-            Log.wtf("sortie","on sort ?")
+    }
 
+    private fun updateRecycler(){
+        daoViewModel.loadAllLangues()
+        daoViewModel.getAllLanguagesBD().observe(viewLifecycleOwner) {
+            langueAdapter = LanguagesRecyclerAdapter(it.toMutableList())
+            binding.recyclerLanguages.adapter = langueAdapter
         }
+    }
+    override fun onPositiveButtonClicked() {
+        updateRecycler()
     }
     private fun buttonEventClick() {
         binding.suivantLangueId.setOnClickListener {
@@ -79,4 +80,6 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) {
             }
         }
     }
+
+
 }

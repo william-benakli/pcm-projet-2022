@@ -33,10 +33,13 @@ interface RequestDao {
     @Query("SELECT * FROM langues WHERE languages=:languages_name")
     fun loadLanguages(languages_name: String): List<Langues>
 
-    @Query("SELECT * FROM dico WHERE nom=:nomDico AND url=:urlDico")
+    @Query("SELECT * FROM dico WHERE nom IN (:nomDico) AND url IN(:urlDico)")
     fun loadDico(urlDico: String, nomDico: String): List<Dico>
 
     @Query("SELECT * FROM words WHERE wordOrigin like :s || '%' ")
     fun loadPartialWords(s: String): List<Words>
+
+    @Query("SELECT * FROM words WHERE url IN (:url)")
+    fun loadWords(url: String): List<Words>
 
 }
