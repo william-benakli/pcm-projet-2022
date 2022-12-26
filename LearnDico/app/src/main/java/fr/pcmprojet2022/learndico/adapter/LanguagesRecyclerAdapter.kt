@@ -49,7 +49,6 @@ class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) 
 
     private var checkedLanguages : Langues? = null;
     private var isSelectedLanguages: Boolean = false;
-    //private var edt_list_langues = (mutableListOf<Langues>())
 
     private val sortedList = SortedList(Langues::class.java, callback)
 

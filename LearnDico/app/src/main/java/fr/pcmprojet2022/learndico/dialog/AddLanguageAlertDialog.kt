@@ -13,10 +13,11 @@ import fr.pcmprojet2022.learndico.data.entites.Langues
 import fr.pcmprojet2022.learndico.databinding.DialogAddLanguageAlertDialogBinding
 import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 
-class AddLanguageAlertDialog() : DialogFragment() {
+class AddLanguageAlertDialog(callback : DialogCallback) : DialogFragment() {
 
     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
-    private lateinit var binding: DialogAddLanguageAlertDialogBinding;
+    private lateinit var binding: DialogAddLanguageAlertDialogBinding
+    private val callbackData = callback
 
     /**
      * Cette classe est un dialogFragment elle permet l'ajout d'une nouvelle langue dans
@@ -24,11 +25,12 @@ class AddLanguageAlertDialog() : DialogFragment() {
      *
      */
 
-    @SuppressLint("InflateParams", "UseGetLayoutInflater")
+    @SuppressLint("InflateParams", "UseGetLayoutInflater", "unregisterReceivedCallback")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            val inflater = requireActivity().layoutInflater;
+            val inflater = requireActivity().layoutInflater
             binding = DialogAddLanguageAlertDialogBinding.inflate(LayoutInflater.from(context))
 
             builder.setView(inflater.inflate(R.layout.dialog_add_language_alert_dialog, null))
@@ -40,6 +42,7 @@ class AddLanguageAlertDialog() : DialogFragment() {
                         val listLanguagesExist = daoViewModel.getLanguesSelected()
                         if (listLanguagesExist.size == 0) {
                             daoViewModel.insertLangues(Langues(binding.langueEditTextDialog.text.toString()))
+                            callbackData.onPositiveButtonClicked()
                             Toast.makeText(
                                 context,
                                 R.string.nouvelleLangeuAjoute,
@@ -50,8 +53,8 @@ class AddLanguageAlertDialog() : DialogFragment() {
                             R.string.langueExisteDeja,
                             Toast.LENGTH_SHORT
                         ).show()
-                        dialog.cancel()
                     }
+                    dialog.dismiss()
                 }
                 .setNegativeButton(R.string.annuler) { dialog, id -> dialog.cancel() }
             builder.setView(binding.root)

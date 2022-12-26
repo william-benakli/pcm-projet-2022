@@ -22,13 +22,16 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
      *   fragment précédent.
      */
 
-    lateinit var binding: FragmentWordSelectionBinding
+    private lateinit var binding: FragmentWordSelectionBinding
     private val searchSharedViewModel: SearchOnlineViewModel by activityViewModels()
     private val languagesSharedViewModel: LanguageViewModel by activityViewModels()
+    private var serach_word: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentWordSelectionBinding.bind(view)
+        loadValueFromBundle(savedInstanceState)
+        laodBundleValue()
         val dicoUse = searchSharedViewModel.getSelectedDico()
         loadDictionnaireToTextInput(dicoUse)
         buttonEventClick(dicoUse)
@@ -41,7 +44,7 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
 
     private fun loadDictionnaireToTextInput(dicoUse: Dico?) {
         if(dicoUse != null) {
-            if (dicoUse.nom == "Google") {
+            if (dicoUse.nom == "Moteur de recherche favoris") {
                 with(binding) {
                     val srclangue = languagesSharedViewModel.getSelectedLangueSrc()
                     val dstlangue = languagesSharedViewModel.getSelectedLangueDest()
@@ -74,23 +77,35 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
     private fun buttonEventClick(dicoUse: Dico?) {
         binding.recherche.setOnClickListener {
             if(!(binding.mot.text?.isEmpty())!!){
-                activity?.let{
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(
-                        //TODO: ca sert a rien de faire du parsing
-                        (dicoUse?.url.toString().replace("%mot_origine%", binding.mot.text.toString())
-                            .replace("%langue_origine", binding.langueSrc.text.toString())
-                            .replace("%langue_trad%", binding.langueDest.text.toString()))
-                    )
-                    Log.wtf("Select frag", intent.data.toString())
-                    it.startActivity(intent)
-                }
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        val urlDico = dicoUse?.url
+                            ?.replace("%mot_origine%", binding.mot.text.toString().replace(" ", "+"))
+                            ?.replace("%langue_origine%", binding.langueSrc.text.toString())
+                            ?.replace("%langue_trad%",binding.langueDest.text.toString())
+                            ?.replace(" ", "")
+                            intent.data = Uri.parse(urlDico)
+                            intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK
+                            Log.wtf("test", urlDico)
+                            startActivity(intent)
             }else{
-                var toast = Toast.makeText(context, "Les champs sont invalides, ressayez !", Toast.LENGTH_SHORT)
-                toast.show()
+                Toast.makeText(context, "Les champs sont invalides, ressayez !", Toast.LENGTH_SHORT).show()
             }
 
         }
+    }
+
+    private fun loadValueFromBundle(savedInstanceState: Bundle?) {
+        serach_word = savedInstanceState?.getString("serach_word").toString()
+    }
+    private fun laodBundleValue() {
+        with(binding) {
+            mot.setText(serach_word)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("serach_word", serach_word)
     }
 
 }

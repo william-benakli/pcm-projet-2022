@@ -4,11 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.text.toLowerCase
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ActivitySaveBinding
+import kotlin.concurrent.thread
 
 
 class SauvegardeActivity : AppCompatActivity() {
@@ -17,18 +17,27 @@ class SauvegardeActivity : AppCompatActivity() {
      * Class Sauvegardeactivity est l'activité ou l'utilisateur peut ajouter un mot
      * Elle n'est accessible qu'en partageant un lien
      */
-    private val database by lazy{ LearnDicoBD.getInstanceBD(this);}
+    private val database by lazy{ LearnDicoBD.getInstanceBD(this)}
+
     private lateinit var binding: ActivitySaveBinding
-    private var url: String? = "";
+    private var url: String? = ""
+    private var langueSrc: String = ""
+    private var langueDest: String = ""
+    private var motSrc: String = ""
+    private var motDest: String = ""
+    private var descSrc: String = ""
+    private var descDst: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySaveBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if(intent.action.equals( "android.intent.action.SEND" ) ){
+        loadValueFromBundle(savedInstanceState)
+        laodBundleValue()
+        if(intent.action.equals( "android.intent.action.SEND")){
             url = intent.extras?.getString( "android.intent.extra.TEXT" )
         }else{
-            Toast.makeText(this, R.string.erreur_survenue, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.erreur_survenue, Toast.LENGTH_LONG).show()
             finish()
         }
         buttonEventClick()
@@ -41,38 +50,38 @@ class SauvegardeActivity : AppCompatActivity() {
     }
     private fun ajouterMot() {
           if(argsIsOk()){
-              Toast.makeText(this, R.string.nouveauMotToList, Toast.LENGTH_LONG).show();
-              with(binding){
-                  database.getRequestDao().insertMot(Words(saveWordOrigineId.text.toString(),
-                      wordTradId.text.toString(),
-                      saveLangueSrcId.text.toString(),
-                      saveLangueDstId.text.toString(),
-                      descriptionOrgineId.text.toString(),
-                      descriptionTradId.text.toString(),
-                      url.toString(),
-                    null,
-                      10))
-              }
-              /* Traitement de l'url des dicos et du nom du dictionnaire */
-              var nomDico = url.toString().replace("https://", "").split(".")[0].toLowerCase();
 
-                  var urlDico = url.toString().toLowerCase().replace(binding.wordTradId.text.toString(), "%mot_trad%")
+              with(binding) {
+                  var descriptionOrigine = descriptionTradId.text.toString().replace(" ", "")
+                  var descriptionTrad = binding.descriptionOrgineId.text.toString().replace(" ", "")
+
+                  if (descriptionOrigine.isBlank()) descriptionOrigine = "Aucune description"
+                  if (descriptionTrad.isBlank()) descriptionTrad = "Aucune description"
+
+                  val mot = Words(
+                      binding.saveWordOrigineId.text.toString(),
+                      binding.wordTradId.text.toString().replace(" ", ""),
+                      binding.saveLangueSrcId.text.toString().replace(" ", ""),
+                      binding.saveLangueDstId.text.toString().replace(" ", ""),
+                      descriptionOrigine,
+                      descriptionTrad,
+                      url.toString().replace(" ", "")
+                  )
+                  addWord(mot)
+                  /* Traitement de l'url des dicos et du nom du dictionnaire */
+                  val nomDico =
+                      url.toString().lowercase().replace("https://www.", "").split(".")[0]
+                          .replaceFirstChar { c -> c.uppercase() }
+                  val urlDico = url.toString().lowercase()
                       .replace(binding.saveWordOrigineId.text.toString(), "%mot_origine%")
-                      .replace(binding.saveLangueSrcId.text.toString().toLowerCase(), "%langue_origine%")
-                      .replace(binding.saveLangueDstId.text.toString().toLowerCase(), "%langue_trad%")
-
-              var listeDico = database.getRequestDao().loadDico(urlDico, nomDico) // si le dico n'existe pas on l'ajoute
-
-              if(listeDico.isEmpty()){
-                  database.getRequestDao().insertDictionnaire(
-                      Dico(nomDico,
-                          urlDico,
-                          binding.saveLangueSrcId.text.toString().toLowerCase(),
-                          binding.saveLangueDstId.text.toString().toLowerCase()))
+                      .replace(binding.wordTradId.text.toString(), "%mot_trad%")
+                  addDictionnaire(urlDico, nomDico)
               }
-              startActivity(Intent(this, MainActivity::class.java));
+              Toast.makeText(this, R.string.nouveauMotToList, Toast.LENGTH_LONG).show()
+              startActivity(Intent(this, MainActivity::class.java))
+              finish()
           }else{
-              Toast.makeText(this, R.string.invalideChamps, Toast.LENGTH_SHORT).show();
+              Toast.makeText(this, R.string.invalideChamps, Toast.LENGTH_SHORT).show()
           }
     }
 
@@ -83,5 +92,53 @@ class SauvegardeActivity : AppCompatActivity() {
                 binding.saveWordOrigineId.text.toString().isNotEmpty())
     }
 
+    private fun addDictionnaire(urlDico: String, nomDico: String){
+        thread {
+            (database.getRequestDao().insertDictionnaire(
+                Dico(
+                    nomDico,
+                    urlDico,
+                    binding.saveLangueSrcId.text.toString().lowercase()
+                        .replace(" ", ""),
+                    binding.saveLangueDstId.text.toString().lowercase()
+                        .replace(" ", "")
+                )
+            ))
+        }
+    }
 
+    private fun addWord(words: Words) {
+        thread {
+            thread { database.getRequestDao().insertMot(words)}
+        }
+    }
+
+
+    private fun loadValueFromBundle(savedInstanceState: Bundle?){
+        langueSrc = savedInstanceState?.getString("langueSrc").toString()
+        langueDest = savedInstanceState?.getString("langueDest").toString()
+        motSrc = savedInstanceState?.getString("MotSrc").toString()
+        motDest = savedInstanceState?.getString("MotDest").toString()
+        descSrc = savedInstanceState?.getString("DescSrc").toString()
+        descDst = savedInstanceState?.getString("DescDest").toString()
+    }
+    private fun laodBundleValue() {
+        with(binding) {
+            saveLangueSrcId.setText(langueSrc)
+            saveLangueDstId.setText(langueDest)
+            saveWordOrigineId.setText(motSrc)
+            wordTradId.setText(motDest)
+            descriptionOrgineId.setText(descSrc)
+            descriptionTradId.setText(descDst)
+        }
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("langueSrc", langueSrc)
+        outState.putString("langueDest", langueDest)
+        outState.putString("MotSrc", motSrc)
+        outState.putString("MotDest", motDest)
+        outState.putString("DescSrc", descSrc)
+        outState.putString("DescDest", descDst)
+    }
 }
