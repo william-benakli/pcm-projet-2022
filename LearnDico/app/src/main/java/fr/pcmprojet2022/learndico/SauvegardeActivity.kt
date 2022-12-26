@@ -50,8 +50,8 @@ class SauvegardeActivity : AppCompatActivity() {
     }
     private fun ajouterMot() {
           if(argsIsOk()){
-              with(binding) {
 
+              with(binding) {
                   var descriptionOrigine = descriptionTradId.text.toString().replace(" ", "")
                   var descriptionTrad = binding.descriptionOrgineId.text.toString().replace(" ", "")
 

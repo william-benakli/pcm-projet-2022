@@ -20,6 +20,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.navigation.fragment.findNavController
 import android.Manifest.permission.POST_NOTIFICATIONS
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
 import androidx.activity.result.contract.ActivityResultContracts
 import android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION
 import fr.pcmprojet2022.learndico.data.entites.Dico
@@ -27,6 +29,7 @@ import fr.pcmprojet2022.learndico.databinding.ActivityMainBinding
 import fr.pcmprojet2022.learndico.notification.ServiceNotification
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
+import fr.pcmprojet2022.learndico.notification.BroadcastReceiversDownload
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,6 +44,8 @@ class MainActivity : AppCompatActivity() {
                 val value = it.data?.getStringExtra("input")
             }
         }
+
+    val broadcastReceiversDownload = BroadcastReceiversDownload()
 
     private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE) as NotificationManager }
 
@@ -67,9 +72,18 @@ class MainActivity : AppCompatActivity() {
             return@setOnItemSelectedListener true
         }
 
+        registerReceiver(
+            BroadcastReceiversDownload(),
+            IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+        )
+
+
         requestPermission()
         createChannel()
         createJob()
+
+
+
     }
 
     private fun createJob() {

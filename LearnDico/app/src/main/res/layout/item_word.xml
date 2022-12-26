@@ -91,6 +91,20 @@
             style="?attr/borderlessButtonStyle"
             android:id="@+id/edit"/>
 
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Télécharger"
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/download"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ouvrir"
+            style="?attr/borderlessButtonStyle"
+            android:id="@+id/openDownload"/>
+
     </LinearLayout>
 
     </LinearLayout>

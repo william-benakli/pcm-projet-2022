@@ -1,24 +1,29 @@
 package fr.pcmprojet2022.learndico.adapter
 
-import android.util.Log
-import android.view.ViewGroup
 import android.content.Context
+import android.content.Intent
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
+import androidx.recyclerview.widget.SortedList.Callback
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import fr.pcmprojet2022.learndico.BuildConfig
 import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ItemWordBinding
 import fr.pcmprojet2022.learndico.fragment.ListFragmentDirections
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import fr.pcmprojet2022.learndico.sharedviewmodel.SharedViewModel
-import androidx.recyclerview.widget.SortedList.Callback
+import fr.pcmprojet2022.learndico.notification.BroadcastReceiversDownload
+import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
+import java.io.File
 
 
-class SearchRecycleAdapter(private val words: MutableList<Words>, private val context: Context) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
+class SearchRecycleAdapter(private val words: MutableList<Words>, private val context: Context, private val daoViewModel : DaoViewModel) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
     val callback = object : Callback<Words>() {
         override fun compare(o1: Words?, o2: Words?): Int =
@@ -43,6 +48,8 @@ class SearchRecycleAdapter(private val words: MutableList<Words>, private val co
             item1 === item2
 
     }
+
+    private val broadcastReceiversDownload = BroadcastReceiversDownload()
 
     private val sortedList = SortedList(Words::class.java, callback)
 
@@ -90,11 +97,47 @@ class SearchRecycleAdapter(private val words: MutableList<Words>, private val co
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.wordObj = sortedList[position]
 
+        if (holder.wordObj.fileName==null) {
+            holder.binding.openDownload.isVisible=false
+            holder.binding.download.isVisible=true
+        }else {
+            holder.binding.download.isVisible=false
+            holder.binding.openDownload.isVisible=true
+        }
+
         with(holder.binding){
             word.text = holder.wordObj.wordOrigin
             translation.text = holder.wordObj.wordTranslate
             translationSignification.text = holder.wordObj.translationSignification
             wordSignification.text = holder.wordObj.wordSignification
+        }
+
+        holder.binding.download.setOnClickListener {
+            if (holder.wordObj.fileName==null){
+                broadcastReceiversDownload.download(sortedList, context, holder, position, daoViewModel)
+            }else{
+                Toast.makeText(context, "Vous avez déjà téléchargé ce mot.", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        holder.binding.openDownload.setOnClickListener {
+            if (holder.wordObj.fileName!=null){
+                Log.wtf("WORD", holder.wordObj.fileName)
+                val intentI = Intent(Intent.ACTION_VIEW)
+                val file = File(
+                    context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
+                    holder.wordObj.fileName.toString()/*"LearnDico.html"*/
+                )
+                intentI.data = FileProvider.getUriForFile(
+                    context,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    file
+                )
+                intentI.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                context.startActivity(intentI)
+            }else {
+                Toast.makeText(context, "Vous n'avez pas encore téléchargé ce mot.", Toast.LENGTH_LONG).show()
+            }
         }
 
     }
