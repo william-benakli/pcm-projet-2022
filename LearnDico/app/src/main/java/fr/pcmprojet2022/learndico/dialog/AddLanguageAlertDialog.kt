@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -12,14 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import fr.pcmprojet2022.learndico.R
 import fr.pcmprojet2022.learndico.data.entites.Langues
 import fr.pcmprojet2022.learndico.databinding.DialogAddLanguageAlertDialogBinding
-import fr.pcmprojet2022.learndico.fragment.searchonlineword.LanguagesSourceSelectionFragment
 import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 
 class AddLanguageAlertDialog(callback : DialogCallback) : DialogFragment() {
 
     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
-    private lateinit var binding: DialogAddLanguageAlertDialogBinding;
-    private val callbackData = callback;
+    private lateinit var binding: DialogAddLanguageAlertDialogBinding
+    private val callbackData = callback
 
     /**
      * Cette classe est un dialogFragment elle permet l'ajout d'une nouvelle langue dans
@@ -32,7 +30,7 @@ class AddLanguageAlertDialog(callback : DialogCallback) : DialogFragment() {
 
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            val inflater = requireActivity().layoutInflater;
+            val inflater = requireActivity().layoutInflater
             binding = DialogAddLanguageAlertDialogBinding.inflate(LayoutInflater.from(context))
 
             builder.setView(inflater.inflate(R.layout.dialog_add_language_alert_dialog, null))
@@ -41,7 +39,6 @@ class AddLanguageAlertDialog(callback : DialogCallback) : DialogFragment() {
                         Toast.makeText(context, R.string.incorrectChamps, Toast.LENGTH_SHORT).show()
                     } else {
                         daoViewModel.loadLanguages(binding.langueEditTextDialog.text.toString())
-                        Log.wtf("taille", daoViewModel.getLanguesSelected().size.toString() + " avec "  +  (binding.langueEditTextDialog.text.toString()))
                         val listLanguagesExist = daoViewModel.getLanguesSelected()
                         if (listLanguagesExist.size == 0) {
                             daoViewModel.insertLangues(Langues(binding.langueEditTextDialog.text.toString()))

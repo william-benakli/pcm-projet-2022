@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import fr.pcmprojet2022.learndico.MainActivity
 import fr.pcmprojet2022.learndico.R
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.databinding.FragmentWordSelectionBinding
@@ -23,13 +22,16 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
      *   fragment précédent.
      */
 
-    lateinit var binding: FragmentWordSelectionBinding
+    private lateinit var binding: FragmentWordSelectionBinding
     private val searchSharedViewModel: SearchOnlineViewModel by activityViewModels()
     private val languagesSharedViewModel: LanguageViewModel by activityViewModels()
+    private var serach_word: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentWordSelectionBinding.bind(view)
+        loadValueFromBundle(savedInstanceState)
+        laodBundleValue()
         val dicoUse = searchSharedViewModel.getSelectedDico()
         loadDictionnaireToTextInput(dicoUse)
         buttonEventClick(dicoUse)
@@ -80,7 +82,7 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
                             ?.replace("%mot_origine%", binding.mot.text.toString().replace(" ", "+"))
                             ?.replace("%langue_origine%", binding.langueSrc.text.toString())
                             ?.replace("%langue_trad%",binding.langueDest.text.toString())
-                            ?.replace(" ", "");
+                            ?.replace(" ", "")
                             intent.data = Uri.parse(urlDico)
                             intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK
                             Log.wtf("test", urlDico)
@@ -90,6 +92,20 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
             }
 
         }
+    }
+
+    private fun loadValueFromBundle(savedInstanceState: Bundle?) {
+        serach_word = savedInstanceState?.getString("serach_word").toString()
+    }
+    private fun laodBundleValue() {
+        with(binding) {
+            mot.setText(serach_word)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("serach_word", serach_word)
     }
 
 }

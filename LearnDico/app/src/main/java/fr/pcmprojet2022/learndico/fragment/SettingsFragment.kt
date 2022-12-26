@@ -12,13 +12,15 @@ import fr.pcmprojet2022.learndico.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
-    lateinit var binding: FragmentSettingsBinding
+    private lateinit var binding: FragmentSettingsBinding
+    private var moteur_recherche : String = ""
+    private var mot_by_day : Int = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding= FragmentSettingsBinding.bind(view)
-
+        loadValueFromBundle(savedInstanceState)
+        laodBundleValue()
         val shared = this.requireActivity().getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
         val edit = shared.edit()
 
@@ -71,6 +73,24 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding.buttonClearDb.setOnClickListener {
             //TODO: implement
         }
+
+    }
+
+    private fun loadValueFromBundle(savedInstanceState: Bundle?) {
+        moteur_recherche = savedInstanceState?.getString("moteur_recherche").toString()
+        mot_by_day = savedInstanceState?.getInt("mot_by_day") ?: 6
+    }
+    private fun laodBundleValue() {
+        with(binding) {
+            filledTextFavoritBrowser.editText?.setText(moteur_recherche)
+            filledTextFieldNbrWordMax.editText?.setText(mot_by_day)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("moteur_recherche", moteur_recherche)
+        outState.putInt("mot_by_day", mot_by_day)
 
     }
 
