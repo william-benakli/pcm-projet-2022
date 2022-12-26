@@ -2,16 +2,13 @@ package fr.pcmprojet2022.learndico.fragment.searchonlineword
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import fr.pcmprojet2022.learndico.R
 import fr.pcmprojet2022.learndico.adapter.LanguagesRecyclerAdapter
 import fr.pcmprojet2022.learndico.databinding.FragmentLanguagesBinding
@@ -20,7 +17,6 @@ import fr.pcmprojet2022.learndico.dialog.DialogCallback
 import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 import fr.pcmprojet2022.learndico.sharedviewmodel.LanguageViewModel
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton as FAB
 
 class LanguagesDestinationSelectionFragment : Fragment(R.layout.fragment_languages) ,
     DialogCallback {
@@ -50,11 +46,11 @@ class LanguagesDestinationSelectionFragment : Fragment(R.layout.fragment_languag
             binding.recyclerLanguages.adapter = langueAdapter
         }
         buttonEventClick()
-        fabEventClick(view)
+        fabEventClick()
     }
 
-    private fun fabEventClick(view: View) {
-        var dialog = AddLanguageAlertDialog(this)
+    private fun fabEventClick() {
+        val dialog = AddLanguageAlertDialog(this)
         binding.fab.setOnClickListener{
             dialog.show(childFragmentManager, "AddLanguageAlertDialogDest")
         }
@@ -70,7 +66,10 @@ class LanguagesDestinationSelectionFragment : Fragment(R.layout.fragment_languag
     override fun onPositiveButtonClicked() {
         updateRecycler()
     }
-
+    override fun onResume() {
+        super.onResume()
+        updateRecycler()
+    }
     private fun buttonEventClick() {
         binding.suivantLangueId.setOnClickListener {
             if (langueAdapter.isSelected()) {

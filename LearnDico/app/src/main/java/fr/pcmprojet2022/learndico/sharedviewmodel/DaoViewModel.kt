@@ -41,12 +41,6 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun insertDico(){
-        thread {
-            dao.insertDictionnaire(Dico("Google", "https://www.google.fr", "", ""));
-        }
-    }
-
     fun insertLangues(langues: Langues) {
         thread {
             dao.insertLangues(langues)
@@ -67,11 +61,11 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     }
 
     fun getAllDicoBD() : MutableLiveData<List<Dico>>{
-        return allDicoBD;
+        return allDicoBD
     }
 
     fun getAllLanguagesBD() : MutableLiveData<List<Langues>>{
-        return allLanguagesBd;
+        return allLanguagesBd
     }
 
     fun getUpdateFileName() : MutableLiveData<Int>{
@@ -79,12 +73,13 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     }
 
     fun getLanguesSelected():MutableList<Langues>{
-        return languesSelected;
+        return languesSelected
     }
 
-    fun getAllWordBD() : MutableLiveData<List<Words>>{
-        return allWordsBd;
+    fun getAllWordBD() : MutableLiveData<List<Words>> {
+        return allWordsBd
     }
+
 
     fun getResultPartialWord() : MutableLiveData<List<Words>> {
         return resultPartialWord
@@ -98,17 +93,24 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun insertWord() {
+   /* fun insertWord() {
         thread {
             //val wordOrigin: String, val wordTranslate: String, val languageOrigin: String, val languageTranslation: String, val wordSignification: String, val translationSignification: String, val url: String
-            dao.insertMot(Words("Mot", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "https://www.william.fr", null, 10));
+            dao.insertMot(Words("Mot", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "https://www.willisesfsefsefam.fr", null, 10));
             dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr", null ,10));
-            dao.insertDictionnaire(Dico("Google", "https://google.com","anglais","francais"))
-            dao.insertLangues(Langues("Français"))
-            dao.insertLangues(Langues("Chinois"))
-            dao.insertMot(Words("DAMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.david-andrawos.fr", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr5", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr2", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr01", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f1r", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f0r", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f0r", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.williaghm.fr", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.wilsglrgiam.fr", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.wisglliam.fr", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.wsgsgilliam.fr", null ,10));
+            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://wwwgssgsg.william.fr", null ,10));
         }
-    }
+    }*/
 
     fun loadPartialWords(s: String) {
         thread {
@@ -118,10 +120,17 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
 
     fun deleteWord(url: String) {
         thread {
-            var word = dao.getWordByKey(url)
+            val word = dao.getWordByKey(url)
             if (word != null) {
                 dao.deleteWord(word)
             }
         }
     }
+
+    fun updateWord(word: Words) {
+        thread {
+             dao.updateWord(word)
+        }
+    }
+
 }

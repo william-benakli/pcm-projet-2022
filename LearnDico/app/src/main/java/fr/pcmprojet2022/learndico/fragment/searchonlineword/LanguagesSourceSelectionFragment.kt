@@ -49,7 +49,7 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) ,
 
 
     private fun fabEventClick() {
-        var dialog = AddLanguageAlertDialog(this)
+        val dialog = AddLanguageAlertDialog(this)
         binding.fab.setOnClickListener{
             dialog.show(childFragmentManager, "AddLanguageAlertDialog")
         }
@@ -66,12 +66,17 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) ,
         updateRecycler()
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateRecycler()
+    }
+
     private fun buttonEventClick() {
         binding.suivantLangueId.setOnClickListener {
             if(langueAdapter.isSelected()){
                 /*Dans l'evenement recuperation du dictionnaire selectionné dans le fragment de recherche */
-                langueAdapter.setSelected(false);
-                searchSharedViewModel.setSelectedLangueSrc(langueAdapter.getSelectedLanguages());
+                langueAdapter.setSelected(false)
+                searchSharedViewModel.setSelectedLangueSrc(langueAdapter.getSelectedLanguages())
                 val direction = LanguagesSourceSelectionFragmentDirections.actionLanguagesSelectionFragmentToLanguagesDestinationSelectionFragment()
                 findNavController().navigate(direction)
             }else{

@@ -21,10 +21,11 @@ import fr.pcmprojet2022.learndico.dialog.DialogCallback
 import fr.pcmprojet2022.learndico.fragment.ListFragmentDirections
 import fr.pcmprojet2022.learndico.notification.BroadcastReceiversDownload
 import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
+import fr.pcmprojet2022.learndico.sharedviewmodel.ModifiedWordViewModel
 import java.io.File
 
 
-class SearchRecycleAdapter(words: MutableList<Words>, private val context: Context, private val daoViewModel : DaoViewModel, dialogCallback: DialogCallback) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
+class SearchRecycleAdapter(words: MutableList<Words>, private val context: Context, private val daoViewModel : DaoViewModel, dialogCallback: DialogCallback, modifiedWordViewModel: ModifiedWordViewModel) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
     val callback = object : Callback<Words>() {
         override fun compare(o1: Words?, o2: Words?): Int =
@@ -53,6 +54,8 @@ class SearchRecycleAdapter(words: MutableList<Words>, private val context: Conte
     private val broadcastReceiversDownload = BroadcastReceiversDownload()
     private val sortedList = SortedList(Words::class.java, callback)
     private val  dialogCallback: DialogCallback = dialogCallback
+    private val  modifiedWordViewModel: ModifiedWordViewModel = modifiedWordViewModel
+
     init {
         sortedList.addAll(words)
     }
@@ -84,6 +87,7 @@ class SearchRecycleAdapter(words: MutableList<Words>, private val context: Conte
         }
 
         holder.binding.edit.setOnClickListener {
+            modifiedWordViewModel.setWord(holder.wordObj)
             val direction = ListFragmentDirections.actionListFragmentToEditWordFragment()
             parent.findNavController().navigate(direction)
         }
