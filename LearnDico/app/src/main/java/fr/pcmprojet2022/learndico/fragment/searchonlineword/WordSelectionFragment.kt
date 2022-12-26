@@ -73,7 +73,6 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
        Cette fonction gere les événements liés au clique du boutton de recherche.
      */
 
-
     private fun buttonEventClick(dicoUse: Dico?) {
         binding.recherche.setOnClickListener {
             if(!(binding.mot.text?.isEmpty())!!){
@@ -85,7 +84,6 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
                             ?.replace(" ", "")
                             intent.data = Uri.parse(urlDico)
                             intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK
-                            Log.wtf("test", urlDico)
                             startActivity(intent)
             }else{
                 Toast.makeText(context, "Les champs sont invalides, ressayez !", Toast.LENGTH_SHORT).show()
@@ -95,7 +93,7 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
     }
 
     private fun loadValueFromBundle(savedInstanceState: Bundle?) {
-        serach_word = savedInstanceState?.getString("serach_word").toString()
+        serach_word = savedInstanceState?.getString("serach_word")?: ""
     }
     private fun laodBundleValue() {
         with(binding) {

@@ -54,21 +54,29 @@ class ServiceNotification: LifecycleService() {
                 "swipe_notif" -> {
 
                     //TODO: RÉCUPÉRER ID
+                    var swip = 0;
                     thread {
                         val wordRq = database.getRequestDao().getWordByKey(intent.getStringExtra("idWord").toString())
+                        if (wordRq != null) {
+                            Log.wtf("test", wordRq.remainingUses.toString())
+                        };
                         if (wordRq!=null){
                             wordRq.remainingUses-=1
-                            //Log.wtf("UTILISATIONS", wordRq.remainingUses.toString())
                             database.getRequestDao().updateWord(wordRq)
+                            swip = wordRq.remainingUses
                         }
                     }
                     swd--
-                    Toast.makeText(this, "swipe_notif", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Vous avez validé ce mot $swip/10", Toast.LENGTH_LONG).show()
                 }
                 "run_notif" -> {
                     val shared = getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
                     database.getRequestDao().loadAllWordsAvailableNotif().observe(this){
                         val list = it.toMutableList()
+                        for(item in list){
+                            Log.wtf("element " , item.wordOrigin)
+                            Log.wtf("element " , item.remainingUses.toString())
+                        }
                         val nbrElement = shared.getInt("numNotification", 0)-swd
                         val randomElements = list.asSequence().shuffled().take(nbrElement).toList()//list de mots qu'on va envoyer à l'utilisateur
 
@@ -76,7 +84,6 @@ class ServiceNotification: LifecycleService() {
                         Log.wtf("SIZE", list.toString())
 
                         Log.wtf("SIZE", randomElements.toString())*/
-
 
                         for (i in randomElements.indices){
                             val intentRq = Intent(this, ServiceNotification::class.java)

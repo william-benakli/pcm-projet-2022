@@ -20,11 +20,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import androidx.navigation.fragment.findNavController
 import android.Manifest.permission.POST_NOTIFICATIONS
-import android.content.BroadcastReceiver
 import android.content.IntentFilter
 import androidx.activity.result.contract.ActivityResultContracts
 import android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION
-import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.databinding.ActivityMainBinding
 import fr.pcmprojet2022.learndico.notification.ServiceNotification
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -77,12 +75,9 @@ class MainActivity : AppCompatActivity() {
             IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
         )
 
-
         requestPermission()
         createChannel()
         createJob()
-
-
 
     }
 

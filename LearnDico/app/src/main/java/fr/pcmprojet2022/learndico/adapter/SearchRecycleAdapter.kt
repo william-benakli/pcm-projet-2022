@@ -67,7 +67,7 @@ class SearchRecycleAdapter(private val words: MutableList<Words>, private val co
         val holder = VH(binding)
 
         holder.binding.delete.setOnClickListener {
-            Log.wtf("click","TODO: delete")
+
             MaterialAlertDialogBuilder(context)
                 .setTitle("Supprimer le mot")
                 .setMessage("Êtes vous sûr de bien vouloir supprimer ce mot?")
