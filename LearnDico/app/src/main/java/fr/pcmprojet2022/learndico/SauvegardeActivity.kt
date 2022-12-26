@@ -65,12 +65,14 @@ class SauvegardeActivity : AppCompatActivity() {
                       binding.saveLangueDstId.text.toString().replace(" ", ""),
                       descriptionOrigine,
                       descriptionTrad,
-                      url.toString().replace(" ", "")
+                      url.toString().replace(" ", ""),
+                      "",
+                      10
                   )
                   addWord(mot)
                   /* Traitement de l'url des dicos et du nom du dictionnaire */
                   val nomDico =
-                      url.toString().lowercase().replace("https://www.", "").split(".")[0]
+                      url.toString().lowercase().replace("https://www.", "").replace("https://", "").split(".")[0]
                           .replaceFirstChar { c -> c.uppercase() }
                   val urlDico = url.toString().lowercase()
                       .replace(binding.saveWordOrigineId.text.toString(), "%mot_origine%")
@@ -115,12 +117,12 @@ class SauvegardeActivity : AppCompatActivity() {
 
 
     private fun loadValueFromBundle(savedInstanceState: Bundle?){
-        langueSrc = savedInstanceState?.getString("langueSrc").toString()
-        langueDest = savedInstanceState?.getString("langueDest").toString()
-        motSrc = savedInstanceState?.getString("MotSrc").toString()
-        motDest = savedInstanceState?.getString("MotDest").toString()
-        descSrc = savedInstanceState?.getString("DescSrc").toString()
-        descDst = savedInstanceState?.getString("DescDest").toString()
+        langueSrc = savedInstanceState?.getString("langueSrc") ?: ""
+        langueDest = savedInstanceState?.getString("langueDest")?: ""
+        motSrc = savedInstanceState?.getString("MotSrc")?: ""
+        motDest = savedInstanceState?.getString("MotDest")?: ""
+        descSrc = savedInstanceState?.getString("DescSrc")?: ""
+        descDst = savedInstanceState?.getString("DescDest")?: ""
     }
     private fun laodBundleValue() {
         with(binding) {

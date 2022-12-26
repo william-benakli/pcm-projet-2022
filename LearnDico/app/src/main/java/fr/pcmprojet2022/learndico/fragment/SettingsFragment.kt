@@ -14,7 +14,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private lateinit var binding: FragmentSettingsBinding
     private var moteur_recherche : String = ""
-    private var mot_by_day : Int = 0
+    private var mot_by_day : Int = 6
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -77,13 +77,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     }
 
     private fun loadValueFromBundle(savedInstanceState: Bundle?) {
-        moteur_recherche = savedInstanceState?.getString("moteur_recherche").toString()
-        mot_by_day = savedInstanceState?.getInt("mot_by_day") ?: 6
+        moteur_recherche = savedInstanceState?.getString("moteur_recherche")?: ""
+        mot_by_day = (savedInstanceState?.getInt("mot_by_day")?: 6)
     }
     private fun laodBundleValue() {
         with(binding) {
             filledTextFavoritBrowser.editText?.setText(moteur_recherche)
-            filledTextFieldNbrWordMax.editText?.setText(mot_by_day)
+            filledTextFieldNbrWordMax.editText?.setText(mot_by_day.toString())
         }
     }
 
