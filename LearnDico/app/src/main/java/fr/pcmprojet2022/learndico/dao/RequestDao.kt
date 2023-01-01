@@ -1,7 +1,6 @@
 package fr.pcmprojet2022.learndico.dao
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.data.entites.Langues
@@ -51,5 +50,8 @@ interface RequestDao {
 
     @Delete
     fun deleteWord(word: Words)
+
+    @Query("SELECT * FROM words WHERE remainingUses == 0")
+    fun getWordsByRemainingUses() : List<Words>
 
 }

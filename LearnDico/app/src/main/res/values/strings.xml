@@ -32,4 +32,7 @@
     <string name="valider_modif">valider les modifications</string>
     <string name="motAJour">Votre mot a été mis à jour.</string>
     <string name="Recherche">Recherchez vos mots</string>
+    <string name="learn_stat">Vous avez appris</string>
+    <string name="NumberMotsStats">%number% mots</string>
+    <string name="Statistique">Statistique</string>
 </resources>

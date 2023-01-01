@@ -1,23 +1,16 @@
 package fr.pcmprojet2022.learndico.notification
 
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import android.os.IBinder
-import android.app.Service
 import android.widget.Toast
-import android.content.Intent
-import android.content.Context
-import android.app.PendingIntent
-import fr.pcmprojet2022.learndico.R
-import android.app.NotificationManager
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import fr.pcmprojet2022.learndico.MainActivity
+import fr.pcmprojet2022.learndico.R
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
-import fr.pcmprojet2022.learndico.data.entites.Words
-import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 import kotlin.concurrent.thread
 
 class ServiceNotification: LifecycleService() {
@@ -38,7 +31,7 @@ class ServiceNotification: LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-
+        Log.wtf("ON START ", "################################")
         if (intent!=null){
 
             Log.wtf("Service", intent.action.toString())
@@ -54,12 +47,12 @@ class ServiceNotification: LifecycleService() {
                 "swipe_notif" -> {
 
                     //TODO: RÉCUPÉRER ID
-                    var swip = 0;
+                    var swip = 0
                     thread {
                         val wordRq = database.getRequestDao().getWordByKey(intent.getStringExtra("idWord").toString())
                         if (wordRq != null) {
                             Log.wtf("test", wordRq.remainingUses.toString())
-                        };
+                        }
                         if (wordRq!=null){
                             wordRq.remainingUses-=1
                             database.getRequestDao().updateWord(wordRq)
@@ -108,7 +101,7 @@ class ServiceNotification: LifecycleService() {
 
         }
 
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     private fun createNotification(actionIntent: Intent, deletIntent: Intent, word: String){
@@ -121,7 +114,7 @@ class ServiceNotification: LifecycleService() {
             .setDeleteIntent(
                 PendingIntent.getService(
                     this,
-                    0,
+                    cpt,
                     deletIntent,
                     PendingIntent.FLAG_IMMUTABLE
                 )
