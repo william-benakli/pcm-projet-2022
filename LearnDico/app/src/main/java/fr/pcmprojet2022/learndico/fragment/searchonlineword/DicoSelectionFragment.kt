@@ -40,7 +40,7 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
             val list = it.toMutableList()
             var urlBrowser = shared?.getString("urlBrowser", "https://www.google.com/search?q=%mot_origine%").toString()
             urlBrowser += "+%langue_origine%+en+%langue_trad%+dictionnaire"
-            urlBrowser.replace("exemple", "%mot_origine%")
+            urlBrowser = urlBrowser.replace("exemple", "%mot_origine%")
             list.add(0, Dico("Moteur de recherche favoris", urlBrowser, "", ""))
             dicoAdapter = DicoRecyclerAdapter(list)
             binding.recyclerView.adapter = dicoAdapter

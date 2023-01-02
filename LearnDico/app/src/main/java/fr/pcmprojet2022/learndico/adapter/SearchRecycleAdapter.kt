@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedList.Callback
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import fr.pcmprojet2022.learndico.BuildConfig
+import fr.pcmprojet2022.learndico.R
 import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ItemWordBinding
 import fr.pcmprojet2022.learndico.dialog.DialogCallback
@@ -94,6 +95,7 @@ class SearchRecycleAdapter(words: MutableList<Words>, private val context: Conte
         return holder
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.wordObj = sortedList[position]
 
@@ -111,14 +113,16 @@ class SearchRecycleAdapter(words: MutableList<Words>, private val context: Conte
             translation.text = holder.wordObj.wordTranslate
             translationSignification.text = holder.wordObj.translationSignification
             wordSignification.text = holder.wordObj.wordSignification
-            ballaye.text = ballaye.text.toString().replace("%value%", holder.wordObj.remainingUses.toString())
+            if(holder.wordObj.remainingUses == 0){
+                ballaye.text = "Mot matrisé ! Bravo :)"
+            }else ballaye.text = ballaye.text.toString().replace("%value%", holder.wordObj.remainingUses.toString())
         }
 
         holder.binding.download.setOnClickListener {
             if (holder.wordObj.fileName==null){
                 broadcastReceiversDownload.download(sortedList, context, holder, position, daoViewModel)
             }else{
-                Toast.makeText(context, "Vous avez déjà téléchargé ce mot.", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, R.string.motDownload, Toast.LENGTH_LONG).show()
             }
         }
 
@@ -137,7 +141,7 @@ class SearchRecycleAdapter(words: MutableList<Words>, private val context: Conte
                 intentI.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 context.startActivity(intentI)
             }else {
-                Toast.makeText(context, "Vous n'avez pas encore téléchargé ce mot.", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, R.string.notYetDownload, Toast.LENGTH_LONG).show()
             }
         }
 

@@ -2,6 +2,7 @@ package fr.pcmprojet2022.learndico.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import fr.pcmprojet2022.learndico.R
@@ -41,6 +42,8 @@ class EditWordFragment : Fragment(R.layout.fragment_edit_word) {
                 valider.setOnClickListener {
                     if (descSrc.text!!.isNotEmpty() && descTrad.text!!.isNotEmpty()) {
                         Toast.makeText(context, R.string.motAJour, Toast.LENGTH_LONG).show()
+                        word.translationSignification = descTrad.text.toString()
+                        word.wordSignification = descSrc.text.toString()
                         daoViewModel.updateWord(word)
                         startActivity(Intent(context, MainActivity::class.java))
                     } else {

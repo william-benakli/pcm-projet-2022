@@ -2,25 +2,29 @@ package fr.pcmprojet2022.learndico
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ActivitySaveBinding
+import java.io.ByteArrayInputStream
+import java.nio.charset.StandardCharsets
 import kotlin.concurrent.thread
 
 
 class SauvegardeActivity : AppCompatActivity() {
 
     /**
-     * Class Sauvegardeactivity est l'activité ou l'utilisateur peut ajouter un mot
+     * Class SauvegardeActivity est l'activité ou l'utilisateur peut ajouter un mot
      * Elle n'est accessible qu'en partageant un lien
      */
     private val database by lazy{ LearnDicoBD.getInstanceBD(this)}
 
     private lateinit var binding: ActivitySaveBinding
     private var url: String? = ""
+    private var newUrl: String? = ""
     private var langueSrc: String = ""
     private var langueDest: String = ""
     private var motSrc: String = ""
@@ -36,6 +40,8 @@ class SauvegardeActivity : AppCompatActivity() {
         laodBundleValue()
         if(intent.action.equals( "android.intent.action.SEND")){
             url = intent.extras?.getString( "android.intent.extra.TEXT" )
+            val charset = Charsets.UTF_8
+            val newUrl = url?.toByteArray(charset)?.toString(charset)
         }else{
             Toast.makeText(this, R.string.erreur_survenue, Toast.LENGTH_LONG).show()
             finish()
@@ -59,24 +65,28 @@ class SauvegardeActivity : AppCompatActivity() {
                   if (descriptionTrad.isBlank()) descriptionTrad = "Aucune description"
 
                   val mot = Words(
-                      binding.saveWordOrigineId.text.toString(),
+                      binding.saveWordOrigineId.text.toString().lowercase(),
                       binding.wordTradId.text.toString().replace(" ", ""),
                       binding.saveLangueSrcId.text.toString().replace(" ", ""),
                       binding.saveLangueDstId.text.toString().replace(" ", ""),
                       descriptionOrigine,
                       descriptionTrad,
-                      url.toString().replace(" ", ""),
+                      newUrl.toString().replace(" ", "").lowercase(),
                       "",
                       10
                   )
                   addWord(mot)
                   /* Traitement de l'url des dicos et du nom du dictionnaire */
-                  val nomDico =
-                      url.toString().lowercase().replace("https://www.", "").replace("https://", "").split(".")[0]
-                          .replaceFirstChar { c -> c.uppercase() }
-                  val urlDico = url.toString().lowercase()
+                  val tabDicoUrl = newUrl.toString().lowercase().replace("https://www.", "").replace("https://", "").split(".")
+                  var locationNameDico = 0
+                  if(tabDicoUrl.size > 1 && (tabDicoUrl[0].length <= 3 || tabDicoUrl[0].contains("dictionnary") || tabDicoUrl[0].contains("mobile") || tabDicoUrl[0].contains("dictionnaire"))){
+                      locationNameDico = 1
+                  }
+                  val nomDico =tabDicoUrl[locationNameDico].replaceFirstChar { c -> c.uppercase() }
+                  val urlDico = newUrl.toString().lowercase()
                       .replace(binding.saveWordOrigineId.text.toString(), "%mot_origine%")
                       .replace(binding.wordTradId.text.toString(), "%mot_trad%")
+                  Log.w("dico", urlDico)
                   addDictionnaire(urlDico, nomDico)
               }
               Toast.makeText(this, R.string.nouveauMotToList, Toast.LENGTH_LONG).show()
@@ -114,7 +124,6 @@ class SauvegardeActivity : AppCompatActivity() {
             thread { database.getRequestDao().insertMot(words)}
         }
     }
-
 
     private fun loadValueFromBundle(savedInstanceState: Bundle?){
         langueSrc = savedInstanceState?.getString("langueSrc") ?: ""

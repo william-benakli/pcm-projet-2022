@@ -11,7 +11,7 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 
 class StatsFragment : Fragment(R.layout.fragment_stats) {
 
-    lateinit var binding: FragmentStatsBinding
+    private lateinit var binding: FragmentStatsBinding
     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
 
     @SuppressLint("SetTextI18n")

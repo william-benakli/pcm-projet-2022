@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    val broadcastReceiversDownload = BroadcastReceiversDownload()
+    private val broadcastReceiversDownload = BroadcastReceiversDownload()
 
     private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE) as NotificationManager }
 

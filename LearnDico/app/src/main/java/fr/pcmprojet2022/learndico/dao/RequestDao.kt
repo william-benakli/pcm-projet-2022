@@ -51,7 +51,7 @@ interface RequestDao {
     @Delete
     fun deleteWord(word: Words)
 
-    @Query("SELECT * FROM words WHERE remainingUses == 0")
+    @Query("SELECT * FROM words WHERE remainingUses <= 0")
     fun getWordsByRemainingUses() : List<Words>
 
 }

@@ -10,9 +10,8 @@ import fr.pcmprojet2022.learndico.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
-    lateinit var binding: FragmentSearchBinding
-
-
+    private lateinit var binding: FragmentSearchBinding
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchBinding.bind(view)

@@ -1,6 +1,7 @@
 package fr.pcmprojet2022.learndico.fragment.searchonlineword
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -32,6 +33,7 @@ class LanguagesDestinationSelectionFragment : Fragment(R.layout.fragment_languag
     /*Les view models permet de transferer des informations entre fragment */
     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
     private val searchSharedViewModel: LanguageViewModel by activityViewModels()
+    private val dialog = AddLanguageAlertDialog(this)
 
 
     @SuppressLint("SetTextI18n")
@@ -50,7 +52,6 @@ class LanguagesDestinationSelectionFragment : Fragment(R.layout.fragment_languag
     }
 
     private fun fabEventClick() {
-        val dialog = AddLanguageAlertDialog(this)
         binding.fab.setOnClickListener{
             dialog.show(childFragmentManager, "AddLanguageAlertDialogDest")
         }
@@ -70,6 +71,7 @@ class LanguagesDestinationSelectionFragment : Fragment(R.layout.fragment_languag
         super.onResume()
         updateRecycler()
     }
+
     private fun buttonEventClick() {
         binding.suivantLangueId.setOnClickListener {
             if (langueAdapter.isSelected()) {
@@ -79,14 +81,12 @@ class LanguagesDestinationSelectionFragment : Fragment(R.layout.fragment_languag
                 val direction = LanguagesDestinationSelectionFragmentDirections.actionLanguagesDestinationSelectionFragmentToWordSelectionFragment()
                 findNavController().navigate(direction)
             } else {
-                val toast = Toast.makeText(
+                Toast.makeText(
                     context,
-                    "Aucune langue selectionnée, ressayez !",
+                    R.string.aucune_langue,
                     Toast.LENGTH_SHORT
-                )
-                toast.show()
+                ).show()
             }
         }
     }
-
 }

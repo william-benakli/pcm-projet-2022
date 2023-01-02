@@ -15,7 +15,6 @@ import fr.pcmprojet2022.learndico.dialog.DialogCallback
 import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 import fr.pcmprojet2022.learndico.sharedviewmodel.ModifiedWordViewModel
 
-
 class ListFragment : Fragment(), DialogCallback {
 
     private lateinit var recyclerView: RecyclerView
@@ -68,6 +67,7 @@ class ListFragment : Fragment(), DialogCallback {
             recyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
         }
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onPositiveButtonClicked() {

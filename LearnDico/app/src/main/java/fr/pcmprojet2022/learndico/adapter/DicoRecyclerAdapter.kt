@@ -15,9 +15,9 @@ import fr.pcmprojet2022.learndico.databinding.ItemDicoBinding
 
 class DicoRecyclerAdapter (list_dico: MutableList<Dico>) : RecyclerView.Adapter<DicoRecyclerAdapter.VH>() {
 
-    val callback = object : SortedList.Callback<Dico>() {
+    private val callback = object : SortedList.Callback<Dico>() {
         override fun compare(o1: Dico?, o2: Dico?): Int {
-            if(o1!!.nom.equals("Moteur de recherche favoris")) return 999;
+            if(o1!!.nom == "Moteur de recherche favoris") return 999
             return o1.nom.compareTo(o2!!.nom)
         }
         override fun onInserted(position: Int, count: Int) =

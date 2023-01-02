@@ -28,11 +28,15 @@
     <string name="bienvenue_msg">Bienvenue sur LearnDico ! Cette application est conçue pour l\'apprentissage de mot dans plusieurs langues. Testez, à vous de jouer !</string>
     <string name="moteurDeRecherche">Moteur de recherche favoris</string>
     <string name="motExistDeja">Ce mot existe deja dans votre dictionnaire actuel !</string>
-    <string name="ballayer">Ce mot a été ballayé %value%/10</string>
+    <string name="ballayer">Ce mot doit être ballayé encore %value%/10 pour être valide</string>
     <string name="valider_modif">valider les modifications</string>
     <string name="motAJour">Votre mot a été mis à jour.</string>
     <string name="Recherche">Recherchez vos mots</string>
     <string name="learn_stat">Vous avez appris</string>
     <string name="NumberMotsStats">%number% mots</string>
     <string name="Statistique">Statistique</string>
+    <string name="aucune_langue">Aucune langue selectionnée, ressayez !</string>
+    <string name="impossibleDicoLoad">Impossible de charger correctement le dictionnaire, ressayez !</string>
+    <string name="motDownload">Vous avez déjà téléchargé ce mot.</string>
+    <string name="notYetDownload">Vous n\'avez pas encore téléchargé ce mot.</string>
 </resources>
