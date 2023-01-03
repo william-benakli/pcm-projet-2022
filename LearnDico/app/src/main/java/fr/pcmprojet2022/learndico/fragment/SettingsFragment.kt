@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import android.content.Context
+import android.util.Log
 import fr.pcmprojet2022.learndico.R
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.timepicker.TimeFormat
 import com.google.android.material.timepicker.MaterialTimePicker
 import fr.pcmprojet2022.learndico.databinding.FragmentSettingsBinding
+import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private lateinit var binding: FragmentSettingsBinding
+    private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
+
     private var moteur_recherche : String = ""
     private var mot_by_day : Int = 6
 
@@ -40,6 +45,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             picker.show(requireActivity().supportFragmentManager, "Setting_Fragment")
         }
 
+        binding.buttonClearDb.setOnClickListener {
+            Log.wtf("suppresion", "bdd")
+            daoViewModel.dropAll()
+            //   Toast.makeText(this, R.string.deleteBd, Toast.LENGTH_LONG).show()
+        }
         binding.buttonSaveChange.setOnClickListener {
 
             val value = try {
@@ -70,9 +80,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             Toast.makeText(context, "Enregistrement des données effectué.", Toast.LENGTH_LONG).show()
         }
 
-        binding.buttonClearDb.setOnClickListener {
-            //TODO: implement
-        }
 
     }
 

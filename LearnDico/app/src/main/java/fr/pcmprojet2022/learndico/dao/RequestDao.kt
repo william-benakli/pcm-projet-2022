@@ -43,7 +43,7 @@ interface RequestDao {
     fun updateWord(word: Words) : Int
 
     @Query("SELECT * FROM words WHERE remainingUses > 0")
-    fun loadAllWordsAvailableNotif() : LiveData<List<Words>>
+    fun loadAllWordsAvailableNotif() : List<Words>
 
     @Query("SELECT * FROM words WHERE url=:key")
     fun getWordByKey(key: String) : Words?
@@ -53,5 +53,14 @@ interface RequestDao {
 
     @Query("SELECT * FROM words WHERE remainingUses <= 0")
     fun getWordsByRemainingUses() : List<Words>
+
+    @Query("DELETE FROM words")
+    fun deleteWordsAll()
+
+    @Query("DELETE FROM dico")
+    fun deleteDicoAll()
+
+    @Query("DELETE FROM langues")
+    fun deleteLanguesAll()
 
 }

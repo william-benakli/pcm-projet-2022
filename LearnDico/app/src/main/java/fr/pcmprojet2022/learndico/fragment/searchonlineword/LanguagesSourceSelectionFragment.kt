@@ -41,10 +41,7 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) ,
         binding.languagesId.text = "Langues source"
         binding.recyclerLanguages.layoutManager = LinearLayoutManager(context)
         daoViewModel.loadAllLangues()
-        daoViewModel.getAllLanguagesBD().observe(viewLifecycleOwner) {
-            langueAdapter = LanguagesRecyclerAdapter(it.toMutableList())
-            binding.recyclerLanguages.adapter = langueAdapter
-        }
+        updateRecycler()
         buttonEventClick()
         fabEventClick()
     }
@@ -57,6 +54,7 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) ,
     }
 
     private fun updateRecycler(){
+        daoViewModel.getAllLanguagesBD().removeObservers(this@LanguagesSourceSelectionFragment)
         daoViewModel.loadAllLangues()
         daoViewModel.getAllLanguagesBD().observe(viewLifecycleOwner) {
             langueAdapter = LanguagesRecyclerAdapter(it.toMutableList())

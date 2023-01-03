@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -138,6 +139,7 @@ class SearchRecycleAdapter(words: MutableList<Words>, private val context: Conte
                     BuildConfig.APPLICATION_ID + ".provider",
                     file
                 )
+                Log.wtf("LINK", intentI.data.toString())
                 intentI.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 context.startActivity(intentI)
             }else {

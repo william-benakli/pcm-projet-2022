@@ -85,7 +85,7 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
                             intent.data = Uri.parse(urlDico)
                             intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK
                 if (urlDico != null) {
-                    Log.w("dico use", urlDico)
+                    Log.w("d<##########ico use", urlDico)
                 }
                 startActivity(intent)
             }else{

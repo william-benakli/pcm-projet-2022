@@ -64,19 +64,14 @@ class ServiceNotification: LifecycleService() {
                 }
                 "run_notif" -> {
                     val shared = getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
-                    database.getRequestDao().loadAllWordsAvailableNotif().observe(this){
-                        val list = it.toMutableList()
-                        for(item in list){
+                    thread {
+                        val listWord = database.getRequestDao().loadAllWordsAvailableNotif().toMutableList()
+                        for(item in listWord){
                             Log.wtf("element " , item.wordOrigin)
                             Log.wtf("element " , item.remainingUses.toString())
                         }
                         val nbrElement = shared.getInt("numNotification", 0)-swd
-                        val randomElements = list.asSequence().shuffled().take(nbrElement).toList()//list de mots qu'on va envoyer à l'utilisateur
-
-                        /*Log.wtf("Random El", randomElements.toString())
-                        Log.wtf("SIZE", list.toString())
-
-                        Log.wtf("SIZE", randomElements.toString())*/
+                        val randomElements = listWord.asSequence().shuffled().take(nbrElement).toList()//list de mots qu'on va envoyer à l'utilisateur
 
                         for (i in randomElements.indices){
                             val intentRq = Intent(this, ServiceNotification::class.java)
@@ -125,7 +120,7 @@ class ServiceNotification: LifecycleService() {
                 "Ouvrir",
                 PendingIntent.getService(
                     this,
-                    0,
+                    cpt,
                     actionIntent,
                     PendingIntent.FLAG_IMMUTABLE
                 )

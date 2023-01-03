@@ -94,7 +94,7 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
         }
     }
 
-   /* fun insertWord() {
+    fun insertWord() {
         thread {
             //val wordOrigin: String, val wordTranslate: String, val languageOrigin: String, val languageTranslation: String, val wordSignification: String, val translationSignification: String, val url: String
             dao.insertMot(Words("Motazaaz", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "https://www.willisesfsefsefam.fr", null, 10));
@@ -111,7 +111,7 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
             dao.insertMot(Words("AMoaftafaf11", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.wsgsgilliam.fr", null ,10));
             dao.insertMot(Words("AMot12", "Lettre", "Chinois", "Francais", "a", "aa", "https://wwwgssgsg.william.fr", null ,10));
         }
-    }*/
+    }
 
     fun loadPartialWords(s: String) {
         thread {
@@ -142,6 +142,14 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
 
     fun getSwipeNumber(): Int {
         return swipeTotal
+    }
+
+    fun dropAll() {
+        thread {
+            dao.deleteWordsAll()
+            dao.deleteDicoAll()
+            dao.deleteLanguesAll()
+        }
     }
 
 }

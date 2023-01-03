@@ -39,4 +39,5 @@
     <string name="impossibleDicoLoad">Impossible de charger correctement le dictionnaire, ressayez !</string>
     <string name="motDownload">Vous avez déjà téléchargé ce mot.</string>
     <string name="notYetDownload">Vous n\'avez pas encore téléchargé ce mot.</string>
+    <string name="deleteBd">La base de donnée a été mise à jour</string>
 </resources>
