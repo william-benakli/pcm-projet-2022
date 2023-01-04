@@ -12,13 +12,16 @@ import androidx.recyclerview.widget.SortedList
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.databinding.ItemDicoBinding
 
-
 class DicoRecyclerAdapter (list_dico: MutableList<Dico>) : RecyclerView.Adapter<DicoRecyclerAdapter.VH>() {
 
-    val callback = object : SortedList.Callback<Dico>() {
+    /**
+     * Class DicoRecyclerAdapter est une classe Adapter d'un recyclerView. Elle contient les dictionnaires disponibles
+     * dans le recyclerView avec un system de SortedList
+     */
+    private val callback = object : SortedList.Callback<Dico>() {
         override fun compare(o1: Dico?, o2: Dico?): Int {
-            if(o1!!.nom.equals("Moteur de recherche favoris")) return 999;
-            return o1.nom.compareTo(o2!!.nom)
+            if(o1!!.nom == "Moteur de recherche favoris" || o2!!.nom == "Moteur de recherche favoris" ) return 99999
+            return o1.nom.compareTo(o2.nom)
         }
         override fun onInserted(position: Int, count: Int) =
             notifyItemRangeInserted(position, count)

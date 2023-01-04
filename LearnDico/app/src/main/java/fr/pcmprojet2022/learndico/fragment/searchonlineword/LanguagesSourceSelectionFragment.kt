@@ -1,6 +1,7 @@
 package fr.pcmprojet2022.learndico.fragment.searchonlineword
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -31,6 +32,7 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) ,
     /*Les view models permet de transferer des informations entre fragment */
     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
     private val searchSharedViewModel: LanguageViewModel by activityViewModels()
+    private val dialog = AddLanguageAlertDialog(this)
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,23 +41,20 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) ,
         binding.languagesId.text = "Langues source"
         binding.recyclerLanguages.layoutManager = LinearLayoutManager(context)
         daoViewModel.loadAllLangues()
-        daoViewModel.getAllLanguagesBD().observe(viewLifecycleOwner) {
-            langueAdapter = LanguagesRecyclerAdapter(it.toMutableList())
-            binding.recyclerLanguages.adapter = langueAdapter
-        }
+        updateRecycler()
         buttonEventClick()
         fabEventClick()
     }
 
 
     private fun fabEventClick() {
-        var dialog = AddLanguageAlertDialog(this)
         binding.fab.setOnClickListener{
             dialog.show(childFragmentManager, "AddLanguageAlertDialog")
         }
     }
 
     private fun updateRecycler(){
+        daoViewModel.getAllLanguagesBD().removeObservers(this@LanguagesSourceSelectionFragment)
         daoViewModel.loadAllLangues()
         daoViewModel.getAllLanguagesBD().observe(viewLifecycleOwner) {
             langueAdapter = LanguagesRecyclerAdapter(it.toMutableList())
@@ -66,20 +65,26 @@ class LanguagesSourceSelectionFragment : Fragment(R.layout.fragment_languages) ,
         updateRecycler()
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateRecycler()
+    }
+
+
     private fun buttonEventClick() {
         binding.suivantLangueId.setOnClickListener {
             if(langueAdapter.isSelected()){
                 /*Dans l'evenement recuperation du dictionnaire selectionné dans le fragment de recherche */
-                langueAdapter.setSelected(false);
-                searchSharedViewModel.setSelectedLangueSrc(langueAdapter.getSelectedLanguages());
+                langueAdapter.setSelected(false)
+                searchSharedViewModel.setSelectedLangueSrc(langueAdapter.getSelectedLanguages())
                 val direction = LanguagesSourceSelectionFragmentDirections.actionLanguagesSelectionFragmentToLanguagesDestinationSelectionFragment()
                 findNavController().navigate(direction)
             }else{
-                val toast = Toast.makeText(context, "Aucune langue selectionnée, ressayez !", Toast.LENGTH_SHORT)
-                toast.show()
+                Toast.makeText(context,
+                    R.string.aucune_langue,
+                    Toast.LENGTH_SHORT).show()
             }
         }
     }
-
 
 }

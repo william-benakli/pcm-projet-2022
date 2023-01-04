@@ -4,4 +4,4 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Words(val wordOrigin: String, val wordTranslate: String, val languageOrigin: String, val languageTranslation: String, val wordSignification: String, val translationSignification: String, @PrimaryKey val url: String,var fileName: String?, var remainingUses: Int)
+data class Words(var wordOrigin: String, var wordTranslate: String, val languageOrigin: String, val languageTranslation: String, var wordSignification: String, var translationSignification: String, @PrimaryKey val url: String, var fileName: String?, var remainingUses: Int)

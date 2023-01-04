@@ -1,26 +1,22 @@
 package fr.pcmprojet2022.learndico.notification
 
-import android.net.Uri
-import android.util.Log
-import android.os.IBinder
-import android.app.Service
-import android.widget.Toast
-import android.content.Intent
-import android.content.Context
-import android.app.PendingIntent
-import fr.pcmprojet2022.learndico.R
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import fr.pcmprojet2022.learndico.MainActivity
+import fr.pcmprojet2022.learndico.R
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
-import fr.pcmprojet2022.learndico.data.entites.Words
-import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 import kotlin.concurrent.thread
 
 class ServiceNotification: LifecycleService() {
+
+    /**
+     * Service gérant les notifications
+     */
 
     private val NOTIFICATION_CHANNEL_ID = "10001"
     private val CHANNEL_ID = "channel"
@@ -29,8 +25,6 @@ class ServiceNotification: LifecycleService() {
 
     private val database by lazy{ LearnDicoBD.getInstanceBD(this);}
 
-    //private val dao = (application as MainActivity).database.getRequestDao()
-
     companion object {
         private var cpt=0
         private var swd=0
@@ -38,10 +32,7 @@ class ServiceNotification: LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-
         if (intent!=null){
-
-            Log.wtf("Service", intent.action.toString())
 
             when (intent.action) {
                 "open_notif" -> {
@@ -52,38 +43,23 @@ class ServiceNotification: LifecycleService() {
                     notificationManager.cancel(intent.getIntExtra("notification_id", 0))
                 }
                 "swipe_notif" -> {
-
-                    //TODO: RÉCUPÉRER ID
-                    var swip = 0;
                     thread {
                         val wordRq = database.getRequestDao().getWordByKey(intent.getStringExtra("idWord").toString())
-                        if (wordRq != null) {
-                            Log.wtf("test", wordRq.remainingUses.toString())
-                        };
                         if (wordRq!=null){
                             wordRq.remainingUses-=1
                             database.getRequestDao().updateWord(wordRq)
-                            swip = wordRq.remainingUses
+                            wordRq.remainingUses
                         }
                     }
                     swd--
-                    Toast.makeText(this, "Vous avez validé ce mot $swip/10", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.valideMot, Toast.LENGTH_LONG).show()
                 }
                 "run_notif" -> {
                     val shared = getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
-                    database.getRequestDao().loadAllWordsAvailableNotif().observe(this){
-                        val list = it.toMutableList()
-                        for(item in list){
-                            Log.wtf("element " , item.wordOrigin)
-                            Log.wtf("element " , item.remainingUses.toString())
-                        }
+                    thread {
+                        val listWord = database.getRequestDao().loadAllWordsAvailableNotif().toMutableList()
                         val nbrElement = shared.getInt("numNotification", 0)-swd
-                        val randomElements = list.asSequence().shuffled().take(nbrElement).toList()//list de mots qu'on va envoyer à l'utilisateur
-
-                        /*Log.wtf("Random El", randomElements.toString())
-                        Log.wtf("SIZE", list.toString())
-
-                        Log.wtf("SIZE", randomElements.toString())*/
+                        val randomElements = listWord.asSequence().shuffled().take(nbrElement).toList()//list de mots qu'on va envoyer à l'utilisateur
 
                         for (i in randomElements.indices){
                             val intentRq = Intent(this, ServiceNotification::class.java)
@@ -104,11 +80,9 @@ class ServiceNotification: LifecycleService() {
                 }
             }
 
-            /*Log.wtf("ServiceNotification", intent.action.toString())*/
-
         }
 
-        return START_STICKY
+        return START_NOT_STICKY
     }
 
     private fun createNotification(actionIntent: Intent, deletIntent: Intent, word: String){
@@ -121,7 +95,7 @@ class ServiceNotification: LifecycleService() {
             .setDeleteIntent(
                 PendingIntent.getService(
                     this,
-                    0,
+                    cpt,
                     deletIntent,
                     PendingIntent.FLAG_IMMUTABLE
                 )
@@ -132,14 +106,13 @@ class ServiceNotification: LifecycleService() {
                 "Ouvrir",
                 PendingIntent.getService(
                     this,
-                    0,
+                    cpt,
                     actionIntent,
                     PendingIntent.FLAG_IMMUTABLE
                 )
             )
             .build()
 
-        Log.wtf("SeviceNotification", cpt.toString())
         notificationManager.notify(cpt, notification)
 
         cpt++

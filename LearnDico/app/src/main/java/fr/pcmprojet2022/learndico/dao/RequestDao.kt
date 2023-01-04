@@ -1,12 +1,6 @@
 package fr.pcmprojet2022.learndico.dao
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.data.entites.Langues
 import fr.pcmprojet2022.learndico.data.entites.Words
@@ -14,6 +8,9 @@ import fr.pcmprojet2022.learndico.data.entites.Words
 @Dao
 interface RequestDao {
 
+    /**
+     * Classe RequestDao est compose par l'emsemble des requetes Dao de notre application
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMot(vararg words: Words) : List<Long>
 
@@ -48,9 +45,24 @@ interface RequestDao {
     fun updateWord(word: Words) : Int
 
     @Query("SELECT * FROM words WHERE remainingUses > 0")
-    fun loadAllWordsAvailableNotif() : LiveData<List<Words>>
+    fun loadAllWordsAvailableNotif() : List<Words>
 
     @Query("SELECT * FROM words WHERE url=:key")
     fun getWordByKey(key: String) : Words?
+
+    @Delete
+    fun deleteWord(word: Words)
+
+    @Query("SELECT * FROM words WHERE remainingUses <= 0")
+    fun getWordsByRemainingUses() : List<Words>
+
+    @Query("DELETE FROM words")
+    fun deleteWordsAll()
+
+    @Query("DELETE FROM dico")
+    fun deleteDicoAll()
+
+    @Query("DELETE FROM langues")
+    fun deleteLanguesAll()
 
 }

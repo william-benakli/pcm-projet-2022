@@ -27,7 +27,8 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     private val languesSelected: MutableList<Langues> = mutableListOf<Langues>()
     private val resultPartialWord = MutableLiveData<List<Words>>(emptyList())
     private val updateFileName = MutableLiveData(0)
-    private val availableNotif = MutableLiveData<List<Words>>(emptyList())
+    /*private val availableNotif = MutableLiveData<List<Words>>(emptyList())*/
+    private var swipeTotal = 0
 
     fun loadAllDico() {
         thread {
@@ -41,12 +42,6 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun insertDico(){
-        thread {
-            dao.insertDictionnaire(Dico("Google", "https://www.google.fr", "", ""));
-        }
-    }
-
     fun insertLangues(langues: Langues) {
         thread {
             dao.insertLangues(langues)
@@ -56,7 +51,7 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     fun loadLanguages(languages: String){
         thread {
             languesSelected.addAll(dao.loadLanguages(languages))
-        }
+        }.join()
     }
 
     fun addFileName(word : Words){
@@ -67,11 +62,11 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     }
 
     fun getAllDicoBD() : MutableLiveData<List<Dico>>{
-        return allDicoBD;
+        return allDicoBD
     }
 
     fun getAllLanguagesBD() : MutableLiveData<List<Langues>>{
-        return allLanguagesBd;
+        return allLanguagesBd
     }
 
     fun getUpdateFileName() : MutableLiveData<Int>{
@@ -79,18 +74,19 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     }
 
     fun getLanguesSelected():MutableList<Langues>{
-        return languesSelected;
+        return languesSelected
     }
 
-    fun getAllWordBD() : MutableLiveData<List<Words>>{
-        return allWordsBd;
+    fun getAllWordBD() : MutableLiveData<List<Words>> {
+        return allWordsBd
     }
+
 
     fun getResultPartialWord() : MutableLiveData<List<Words>> {
         return resultPartialWord
     }
 
-    fun getAvailableNotif() : MutableLiveData<List<Words>> = availableNotif
+    /*fun getAvailableNotif() : MutableLiveData<List<Words>> = availableNotif*/
 
     fun loadAllWord() {
         thread {
@@ -98,21 +94,55 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun insertWord() {
+    fun peuplementBaseDonne() {
         thread {
-            //val wordOrigin: String, val wordTranslate: String, val languageOrigin: String, val languageTranslation: String, val wordSignification: String, val translationSignification: String, val url: String
-            dao.insertMot(Words("Mot", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "https://www.william.fr", null, 10));
-            dao.insertMot(Words("AMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr", null ,10));
-            dao.insertDictionnaire(Dico("Google", "https://google.com","anglais","francais"))
-            dao.insertLangues(Langues("Français"))
-            dao.insertLangues(Langues("Chinois"))
-            dao.insertMot(Words("DAMot", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.david-andrawos.fr", null ,10));
+            dao.insertMot(Words("Avion", "Aircraft", "francais", "anglais", "ça vole dans le ciel.", "Aucune.", "https://www.larousse.fr/dictionnaires/anglais-francais/aircraft", null, 4))
+            dao.insertMot(Words("Bisonte", "Buffalo", "espagnol", "anglais", "Animal: parecido al toro.", "Large, massive wild ox, armed with short horns and with a hump between the shoulders.", "https://www.wordreference.com/es/en/translation.asp?spen=bisonte", null, 4))
+            dao.insertLangues(Langues("francais"))
+            dao.insertLangues(Langues("anglais"))
+            dao.insertLangues(Langues("espangol"))
+            dao.insertDictionnaire(Dico("WordReference", "https://www.wordreference.com/es/en/translation.asp?spen=%mot_origine%", "espagnol", "anglais"))
+            dao.insertDictionnaire(Dico("LaRousse", "https://www.larousse.fr/dictionnaires/anglais-francais/%mot_origine%", "anglais", "francais"))
         }
     }
 
-    fun loadPartialWords(s: String) {
+    fun   loadPartialWords(s: String) {
         thread {
             resultPartialWord.postValue(dao.loadPartialWords(s))
         }
     }
+
+    fun deleteWord(url: String) {
+        thread {
+            val word = dao.getWordByKey(url)
+            if (word != null) {
+                dao.deleteWord(word)
+            }
+        }
+    }
+
+    fun updateWord(word: Words) {
+        thread {
+             dao.updateWord(word)
+        }
+    }
+
+    fun swipUpdate() {
+        thread{
+            swipeTotal = dao.getWordsByRemainingUses().size
+        }
+    }
+
+    fun getSwipeNumber(): Int {
+        return swipeTotal
+    }
+
+    fun dropAll() {
+        thread {
+            dao.deleteWordsAll()
+            dao.deleteDicoAll()
+            dao.deleteLanguesAll()
+        }
+    }
+
 }

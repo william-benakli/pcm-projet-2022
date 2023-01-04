@@ -34,18 +34,16 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
         binding = FragmentDicoSelectionBinding.bind(view)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         daoViewModel.loadAllDico()
-
         daoViewModel.getAllDicoBD().observe(viewLifecycleOwner) {
             val shared = activity?.getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
             val list = it.toMutableList()
             var urlBrowser = shared?.getString("urlBrowser", "https://www.google.com/search?q=%mot_origine%").toString()
             urlBrowser += "+%langue_origine%+en+%langue_trad%+dictionnaire"
-            urlBrowser.replace("exemple", "%mot_origine%")
+            urlBrowser = urlBrowser.replace("exemple", "%mot_origine%")
             list.add(0, Dico("Moteur de recherche favoris", urlBrowser, "", ""))
             dicoAdapter = DicoRecyclerAdapter(list)
             binding.recyclerView.adapter = dicoAdapter
         }
-
         buttonEventClick()
     }
 
@@ -63,7 +61,7 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
                     findNavController().navigate(direction)
                 }
             }else{
-                val toast = Toast.makeText(context, "Aucun dictionnaire selectionné, ressayez !", Toast.LENGTH_SHORT)
+                val toast = Toast.makeText(context, R.string.aucunDico, Toast.LENGTH_SHORT)
                 toast.show()
             }
         }

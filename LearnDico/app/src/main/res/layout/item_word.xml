@@ -24,6 +24,20 @@
         android:paddingBottom="0dp">
 
         <!-- Title, secondary and supporting text -->
+
+        <TextView
+            android:id="@+id/ballaye"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ballayer"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,6 +81,12 @@
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?android:attr/textColorSecondary"
             android:id="@+id/wordSignification"/>
+
+        <TextView
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
 
     </LinearLayout>
 

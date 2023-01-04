@@ -56,7 +56,7 @@ class AddLanguageAlertDialog(callback : DialogCallback) : DialogFragment() {
                     }
                     dialog.dismiss()
                 }
-                .setNegativeButton(R.string.annuler) { dialog, id -> dialog.cancel() }
+                .setNegativeButton(R.string.annuler) { dialog, _ -> dialog.cancel() }
             builder.setView(binding.root)
             builder.create()
         } ?: throw IllegalStateException("Erreur dialogFragment activité ne peut être null")

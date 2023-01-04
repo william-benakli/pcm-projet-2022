@@ -3,12 +3,10 @@ package fr.pcmprojet2022.learndico
 import java.util.*
 import android.app.*
 import android.net.Uri
-import android.util.Log
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import android.content.Intent
-import android.os.SystemClock
 import android.content.Context
 import android.provider.Settings
 import androidx.core.app.ActivityCompat
@@ -26,7 +24,6 @@ import android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION
 import fr.pcmprojet2022.learndico.databinding.ActivityMainBinding
 import fr.pcmprojet2022.learndico.notification.ServiceNotification
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import fr.pcmprojet2022.learndico.data.LearnDicoBD
 import fr.pcmprojet2022.learndico.notification.BroadcastReceiversDownload
 
 class MainActivity : AppCompatActivity() {
@@ -43,13 +40,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    val broadcastReceiversDownload = BroadcastReceiversDownload()
+    private val broadcastReceiversDownload = BroadcastReceiversDownload()
 
     private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE) as NotificationManager }
 
     //TODO : Clean navgraph
-
-    val database by lazy{ LearnDicoBD.getInstanceBD(this);}
     
     private lateinit var binding: ActivityMainBinding
 
@@ -81,6 +76,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * Lancer les notifications
+     */
     private fun createJob() {
         val aIntent = Intent(this, ServiceNotification::class.java)
         aIntent.action = "run_notif"
@@ -97,8 +95,6 @@ class MainActivity : AppCompatActivity() {
             set(Calendar.MINUTE, shared.getInt("timeMin", 10))
             set(Calendar.SECOND, 0)
         }
-
-        Log.wtf("",(calendar.timeInMillis-SystemClock.elapsedRealtime()).toString())
 
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
@@ -119,6 +115,9 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Permission pour pouvoir envoyer des notifications
+     */
     private fun requestPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
@@ -139,24 +138,27 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == NOTIF_PERMISSION_CODE) {
             val res =
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    "Permission de notification autorisée"
+                    R.string.autorisationAcceptNotif
                 } else {
-                    "Permission de notification refusée"
+                    R.string.autorisationRejectNotif
                 }
             Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
         }
     }
 
+    /**
+     * Demander les droits pour pouvoir ouvrir des notifications lorsque l'application est éteinte
+     */
     private fun overlayPermission() {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Vue en premier plan")
-            .setMessage("Autorisez-vous l'application à afficher des éléments par-dessus d'autres applications utilisées?")
+            .setTitle(R.string.premierPlanNotif)
+            .setMessage(R.string.autorisationNotif)
             .setIcon(R.drawable.ic_round_notification_important_24)
             .setCancelable(false)
-            .setNegativeButton("Non") { dialog, which ->
-                Toast.makeText(this, "Vous ne pourrez pas ouvrir les notifications si l'application est en arrière plan.", Toast.LENGTH_LONG).show()
+            .setNegativeButton("Non") { _, _ ->
+                Toast.makeText(this, R.string.nonAutorisationNotif, Toast.LENGTH_LONG).show()
             }
-            .setPositiveButton("Oui") { dialog, which ->
+            .setPositiveButton("Oui") { _, _ ->
                 val intent = Intent(
                     ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:$packageName")

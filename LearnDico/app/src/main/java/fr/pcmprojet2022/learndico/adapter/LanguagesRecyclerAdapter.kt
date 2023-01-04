@@ -1,8 +1,8 @@
 package fr.pcmprojet2022.learndico.adapter
 
+//noinspection SuspiciousImport
 import android.R
 import android.annotation.SuppressLint
-import android.content.Context
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,8 +13,12 @@ import fr.pcmprojet2022.learndico.data.entites.Langues
 import fr.pcmprojet2022.learndico.databinding.ItemLanguagesBinding
 
 class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) : RecyclerView.Adapter<LanguagesRecyclerAdapter.VH>() {
-
-    val callback = object : SortedList.Callback<Langues>() {
+    /**
+     * Cette class represente la selection des langues disponibles sur l'application
+     * sout forme de recyclerAdapater
+     *
+     */
+    private val callback = object : SortedList.Callback<Langues>() {
         override fun compare(o1: Langues?, o2: Langues?): Int =
             o1!!.languages.compareTo(o2!!.languages)
 
@@ -38,17 +42,13 @@ class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) 
 
     }
 
-    /**
-     * Cette class represente la selection des langues disponibles sur l'application
-     * sout forme de recyclerAdapater
-     *
-     */
+
     class VH(val binding: ItemLanguagesBinding) : RecyclerView.ViewHolder(binding.root) {
         lateinit var language: Langues
     }
 
-    private var checkedLanguages : Langues? = null;
-    private var isSelectedLanguages: Boolean = false;
+    private var checkedLanguages : Langues? = null
+    private var isSelectedLanguages: Boolean = false
 
     private val sortedList = SortedList(Langues::class.java, callback)
 
@@ -65,20 +65,20 @@ class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) 
             val typedValue = TypedValue()
             parent.context.theme.resolveAttribute(R.attr.colorBackground, typedValue, true)
             card.setCardBackgroundColor(typedValue.data)
-            checkedLanguages = sortedList[holder.absoluteAdapterPosition];
+            checkedLanguages = sortedList[holder.absoluteAdapterPosition]
 
             if(sortedList[holder.absoluteAdapterPosition] == checkedLanguages){
                 parent.context.theme.resolveAttribute(R.attr.colorButtonNormal, typedValue, true)
                 card.setCardBackgroundColor(typedValue.data)
             }
 
-            isSelectedLanguages = true;
-            updateReclycler();
+            isSelectedLanguages = true
+            updateReclycler()
         }
         return holder
     }
 
-    override fun onBindViewHolder(holder: LanguagesRecyclerAdapter.VH, position: Int) {
+    override fun onBindViewHolder(holder: VH, position: Int) {
         holder.language = sortedList[position]
         val card : CardView = holder.binding.cardViewLanguage
         holder.binding.languagesId.text = holder.language.languages
@@ -98,18 +98,18 @@ class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) 
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateReclycler() {
-        this.notifyDataSetChanged();
-        sortedList.clear();
-        sortedList.addAll(list_langues);
+        this.notifyDataSetChanged()
+        sortedList.clear()
+        sortedList.addAll(list_langues)
     }
 
     /*Cette fonction permet de s'assurer que l'utilisateur a bien selectionné un dictionnaire avant de continuer */
     fun isSelected(): Boolean{
-        return isSelectedLanguages;
+        return isSelectedLanguages
     }
 
     fun setSelected(bool: Boolean){
-        isSelectedLanguages = bool;
+        isSelectedLanguages = bool
     }
 
     fun getSelectedLanguages(): Langues? { return checkedLanguages }

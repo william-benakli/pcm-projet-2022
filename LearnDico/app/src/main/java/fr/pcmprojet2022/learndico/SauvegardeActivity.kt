@@ -14,7 +14,7 @@ import kotlin.concurrent.thread
 class SauvegardeActivity : AppCompatActivity() {
 
     /**
-     * Class Sauvegardeactivity est l'activité ou l'utilisateur peut ajouter un mot
+     * Class SauvegardeActivity est l'activité ou l'utilisateur peut ajouter un mot
      * Elle n'est accessible qu'en partageant un lien
      */
     private val database by lazy{ LearnDicoBD.getInstanceBD(this)}
@@ -59,24 +59,35 @@ class SauvegardeActivity : AppCompatActivity() {
                   if (descriptionTrad.isBlank()) descriptionTrad = "Aucune description"
 
                   val mot = Words(
-                      binding.saveWordOrigineId.text.toString(),
+                      binding.saveWordOrigineId.text.toString().lowercase(),
                       binding.wordTradId.text.toString().replace(" ", ""),
                       binding.saveLangueSrcId.text.toString().replace(" ", ""),
                       binding.saveLangueDstId.text.toString().replace(" ", ""),
                       descriptionOrigine,
                       descriptionTrad,
-                      url.toString().replace(" ", ""),
+                      url.toString().replace(" ", "").lowercase(),
                       "",
-                      10
+                      4
                   )
                   addWord(mot)
                   /* Traitement de l'url des dicos et du nom du dictionnaire */
-                  val nomDico =
-                      url.toString().lowercase().replace("https://www.", "").replace("https://", "").split(".")[0]
-                          .replaceFirstChar { c -> c.uppercase() }
-                  val urlDico = url.toString().lowercase()
-                      .replace(binding.saveWordOrigineId.text.toString(), "%mot_origine%")
-                      .replace(binding.wordTradId.text.toString(), "%mot_trad%")
+                  val tabDicoUrl = url.toString().lowercase().replace("https://www.", "").replace("https://", "").split(".")
+                  var locationNameDico = 0
+                  if(tabDicoUrl.size > 2 && (tabDicoUrl[0].length <= 3 || tabDicoUrl[0].contains("dictionnary") || tabDicoUrl[0].contains("mobile") || tabDicoUrl[0].contains("dictionnaire"))){
+                      locationNameDico = 1
+                  }
+                  val urlTab = url.toString().lowercase().split("/")
+                  var newUrl = ""
+                  for(urlParse in urlTab){
+                      newUrl += "$urlParse/"
+                      if(urlParse == binding.saveWordOrigineId.text.toString().trim()){
+                          break
+                      }
+                  }
+                  val nomDico =tabDicoUrl[locationNameDico].replaceFirstChar { c -> c.uppercase() }
+                  val urlDico = newUrl.lowercase()
+                      .replace(binding.saveWordOrigineId.text.toString().lowercase().trim(), "%mot_origine%")
+                      .replace(binding.wordTradId.text.toString().lowercase().trim(), "%mot_trad%")
                   addDictionnaire(urlDico, nomDico)
               }
               Toast.makeText(this, R.string.nouveauMotToList, Toast.LENGTH_LONG).show()
@@ -114,7 +125,6 @@ class SauvegardeActivity : AppCompatActivity() {
             thread { database.getRequestDao().insertMot(words)}
         }
     }
-
 
     private fun loadValueFromBundle(savedInstanceState: Bundle?){
         langueSrc = savedInstanceState?.getString("langueSrc") ?: ""

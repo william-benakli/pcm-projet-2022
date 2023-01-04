@@ -3,7 +3,6 @@ package fr.pcmprojet2022.learndico.fragment.searchonlineword
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -25,7 +24,7 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
     private lateinit var binding: FragmentWordSelectionBinding
     private val searchSharedViewModel: SearchOnlineViewModel by activityViewModels()
     private val languagesSharedViewModel: LanguageViewModel by activityViewModels()
-    private var serach_word: String = ""
+    private var searchWord: String = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +63,7 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
                 }
             }
         }else{
-            val toast = Toast.makeText(context, "Impossible de charger correctement le dictionnaire, ressayez !", Toast.LENGTH_SHORT)
+            val toast = Toast.makeText(context, R.string.impossibleDicoLoad, Toast.LENGTH_SHORT)
             toast.show()
         }
     }
@@ -84,26 +83,26 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
                             ?.replace(" ", "")
                             intent.data = Uri.parse(urlDico)
                             intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(intent)
+                startActivity(intent)
             }else{
-                Toast.makeText(context, "Les champs sont invalides, ressayez !", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.invalideChamps, Toast.LENGTH_SHORT).show()
             }
 
         }
     }
 
     private fun loadValueFromBundle(savedInstanceState: Bundle?) {
-        serach_word = savedInstanceState?.getString("serach_word")?: ""
+        searchWord = savedInstanceState?.getString("searchWord")?: ""
     }
     private fun laodBundleValue() {
         with(binding) {
-            mot.setText(serach_word)
+            mot.setText(searchWord)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("serach_word", serach_word)
+        outState.putString("searchWord", searchWord)
     }
 
 }

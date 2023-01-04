@@ -8,8 +8,8 @@ import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.SortedList
+import fr.pcmprojet2022.learndico.R
 import fr.pcmprojet2022.learndico.adapter.SearchRecycleAdapter
 import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
@@ -17,7 +17,9 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 
 class BroadcastReceiversDownload : BroadcastReceiver() {
 
-    //TODO: supprimer
+    /**
+    * Gestion des téléchargements
+    * */
 
     companion object{
         private var cpt = 0
@@ -30,24 +32,12 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
 
         val downloadID = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)?:-1
 
-        if (downloadID == -1L)Log.wtf("Receiver","broadcastDownloadID")
-
-        Log.wtf("RECEIVER", intent.toString())
-
-        Log.wtf("RECEIVER", downloadID.toString())
-
-        Log.wtf("RECEIVER", mapIdToUrl.toString())
-
         if (downloadID in mapIdToUrl.keys){
-
-            Toast.makeText(context, "Téléchargement terminé", Toast.LENGTH_LONG).show()
-
+            Toast.makeText(context, R.string.dowlaodEnd, Toast.LENGTH_LONG).show()
             val wordToUpdate = mapIdToUrl[downloadID]
             wordToUpdate!!.daoViewModel.addFileName(wordToUpdate.word)
 
         }else Log.wtf("Receiver", "L'application n'est pas concernée par ce téléchargment")
-
-
     }
 
     fun download(
@@ -72,8 +62,6 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
                 Environment.DIRECTORY_DOWNLOADS.toString(),
                 fileName
             )
-            /*.setTitle("LearnDico")
-            .setDescription("Téléchargment en cours de la page web pour le mot "+sortedList[position].wordOrigin)*/
 
         val idDownload : Long = downloadManager.enqueue(request)
 
