@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.SortedList
 import fr.pcmprojet2022.learndico.adapter.SearchRecycleAdapter
 import fr.pcmprojet2022.learndico.data.entites.Words
@@ -17,7 +16,9 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 
 class BroadcastReceiversDownload : BroadcastReceiver() {
 
-    //TODO: supprimer
+    /**
+    * Gestion des téléchargements
+    * */
 
     companion object{
         private var cpt = 0
@@ -29,14 +30,6 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
 
         val downloadID = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)?:-1
-
-        if (downloadID == -1L)Log.wtf("Receiver","broadcastDownloadID")
-
-        Log.wtf("RECEIVER", intent.toString())
-
-        Log.wtf("RECEIVER", downloadID.toString())
-
-        Log.wtf("RECEIVER", mapIdToUrl.toString())
 
         if (downloadID in mapIdToUrl.keys){
 
@@ -72,8 +65,6 @@ class BroadcastReceiversDownload : BroadcastReceiver() {
                 Environment.DIRECTORY_DOWNLOADS.toString(),
                 fileName
             )
-            /*.setTitle("LearnDico")
-            .setDescription("Téléchargment en cours de la page web pour le mot "+sortedList[position].wordOrigin)*/
 
         val idDownload : Long = downloadManager.enqueue(request)
 

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import android.content.Context
-import android.util.Log
+import android.content.SharedPreferences
 import fr.pcmprojet2022.learndico.R
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -18,8 +18,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private lateinit var binding: FragmentSettingsBinding
     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
 
-    private var moteur_recherche : String = ""
-    private var mot_by_day : Int = 6
+    private var moteurRecherche : String = ""
+    private var motByDay : Int = 6
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +37,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
                 .setHour(shared.getInt("timeHour",12))
-                .setMinute(shared.getInt("timeMin", 10))//TODO: get value in shared file
+                .setMinute(shared.getInt("timeMin", 10))
                 .setTitleText("Heure de notification")
                 .build()
 
@@ -46,10 +46,19 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
 
         binding.buttonClearDb.setOnClickListener {
-            Log.wtf("suppresion", "bdd")
             daoViewModel.dropAll()
             //   Toast.makeText(this, R.string.deleteBd, Toast.LENGTH_LONG).show()
         }
+
+        saveAll(edit, shared, picker)
+
+    }
+
+    private fun saveAll(
+        edit: SharedPreferences.Editor,
+        shared: SharedPreferences,
+        picker: MaterialTimePicker
+    ) {
         binding.buttonSaveChange.setOnClickListener {
 
             val value = try {
@@ -79,25 +88,23 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             edit.apply()
             Toast.makeText(context, "Enregistrement des données effectué.", Toast.LENGTH_LONG).show()
         }
-
-
     }
 
     private fun loadValueFromBundle(savedInstanceState: Bundle?) {
-        moteur_recherche = savedInstanceState?.getString("moteur_recherche")?: ""
-        mot_by_day = (savedInstanceState?.getInt("mot_by_day")?: 6)
+        moteurRecherche = savedInstanceState?.getString("moteur_recherche")?: ""
+        motByDay = (savedInstanceState?.getInt("mot_by_day")?: 6)
     }
     private fun laodBundleValue() {
         with(binding) {
-            filledTextFavoritBrowser.editText?.setText(moteur_recherche)
-            filledTextFieldNbrWordMax.editText?.setText(mot_by_day.toString())
+            filledTextFavoritBrowser.editText?.setText(moteurRecherche)
+            filledTextFieldNbrWordMax.editText?.setText(motByDay.toString())
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("moteur_recherche", moteur_recherche)
-        outState.putInt("mot_by_day", mot_by_day)
+        outState.putString("moteur_recherche", moteurRecherche)
+        outState.putInt("mot_by_day", motByDay)
 
     }
 

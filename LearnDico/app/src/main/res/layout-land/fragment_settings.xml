@@ -4,21 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.SettingsFragment"
-    android:layout_marginBottom="?attr/actionBarSize">
+    tools:context=".fragment.SettingsFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <TextView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="Paramètres"
         android:layout_marginLeft="32dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
         android:textSize="48sp"
         app:layout_constraintBottom_toTopOf="@+id/filledTextFieldNbrWordMax"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,37 +60,32 @@
     <Button
         android:id="@+id/timeNotificationButton"
         style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Modifier l'heure de notification"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:text="Heure de notification"
         app:icon="@drawable/ic_round_access_time_24"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filledTextFavoritBrowser" />
 
     <Button
         android:id="@+id/button_save_change"
         style="@style/Widget.Material3.Button.ElevatedButton"
+        android:layout_marginRight="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sauvegarder les changements"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filledTextFieldNbrWordMax" />
+        app:layout_constraintTop_toBottomOf="@+id/filledTextFavoritBrowser" />
 
     <Button
         android:id="@+id/button_clear_db"
         style="@style/Widget.Material3.Button.OutlinedButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Nettoyer la base de donnée"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_save_change" />
-        </RelativeLayout>
-    </ScrollView>
+        app:layout_constraintEnd_toStartOf="@+id/button_save_change"
+        app:layout_constraintStart_toEndOf="@+id/timeNotificationButton"
+        app:layout_constraintTop_toBottomOf="@+id/filledTextFavoritBrowser" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
@@ -15,14 +14,16 @@ import kotlin.concurrent.thread
 
 class ServiceNotification: LifecycleService() {
 
+    /**
+     * Service gérant les notifications
+     */
+
     private val NOTIFICATION_CHANNEL_ID = "10001"
     private val CHANNEL_ID = "channel"
 
     private val notificationManager by lazy { getSystemService(NOTIFICATION_SERVICE) as NotificationManager }
 
     private val database by lazy{ LearnDicoBD.getInstanceBD(this);}
-
-    //private val dao = (application as MainActivity).database.getRequestDao()
 
     companion object {
         private var cpt=0
@@ -31,10 +32,7 @@ class ServiceNotification: LifecycleService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        Log.wtf("ON START ", "################################")
         if (intent!=null){
-
-            Log.wtf("Service", intent.action.toString())
 
             when (intent.action) {
                 "open_notif" -> {
@@ -50,9 +48,6 @@ class ServiceNotification: LifecycleService() {
                     var swip = 0
                     thread {
                         val wordRq = database.getRequestDao().getWordByKey(intent.getStringExtra("idWord").toString())
-                        if (wordRq != null) {
-                            Log.wtf("test", wordRq.remainingUses.toString())
-                        }
                         if (wordRq!=null){
                             wordRq.remainingUses-=1
                             database.getRequestDao().updateWord(wordRq)
@@ -66,10 +61,6 @@ class ServiceNotification: LifecycleService() {
                     val shared = getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
                     thread {
                         val listWord = database.getRequestDao().loadAllWordsAvailableNotif().toMutableList()
-                        for(item in listWord){
-                            Log.wtf("element " , item.wordOrigin)
-                            Log.wtf("element " , item.remainingUses.toString())
-                        }
                         val nbrElement = shared.getInt("numNotification", 0)-swd
                         val randomElements = listWord.asSequence().shuffled().take(nbrElement).toList()//list de mots qu'on va envoyer à l'utilisateur
 
@@ -91,8 +82,6 @@ class ServiceNotification: LifecycleService() {
                     }
                 }
             }
-
-            /*Log.wtf("ServiceNotification", intent.action.toString())*/
 
         }
 
@@ -127,7 +116,6 @@ class ServiceNotification: LifecycleService() {
             )
             .build()
 
-        Log.wtf("SeviceNotification", cpt.toString())
         notificationManager.notify(cpt, notification)
 
         cpt++

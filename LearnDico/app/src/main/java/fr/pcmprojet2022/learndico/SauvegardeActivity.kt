@@ -2,15 +2,12 @@ package fr.pcmprojet2022.learndico
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import fr.pcmprojet2022.learndico.data.LearnDicoBD
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.data.entites.Words
 import fr.pcmprojet2022.learndico.databinding.ActivitySaveBinding
-import java.io.ByteArrayInputStream
-import java.nio.charset.StandardCharsets
 import kotlin.concurrent.thread
 
 
@@ -86,7 +83,6 @@ class SauvegardeActivity : AppCompatActivity() {
                   val urlDico = newUrl.toString().lowercase()
                       .replace(binding.saveWordOrigineId.text.toString(), "%mot_origine%")
                       .replace(binding.wordTradId.text.toString(), "%mot_trad%")
-                  Log.w("dico", urlDico)
                   addDictionnaire(urlDico, nomDico)
               }
               Toast.makeText(this, R.string.nouveauMotToList, Toast.LENGTH_LONG).show()

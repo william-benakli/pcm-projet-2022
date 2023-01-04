@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -27,9 +26,14 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.ModifiedWordViewModel
 import java.io.File
 
 
-class SearchRecycleAdapter(words: MutableList<Words>, private val context: Context, private val daoViewModel : DaoViewModel, dialogCallback: DialogCallback, modifiedWordViewModel: ModifiedWordViewModel) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
+class SearchRecycleAdapter(words: MutableList<Words>,
+                           private val context: Context,
+                           private val daoViewModel : DaoViewModel,
+                           private val dialogCallback: DialogCallback,
+                           private val modifiedWordViewModel: ModifiedWordViewModel
+) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
-    val callback = object : Callback<Words>() {
+    private val callback = object : Callback<Words>() {
         override fun compare(o1: Words?, o2: Words?): Int =
             o1!!.wordTranslate.compareTo(o2!!.wordTranslate)
 
@@ -55,8 +59,6 @@ class SearchRecycleAdapter(words: MutableList<Words>, private val context: Conte
 
     private val broadcastReceiversDownload = BroadcastReceiversDownload()
     private val sortedList = SortedList(Words::class.java, callback)
-    private val  dialogCallback: DialogCallback = dialogCallback
-    private val  modifiedWordViewModel: ModifiedWordViewModel = modifiedWordViewModel
 
     init {
         sortedList.addAll(words)
@@ -139,7 +141,6 @@ class SearchRecycleAdapter(words: MutableList<Words>, private val context: Conte
                     BuildConfig.APPLICATION_ID + ".provider",
                     file
                 )
-                Log.wtf("LINK", intentI.data.toString())
                 intentI.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 context.startActivity(intentI)
             }else {

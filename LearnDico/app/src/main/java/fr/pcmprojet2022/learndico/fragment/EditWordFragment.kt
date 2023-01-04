@@ -2,7 +2,6 @@ package fr.pcmprojet2022.learndico.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import fr.pcmprojet2022.learndico.R
@@ -16,11 +15,13 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.ModifiedWordViewModel
 
 class EditWordFragment : Fragment(R.layout.fragment_edit_word) {
 
-    lateinit var binding: FragmentEditWordBinding
+    /**
+     * Modifier les descriptions d'un mot
+     */
 
+    lateinit var binding: FragmentEditWordBinding
     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
     private val modifiedWordViewModel : ModifiedWordViewModel by activityViewModels()
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

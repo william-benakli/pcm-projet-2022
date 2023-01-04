@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.SortedList
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.databinding.ItemDicoBinding
 
-
 class DicoRecyclerAdapter (list_dico: MutableList<Dico>) : RecyclerView.Adapter<DicoRecyclerAdapter.VH>() {
 
     private val callback = object : SortedList.Callback<Dico>() {
