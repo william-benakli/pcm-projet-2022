@@ -38,8 +38,8 @@ class SearchRecycleAdapter(words : MutableList<Words>,
         override fun compare(o1: Words?, o2: Words?): Int {
             return when(spinnerValue){
                 "Ordre alphabetique" -> o1!!.wordOrigin.compareTo(o2!!.wordOrigin)
-                "Décroissant" -> o1!!.remainingUses.compareTo(o2!!.remainingUses)
-                "Croissant" -> o2!!.remainingUses.compareTo(o1!!.remainingUses)
+                "Croissant" -> o1!!.remainingUses.compareTo(o2!!.remainingUses)
+                "Décroissant" -> o2!!.remainingUses.compareTo(o1!!.remainingUses)
                 else -> o1!!.wordTranslate.compareTo(o2!!.wordTranslate)
             }
         }

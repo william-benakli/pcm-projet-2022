@@ -96,13 +96,13 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
 
     fun peuplementBaseDonne() {
         thread {
-            dao.insertMot(Words("Avion", "aircraft", "francais", "anglais", "ça vole dans le ciel.", "Aucune.", "https://www.larousse.fr/dictionnaires/anglais-francais/aircraft", null, 4))
+            dao.insertMot(Words("Avion", "Aircraft", "francais", "anglais", "ça vole dans le ciel.", "Aucune.", "https://www.larousse.fr/dictionnaires/anglais-francais/aircraft", null, 4))
             dao.insertMot(Words("Bisonte", "Buffalo", "espagnol", "anglais", "Animal: parecido al toro.", "Large, massive wild ox, armed with short horns and with a hump between the shoulders.", "https://www.wordreference.com/es/en/translation.asp?spen=bisonte", null, 4))
             dao.insertLangues(Langues("francais"))
             dao.insertLangues(Langues("anglais"))
             dao.insertLangues(Langues("espangol"))
             dao.insertDictionnaire(Dico("WordReference", "https://www.wordreference.com/es/en/translation.asp?spen=%mot_origine%", "espagnol", "anglais"))
-            dao.insertDictionnaire(Dico("LaRousse", "https://www.larousse.fr/dictionnaires/anglais-francais/%mot_origine%", "espagnol", "anglais"))
+            dao.insertDictionnaire(Dico("LaRousse", "https://www.larousse.fr/dictionnaires/anglais-francais/%mot_origine%", "anglais", "francais"))
         }
     }
 

@@ -86,8 +86,8 @@ class SauvegardeActivity : AppCompatActivity() {
                   }
                   val nomDico =tabDicoUrl[locationNameDico].replaceFirstChar { c -> c.uppercase() }
                   val urlDico = newUrl.lowercase()
-                      .replace(binding.saveWordOrigineId.text.toString().trim(), "%mot_origine%")
-                      .replace(binding.wordTradId.text.toString().trim(), "%mot_trad%")
+                      .replace(binding.saveWordOrigineId.text.toString().lowercase().trim(), "%mot_origine%")
+                      .replace(binding.wordTradId.text.toString().lowercase().trim(), "%mot_trad%")
                   addDictionnaire(urlDico, nomDico)
               }
               Toast.makeText(this, R.string.nouveauMotToList, Toast.LENGTH_LONG).show()
