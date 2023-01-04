@@ -16,7 +16,8 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.ModifiedWordViewModel
 class EditWordFragment : Fragment(R.layout.fragment_edit_word) {
 
     /**
-     * Modifier les descriptions d'un mot
+     * Classe EditWordFragment permet de modifier les descriptions d'un mot selectionné par l'utilisateur
+     * elle est composé de plusieurs EditText et d'un boutton de validation
      */
 
     private lateinit var binding: FragmentEditWordBinding

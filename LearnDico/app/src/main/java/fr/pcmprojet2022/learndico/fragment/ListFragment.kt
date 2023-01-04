@@ -18,6 +18,11 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.ModifiedWordViewModel
 
 class ListFragment : Fragment(), DialogCallback {
 
+    /**
+     * Classe ListFragment à un nom ambigue mais contient la list des mots visibles dans le fragment.
+     * Elle contient egalement un systeme recherche avancé avec un EditInputText.
+     *
+     */
     private lateinit var recyclerView: RecyclerView
     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
     private val modifiedWordViewModel : ModifiedWordViewModel by activityViewModels()
@@ -30,7 +35,7 @@ class ListFragment : Fragment(), DialogCallback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentListBinding.inflate(inflater, container, false)
+        binding = FragmentListBinding.inflate(inflater, container, false)
         val view = binding.root
 
         recyclerView = binding.recycler
@@ -42,7 +47,6 @@ class ListFragment : Fragment(), DialogCallback {
         return view
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun textEvent(){
         daoViewModel.getUpdateFileName().observe(viewLifecycleOwner) {
             recyclerView.adapter!!.notifyDataSetChanged()
@@ -72,7 +76,7 @@ class ListFragment : Fragment(), DialogCallback {
         daoViewModel.getResultPartialWord().removeObservers(this@ListFragment)
         daoViewModel.loadPartialWords(s)
         daoViewModel.getResultPartialWord().observe(viewLifecycleOwner) {
-            adapter = SearchRecycleAdapter(it.toMutableList(), "Ordre alphabetique", requireContext(), daoViewModel, this, modifiedWordViewModel)
+            adapter = SearchRecycleAdapter(it.toMutableList(),  binding.spinner2.selectedItem.toString(), requireContext(), daoViewModel, this, modifiedWordViewModel)
             recyclerView.adapter = adapter
             adapter.notifyDataSetChanged()
         }

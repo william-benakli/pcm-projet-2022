@@ -27,7 +27,7 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     private val languesSelected: MutableList<Langues> = mutableListOf<Langues>()
     private val resultPartialWord = MutableLiveData<List<Words>>(emptyList())
     private val updateFileName = MutableLiveData(0)
-    private val availableNotif = MutableLiveData<List<Words>>(emptyList())
+    /*private val availableNotif = MutableLiveData<List<Words>>(emptyList())*/
     private var swipeTotal = 0
 
     fun loadAllDico() {
@@ -51,7 +51,7 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     fun loadLanguages(languages: String){
         thread {
             languesSelected.addAll(dao.loadLanguages(languages))
-        }
+        }.join()
     }
 
     fun addFileName(word : Words){
@@ -86,7 +86,7 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
         return resultPartialWord
     }
 
-    fun getAvailableNotif() : MutableLiveData<List<Words>> = availableNotif
+    /*fun getAvailableNotif() : MutableLiveData<List<Words>> = availableNotif*/
 
     fun loadAllWord() {
         thread {
@@ -94,19 +94,15 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun insertWord() {
+    fun peuplementBaseDonne() {
         thread {
-            //val wordOrigin: String, val wordTranslate: String, val languageOrigin: String, val languageTranslation: String, val wordSignification: String, val translationSignification: String, val url: String
-            dao.insertMot(Words("AAAA", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "https://www.willisesfsefsefam.fr", null, 10));
-            dao.insertMot(Words("BBBB", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr", null ,4))
-            dao.insertMot(Words("CCC", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr5", null ,4))
-            dao.insertMot(Words("DDDDD", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr2", null ,4))
-            dao.insertMot(Words("EEE", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr01", null ,4))
-            dao.insertMot(Words("GGGG", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f1r", null ,4))
-            dao.insertMot(Words("VVVVV", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f0r", null ,4))
-            dao.insertMot(Words("BHHHHH", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f0r", null ,4))
-            dao.insertMot(Words("TETETET", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.williaghm.fr", null ,4))
-            dao.insertMot(Words("FYHYFH", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.wilsglrgiam.fr", null ,4))
+            dao.insertMot(Words("Avion", "aircraft", "francais", "anglais", "ça vole dans le ciel.", "Aucune.", "https://www.larousse.fr/dictionnaires/anglais-francais/aircraft", null, 4))
+            dao.insertMot(Words("Bisonte", "Buffalo", "espagnol", "anglais", "Animal: parecido al toro.", "Large, massive wild ox, armed with short horns and with a hump between the shoulders.", "https://www.wordreference.com/es/en/translation.asp?spen=bisonte", null, 4))
+            dao.insertLangues(Langues("francais"))
+            dao.insertLangues(Langues("anglais"))
+            dao.insertLangues(Langues("espangol"))
+            dao.insertDictionnaire(Dico("WordReference", "https://www.wordreference.com/es/en/translation.asp?spen=%mot_origine%", "espagnol", "anglais"))
+            dao.insertDictionnaire(Dico("LaRousse", "https://www.larousse.fr/dictionnaires/anglais-francais/%mot_origine%", "espagnol", "anglais"))
         }
     }
 

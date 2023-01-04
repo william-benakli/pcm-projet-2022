@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import fr.pcmprojet2022.learndico.databinding.FragmentSearchBinding
 
-
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
+    /**
+     * Classe SearchFragment est la page principal de l'application.
+     */
     private lateinit var binding: FragmentSearchBinding
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

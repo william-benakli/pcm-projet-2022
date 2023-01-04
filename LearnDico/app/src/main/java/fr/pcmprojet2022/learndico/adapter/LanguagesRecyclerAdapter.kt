@@ -13,7 +13,11 @@ import fr.pcmprojet2022.learndico.data.entites.Langues
 import fr.pcmprojet2022.learndico.databinding.ItemLanguagesBinding
 
 class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) : RecyclerView.Adapter<LanguagesRecyclerAdapter.VH>() {
-
+    /**
+     * Cette class represente la selection des langues disponibles sur l'application
+     * sout forme de recyclerAdapater
+     *
+     */
     private val callback = object : SortedList.Callback<Langues>() {
         override fun compare(o1: Langues?, o2: Langues?): Int =
             o1!!.languages.compareTo(o2!!.languages)
@@ -38,11 +42,7 @@ class LanguagesRecyclerAdapter (private val list_langues: MutableList<Langues>) 
 
     }
 
-    /**
-     * Cette class represente la selection des langues disponibles sur l'application
-     * sout forme de recyclerAdapater
-     *
-     */
+
     class VH(val binding: ItemLanguagesBinding) : RecyclerView.ViewHolder(binding.root) {
         lateinit var language: Langues
     }

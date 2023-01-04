@@ -43,19 +43,16 @@ class ServiceNotification: LifecycleService() {
                     notificationManager.cancel(intent.getIntExtra("notification_id", 0))
                 }
                 "swipe_notif" -> {
-
-                    //TODO: RÉCUPÉRER ID
-                    var swip = 0
                     thread {
                         val wordRq = database.getRequestDao().getWordByKey(intent.getStringExtra("idWord").toString())
                         if (wordRq!=null){
                             wordRq.remainingUses-=1
                             database.getRequestDao().updateWord(wordRq)
-                            swip = wordRq.remainingUses
+                            wordRq.remainingUses
                         }
                     }
                     swd--
-                    Toast.makeText(this, "Vous avez validé ce mot $swip/10", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.valideMot, Toast.LENGTH_LONG).show()
                 }
                 "run_notif" -> {
                     val shared = getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)

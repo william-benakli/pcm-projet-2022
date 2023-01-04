@@ -37,9 +37,9 @@ class SearchRecycleAdapter(words : MutableList<Words>,
     private val callback = object : Callback<Words>() {
         override fun compare(o1: Words?, o2: Words?): Int {
             return when(spinnerValue){
-                "Ordre alphabetique" -> o1!!.wordTranslate.compareTo(o2!!.wordTranslate)
+                "Ordre alphabetique" -> o1!!.wordOrigin.compareTo(o2!!.wordOrigin)
                 "Décroissant" -> o1!!.remainingUses.compareTo(o2!!.remainingUses)
-                "Croissant" -> o1!!.remainingUses.compareTo(o2!!.remainingUses)
+                "Croissant" -> o2!!.remainingUses.compareTo(o1!!.remainingUses)
                 else -> o1!!.wordTranslate.compareTo(o2!!.wordTranslate)
             }
         }
@@ -124,7 +124,7 @@ class SearchRecycleAdapter(words : MutableList<Words>,
             translationSignification.text = holder.wordObj.translationSignification
             wordSignification.text = holder.wordObj.wordSignification
             if(holder.wordObj.remainingUses == 0){
-                ballaye.text = (R.string.maitriseMot.toString())
+                ballaye.text = ("Mot matrisé ! Bravo :)")
             }else ballaye.text = ballaye.text.toString().replace("%value%", holder.wordObj.remainingUses.toString())
         }
 
@@ -141,7 +141,7 @@ class SearchRecycleAdapter(words : MutableList<Words>,
                 val intentI = Intent(Intent.ACTION_VIEW)
                 val file = File(
                     context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS),
-                    holder.wordObj.fileName.toString()/*"LearnDico.html"*/
+                    holder.wordObj.fileName.toString()
                 )
                 intentI.data = FileProvider.getUriForFile(
                     context,

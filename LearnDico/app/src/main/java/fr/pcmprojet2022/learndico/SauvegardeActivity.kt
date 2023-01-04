@@ -21,7 +21,6 @@ class SauvegardeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySaveBinding
     private var url: String? = ""
-    private var newUrl: String? = ""
     private var langueSrc: String = ""
     private var langueDest: String = ""
     private var motSrc: String = ""
@@ -37,8 +36,6 @@ class SauvegardeActivity : AppCompatActivity() {
         laodBundleValue()
         if(intent.action.equals( "android.intent.action.SEND")){
             url = intent.extras?.getString( "android.intent.extra.TEXT" )
-            val charset = Charsets.UTF_8
-            val newUrl = url?.toByteArray(charset)?.toString(charset)
         }else{
             Toast.makeText(this, R.string.erreur_survenue, Toast.LENGTH_LONG).show()
             finish()
@@ -68,21 +65,29 @@ class SauvegardeActivity : AppCompatActivity() {
                       binding.saveLangueDstId.text.toString().replace(" ", ""),
                       descriptionOrigine,
                       descriptionTrad,
-                      newUrl.toString().replace(" ", "").lowercase(),
+                      url.toString().replace(" ", "").lowercase(),
                       "",
-                      10
+                      4
                   )
                   addWord(mot)
                   /* Traitement de l'url des dicos et du nom du dictionnaire */
-                  val tabDicoUrl = newUrl.toString().lowercase().replace("https://www.", "").replace("https://", "").split(".")
+                  val tabDicoUrl = url.toString().lowercase().replace("https://www.", "").replace("https://", "").split(".")
                   var locationNameDico = 0
-                  if(tabDicoUrl.size > 1 && (tabDicoUrl[0].length <= 3 || tabDicoUrl[0].contains("dictionnary") || tabDicoUrl[0].contains("mobile") || tabDicoUrl[0].contains("dictionnaire"))){
+                  if(tabDicoUrl.size > 2 && (tabDicoUrl[0].length <= 3 || tabDicoUrl[0].contains("dictionnary") || tabDicoUrl[0].contains("mobile") || tabDicoUrl[0].contains("dictionnaire"))){
                       locationNameDico = 1
                   }
+                  val urlTab = url.toString().lowercase().split("/")
+                  var newUrl = ""
+                  for(urlParse in urlTab){
+                      newUrl += "$urlParse/"
+                      if(urlParse == binding.saveWordOrigineId.text.toString().trim()){
+                          break
+                      }
+                  }
                   val nomDico =tabDicoUrl[locationNameDico].replaceFirstChar { c -> c.uppercase() }
-                  val urlDico = newUrl.toString().lowercase()
-                      .replace(binding.saveWordOrigineId.text.toString(), "%mot_origine%")
-                      .replace(binding.wordTradId.text.toString(), "%mot_trad%")
+                  val urlDico = newUrl.lowercase()
+                      .replace(binding.saveWordOrigineId.text.toString().trim(), "%mot_origine%")
+                      .replace(binding.wordTradId.text.toString().trim(), "%mot_trad%")
                   addDictionnaire(urlDico, nomDico)
               }
               Toast.makeText(this, R.string.nouveauMotToList, Toast.LENGTH_LONG).show()

@@ -1,12 +1,9 @@
 package fr.pcmprojet2022.learndico.sharedviewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import fr.pcmprojet2022.learndico.data.entites.Dico
 
-class SearchOnlineViewModel : ViewModel() {//(application: Application): AndroidViewModel(application) {
-
+class SearchOnlineViewModel : ViewModel() {
 
     /**
      * Cette classe de type ViewModel permet de stocker pour transferer le dictionnaire du fragmenent
@@ -20,11 +17,11 @@ class SearchOnlineViewModel : ViewModel() {//(application: Application): Android
     private var selectedDico : Dico? = null
 
     fun setSelectedDico(selected: Dico?){
-        selectedDico = selected;
+        selectedDico = selected
     }
 
     fun getSelectedDico(): Dico? {
-        return selectedDico;
+        return selectedDico
     }
 
 }

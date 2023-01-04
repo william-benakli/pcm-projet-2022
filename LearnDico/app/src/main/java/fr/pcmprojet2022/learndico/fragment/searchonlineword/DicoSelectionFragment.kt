@@ -33,7 +33,6 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDicoSelectionBinding.bind(view)
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        daoViewModel.insertWord()
         daoViewModel.loadAllDico()
         daoViewModel.getAllDicoBD().observe(viewLifecycleOwner) {
             val shared = activity?.getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
@@ -45,7 +44,6 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
             dicoAdapter = DicoRecyclerAdapter(list)
             binding.recyclerView.adapter = dicoAdapter
         }
-
         buttonEventClick()
     }
 

@@ -1,6 +1,5 @@
 package fr.pcmprojet2022.learndico.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import fr.pcmprojet2022.learndico.data.entites.Dico
 import fr.pcmprojet2022.learndico.data.entites.Langues
@@ -9,6 +8,9 @@ import fr.pcmprojet2022.learndico.data.entites.Words
 @Dao
 interface RequestDao {
 
+    /**
+     * Classe RequestDao est compose par l'emsemble des requetes Dao de notre application
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMot(vararg words: Words) : List<Long>
 

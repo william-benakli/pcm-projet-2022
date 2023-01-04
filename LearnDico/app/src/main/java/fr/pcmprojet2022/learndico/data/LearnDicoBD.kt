@@ -12,6 +12,10 @@ import android.content.Context
 @Database(entities = [Words::class, Dico::class, Langues::class], version=23)
 abstract class LearnDicoBD : RoomDatabase() {
 
+    /**
+     * Abstract classe LearnDicoBD est un singleton permet d'avoir une unique instance de connexion à la base de donnée ROOM
+     */
+
     abstract fun getRequestDao(): RequestDao
 
     companion object {

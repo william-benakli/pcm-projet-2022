@@ -138,9 +138,9 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == NOTIF_PERMISSION_CODE) {
             val res =
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    "Permission de notification autorisée"
+                    R.string.autorisationAcceptNotif
                 } else {
-                    "Permission de notification refusée"
+                    R.string.autorisationRejectNotif
                 }
             Toast.makeText(this, res, Toast.LENGTH_SHORT).show()
         }
@@ -151,12 +151,12 @@ class MainActivity : AppCompatActivity() {
      */
     private fun overlayPermission() {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Vue en premier plan")
-            .setMessage("Autorisez-vous l'application à afficher des éléments par-dessus d'autres applications utilisées?")
+            .setTitle(R.string.premierPlanNotif)
+            .setMessage(R.string.autorisationNotif)
             .setIcon(R.drawable.ic_round_notification_important_24)
             .setCancelable(false)
             .setNegativeButton("Non") { _, _ ->
-                Toast.makeText(this, "Vous ne pourrez pas ouvrir les notifications si l'application est en arrière plan.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.nonAutorisationNotif, Toast.LENGTH_LONG).show()
             }
             .setPositiveButton("Oui") { _, _ ->
                 val intent = Intent(

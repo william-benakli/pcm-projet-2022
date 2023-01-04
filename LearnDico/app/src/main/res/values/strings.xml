@@ -28,7 +28,7 @@
     <string name="bienvenue_msg">Bienvenue sur LearnDico ! Cette application est conçue pour l\'apprentissage de mot dans plusieurs langues. Testez, à vous de jouer !</string>
     <string name="moteurDeRecherche">Moteur de recherche favoris</string>
     <string name="motExistDeja">Ce mot existe deja dans votre dictionnaire actuel !</string>
-    <string name="ballayer">Ce mot doit être ballayé encore %value%/10 pour être valide</string>
+    <string name="ballayer">Matrise du mot: %value%/4 mots à valider </string>
     <string name="valider_modif">valider les modifications</string>
     <string name="motAJour">Votre mot a été mis à jour.</string>
     <string name="Recherche">Recherchez vos mots</string>
@@ -49,4 +49,14 @@
     <string name="noDescription">Aucune description</string>
     <string name="Recent">Recent</string>
     <string name="tri_par">Trié par</string>
+    <string name="MoteurRechercheExempleLink">Pour integrer votre recherche de moteur, il faut que vous fassiez le recherche \"exemple\" et appliquer le lien dans le champs ci dessus:</string>
+    <string name="dowlaodEnd">Téléchargement terminé</string>
+    <string name="valideMot">Vous avez validé ce mot !</string>
+    <string name="autorisationNotif">Autorisez-vous l\'application à afficher des éléments par-dessus d\'autres applications utilisées ?</string>
+    <string name="nonAutorisationNotif">Vous ne pourrez pas ouvrir les notifications si l\'application est en arrière plan.</string>
+    <string name="premierPlanNotif">Vue en premier plan</string>
+    <string name="autorisationAcceptNotif">Permission de notification autorisée</string>
+    <string name="autorisationRejectNotif">Permission de notification refusée</string>
+    <string name="clearBDD">Nettoyer la base de donnée</string>
+    <string name="peuplerBDD">Populer la base de donnée</string>
 </resources>

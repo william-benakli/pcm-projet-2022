@@ -15,6 +15,10 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.DaoViewModel
 
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
+    /**
+     * Classe SettingsFragment est la parametre de l'application.
+     */
+
     private lateinit var binding: FragmentSettingsBinding
     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
 
@@ -28,11 +32,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         laodBundleValue()
         val shared = this.requireActivity().getSharedPreferences("params_learn_dico", Context.MODE_PRIVATE)
         val edit = shared.edit()
-
         binding.filledTextFieldNbrWordMax.editText?.setText(shared.getInt("numNotification", 0).toString())
-
         binding.filledTextFavoritBrowser.editText?.setText(shared.getString("urlBrowser", "https://www.google.com/search?q=exemple"))
-
         val picker =
             MaterialTimePicker.Builder()
                 .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -45,13 +46,21 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             picker.show(requireActivity().supportFragmentManager, "Setting_Fragment")
         }
 
-        binding.buttonClearDb.setOnClickListener {
-            daoViewModel.dropAll()
-            //   Toast.makeText(this, R.string.deleteBd, Toast.LENGTH_LONG).show()
-        }
-
+        buttonEvent()
         saveAll(edit, shared, picker)
 
+    }
+
+    private fun buttonEvent() {
+        binding.buttonClearDb.setOnClickListener {
+            daoViewModel.dropAll()
+            Toast.makeText(context, R.string.deleteBd, Toast.LENGTH_LONG).show()
+        }
+
+        binding.peuplerBdd?.setOnClickListener {
+            daoViewModel.peuplementBaseDonne()
+            Toast.makeText(context, R.string.deleteBd, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun saveAll(
@@ -75,7 +84,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             edit.putString(
                 "urlBrowser",
                 urlBrowser
-            )//TODO: gérer le favoris dans le searchonlineword
+            )
 
             try {
                 edit.putInt("timeMin", picker.minute)

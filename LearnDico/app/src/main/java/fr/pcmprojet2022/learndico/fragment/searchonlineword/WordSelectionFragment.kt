@@ -3,7 +3,6 @@ package fr.pcmprojet2022.learndico.fragment.searchonlineword
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -84,9 +83,6 @@ class WordSelectionFragment: Fragment(R.layout.fragment_word_selection) {
                             ?.replace(" ", "")
                             intent.data = Uri.parse(urlDico)
                             intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK
-                if (urlDico != null) {
-                    Log.w("d<##########ico use", urlDico)
-                }
                 startActivity(intent)
             }else{
                 Toast.makeText(context, R.string.invalideChamps, Toast.LENGTH_SHORT).show()
