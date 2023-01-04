@@ -19,7 +19,7 @@ class EditWordFragment : Fragment(R.layout.fragment_edit_word) {
      * Modifier les descriptions d'un mot
      */
 
-    lateinit var binding: FragmentEditWordBinding
+    private lateinit var binding: FragmentEditWordBinding
     private val daoViewModel by lazy { ViewModelProvider(this)[DaoViewModel::class.java] }
     private val modifiedWordViewModel : ModifiedWordViewModel by activityViewModels()
 
@@ -34,11 +34,11 @@ class EditWordFragment : Fragment(R.layout.fragment_edit_word) {
                 textView2.text = word.wordTranslate
 
                 descSrc.setText(
-                    modifiedWordViewModel.getWord()?.wordSignification ?: "Aucune description"
+                    modifiedWordViewModel.getWord()?.wordSignification ?: (R.string.noDescription.toString())
                 )
                 descTrad.setText(
                     modifiedWordViewModel.getWord()?.translationSignification
-                        ?: "Aucune description"
+                        ?: (R.string.noDescription.toString())
                 )
                 valider.setOnClickListener {
                     if (descSrc.text!!.isNotEmpty() && descTrad.text!!.isNotEmpty()) {

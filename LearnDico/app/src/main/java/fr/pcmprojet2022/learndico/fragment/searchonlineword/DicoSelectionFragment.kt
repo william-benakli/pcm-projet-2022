@@ -63,7 +63,7 @@ class DicoSelectionFragment : Fragment(R.layout.fragment_dico_selection) {
                     findNavController().navigate(direction)
                 }
             }else{
-                val toast = Toast.makeText(context, "Aucun dictionnaire selectionné, ressayez !", Toast.LENGTH_SHORT)
+                val toast = Toast.makeText(context, R.string.aucunDico, Toast.LENGTH_SHORT)
                 toast.show()
             }
         }

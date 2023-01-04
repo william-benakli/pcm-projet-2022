@@ -3,11 +3,8 @@ package fr.pcmprojet2022.learndico.dialog
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
@@ -59,7 +56,7 @@ class AddLanguageAlertDialog(callback : DialogCallback) : DialogFragment() {
                     }
                     dialog.dismiss()
                 }
-                .setNegativeButton(R.string.annuler) { dialog, id -> dialog.cancel() }
+                .setNegativeButton(R.string.annuler) { dialog, _ -> dialog.cancel() }
             builder.setView(binding.root)
             builder.create()
         } ?: throw IllegalStateException("Erreur dialogFragment activité ne peut être null")

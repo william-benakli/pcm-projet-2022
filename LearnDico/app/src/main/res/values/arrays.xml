@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="simple_items">Google</string-array>
+    <string-array name="spinner_entries">
+        <item>Ordre alphabetique</item>
+        <item>Décroissant</item>
+        <item>Croissant</item>
+    </string-array>
 </resources>

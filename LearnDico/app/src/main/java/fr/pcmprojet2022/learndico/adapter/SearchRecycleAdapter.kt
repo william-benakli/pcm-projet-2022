@@ -26,7 +26,8 @@ import fr.pcmprojet2022.learndico.sharedviewmodel.ModifiedWordViewModel
 import java.io.File
 
 
-class SearchRecycleAdapter(words: MutableList<Words>,
+class SearchRecycleAdapter(words : MutableList<Words>,
+                           val spinnerValue: String,
                            private val context: Context,
                            private val daoViewModel : DaoViewModel,
                            private val dialogCallback: DialogCallback,
@@ -34,8 +35,14 @@ class SearchRecycleAdapter(words: MutableList<Words>,
 ) : RecyclerView.Adapter<SearchRecycleAdapter.VH>() {
 
     private val callback = object : Callback<Words>() {
-        override fun compare(o1: Words?, o2: Words?): Int =
-            o1!!.wordTranslate.compareTo(o2!!.wordTranslate)
+        override fun compare(o1: Words?, o2: Words?): Int {
+            return when(spinnerValue){
+                "Ordre alphabetique" -> o1!!.wordTranslate.compareTo(o2!!.wordTranslate)
+                "Décroissant" -> o1!!.remainingUses.compareTo(o2!!.remainingUses)
+                "Croissant" -> o1!!.remainingUses.compareTo(o2!!.remainingUses)
+                else -> o1!!.wordTranslate.compareTo(o2!!.wordTranslate)
+            }
+        }
 
         override fun onInserted(position: Int, count: Int) =
             notifyItemRangeInserted(position, count)
@@ -77,12 +84,12 @@ class SearchRecycleAdapter(words: MutableList<Words>,
         holder.binding.delete.setOnClickListener {
 
             MaterialAlertDialogBuilder(context)
-                .setTitle("Supprimer le mot")
-                .setMessage("Êtes vous sûr de bien vouloir supprimer ce mot?")
-                .setNegativeButton("Non") { dialog, _ ->
+                .setTitle(R.string.supprimerMot)
+                .setMessage(R.string.supprimerMotSur)
+                .setNegativeButton(R.string.non) { dialog, _ ->
                     dialog.cancel()
                 }
-                .setPositiveButton("Oui") { dialog, _ ->
+                .setPositiveButton(R.string.oui) { dialog, _ ->
                     daoViewModel.deleteWord(binding.url.text.toString())
                     dialogCallback.onPositiveButtonClicked()
                     dialog.cancel()
@@ -117,7 +124,7 @@ class SearchRecycleAdapter(words: MutableList<Words>,
             translationSignification.text = holder.wordObj.translationSignification
             wordSignification.text = holder.wordObj.wordSignification
             if(holder.wordObj.remainingUses == 0){
-                ballaye.text = "Mot matrisé ! Bravo :)"
+                ballaye.text = (R.string.maitriseMot.toString())
             }else ballaye.text = ballaye.text.toString().replace("%value%", holder.wordObj.remainingUses.toString())
         }
 

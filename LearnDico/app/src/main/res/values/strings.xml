@@ -40,4 +40,13 @@
     <string name="motDownload">Vous avez déjà téléchargé ce mot.</string>
     <string name="notYetDownload">Vous n\'avez pas encore téléchargé ce mot.</string>
     <string name="deleteBd">La base de donnée a été mise à jour</string>
+    <string name="oui">Oui</string>
+    <string name="non">Non</string>
+    <string name="supprimerMot">Supprimer le mot</string>
+    <string name="supprimerMotSur">Êtes vous sûr de bien vouloir supprimer ce mot ?</string>
+    <string name="maitriseMot">Mot matrisé ! Bravo :)</string>
+    <string name="aucunDico">Aucun dictionnaire selectionné, ressayez !</string>
+    <string name="noDescription">Aucune description</string>
+    <string name="Recent">Recent</string>
+    <string name="tri_par">Trié par</string>
 </resources>

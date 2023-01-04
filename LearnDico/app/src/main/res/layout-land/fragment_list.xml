@@ -6,12 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".fragment.ListFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:orientation="horizontal"
-        android:layoutDirection="rtl"
-        android:layout_marginEnd="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,15 +32,37 @@
 
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingTop="60dp">
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingStart="5dp"
+            android:text="@string/tri_par" />
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:entries="@array/spinner_entries"
+            android:minHeight="48dp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/item_word"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_marginBottom="?attr/actionBarSize"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="110dp"
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:scrollbars="horizontal"
+        tools:listitem="@layout/item_word" />
 
 </RelativeLayout>

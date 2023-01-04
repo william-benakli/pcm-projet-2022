@@ -97,23 +97,20 @@ class DaoViewModel (application: Application): AndroidViewModel(application) {
     fun insertWord() {
         thread {
             //val wordOrigin: String, val wordTranslate: String, val languageOrigin: String, val languageTranslation: String, val wordSignification: String, val translationSignification: String, val url: String
-            dao.insertMot(Words("Motazaaz", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "https://www.willisesfsefsefam.fr", null, 10));
-            dao.insertMot(Words("AMotazazza1", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr", null ,10));
-            dao.insertMot(Words("AMazdazdot2", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr5", null ,10));
-            dao.insertMot(Words("AazdazdaMot3", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr2", null ,10));
-            dao.insertMot(Words("AzdazdMot4", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr01", null ,10));
-            dao.insertMot(Words("AazdadMot5", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f1r", null ,10));
-            dao.insertMot(Words("AMfafot6", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f0r", null ,10));
-            dao.insertMot(Words("AazdxMot7", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f0r", null ,10));
-            dao.insertMot(Words("AMfafafaot8", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.williaghm.fr", null ,10));
-            dao.insertMot(Words("AMot9", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.wilsglrgiam.fr", null ,10));
-            dao.insertMot(Words("AMot10", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.wisglliam.fr", null ,10));
-            dao.insertMot(Words("AMoaftafaf11", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.wsgsgilliam.fr", null ,10));
-            dao.insertMot(Words("AMot12", "Lettre", "Chinois", "Francais", "a", "aa", "https://wwwgssgsg.william.fr", null ,10));
+            dao.insertMot(Words("AAAA", "Lettre", "Chinois", "Francais", "blablabla", "franchement c'est ca", "https://www.willisesfsefsefam.fr", null, 10));
+            dao.insertMot(Words("BBBB", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr", null ,4))
+            dao.insertMot(Words("CCC", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr5", null ,4))
+            dao.insertMot(Words("DDDDD", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr2", null ,4))
+            dao.insertMot(Words("EEE", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.fr01", null ,4))
+            dao.insertMot(Words("GGGG", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f1r", null ,4))
+            dao.insertMot(Words("VVVVV", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f0r", null ,4))
+            dao.insertMot(Words("BHHHHH", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.william.f0r", null ,4))
+            dao.insertMot(Words("TETETET", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.williaghm.fr", null ,4))
+            dao.insertMot(Words("FYHYFH", "Lettre", "Chinois", "Francais", "a", "aa", "https://www.wilsglrgiam.fr", null ,4))
         }
     }
 
-    fun loadPartialWords(s: String) {
+    fun   loadPartialWords(s: String) {
         thread {
             resultPartialWord.postValue(dao.loadPartialWords(s))
         }
